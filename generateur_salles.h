@@ -6,8 +6,7 @@
 #define TAILLE_MAX 10
 
 
-int main()
-{
+void generateur_salle(){
     int taille_min_verticale, taille_min_horizontale;
     srand(time(NULL)); //Initialisation du random/#include <stdio.h>
     setlocale(LC_CTYPE, ""); //Sélectionne la table unicode de la machine en locale.
@@ -58,8 +57,4 @@ int main()
             }
         }
     }
-
-
-
-    return 0;
 }
