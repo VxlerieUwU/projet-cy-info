@@ -3,8 +3,9 @@
 #include <time.h>
 #include <wchar.h>
 #include <locale.h>
-#define TAILLE_MAX 10
-
+#include <unistd.h>
+#define TAILLE_MAX_V 10
+#define TAILLE_MAX_H 20
 
 int main(){
     wchar_t** salle = NULL; //Création du pointeur salle
@@ -13,8 +14,9 @@ int main(){
     setlocale(LC_CTYPE, ""); //Sélectionne la table unicode de la machine en locale.
 
 
-    taille_verticale = TAILLE_MAX-(rand()%(TAILLE_MAX-2));
-    taille_horizontale = TAILLE_MAX-(rand()%(TAILLE_MAX-2));
+    taille_verticale = TAILLE_MAX_V-(rand()%(TAILLE_MAX_V-2));
+    taille_horizontale = TAILLE_MAX_H-(rand()%(TAILLE_MAX_H-2));
+    printf("h %d v %d\n", taille_horizontale, taille_verticale);
 
     salle = malloc(sizeof(wchar_t*)*taille_verticale*taille_horizontale);
     if(salle == NULL){
