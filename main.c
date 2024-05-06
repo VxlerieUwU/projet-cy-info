@@ -36,7 +36,11 @@ void initJoueur(Joueur* joueur){
 
 int main(int argc, char const *argv[])
 {
-    
+	char logBuffer[255];
+
+
+
+
     createLog();
     logMessage(INFO, "init ncurses");
 	initscr(); //initialise l'ecran
@@ -47,9 +51,11 @@ int main(int argc, char const *argv[])
 	getmaxyx(stdscr,height,width); //recupere la taille du terminal
 
 	WINDOW* mainwin = newwin(height,width,0,0); 
-    char msg4[255];
-    sprintf(msg4, "window width = %d, height = %d", width, height);
-    logMessage(INFO, msg4);
+
+    sprintf(logBuffer, "window width = %d, height = %d", width, height);
+    logMessage(INFO, logBuffer);
+	clearBuf(logBuffer);
+
 	// creer une fenetre de la taille du terminal ou le coin superieur gauche est a la position (0,0)
 	
 	box(mainwin,0,0); //creer un rectangle qui represente les bordures de l ecran
@@ -72,10 +78,6 @@ int main(int argc, char const *argv[])
 
     logMessage(INFO, "fin init");
 	while(key!=ESC){ // BOUCLE DU JEU
-        char message[255];
-        char message2[255];
-        sprintf(message, "key pressed: %d", key);
-        logMessage(INFO, message);
 		switch(key){
 			//change la position du joueur et efface le caractere qui se trouve a sa position actuelle
                 
@@ -96,8 +98,9 @@ int main(int argc, char const *argv[])
 				joueur.x++;
 				break;
             case KEY_BACKSPACE:
-                sprintf(message2, "position joueur x = %d, y = %d", joueur.x, joueur.y);
-                logMessage(DEBUG, message2);
+                sprintf(logBuffer, "position joueur x = %d, y = %d", joueur.x, joueur.y);
+                logMessage(DEBUG, logBuffer);
+				clearBuf(logBuffer);
                 break;
 			default:
 				break;

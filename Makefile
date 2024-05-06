@@ -1,16 +1,21 @@
+CC=gcc
+CFLAGS=-W -Wall -ggdb 
+LDFLAGS=-lncurses -fsanitize=address
+EXEC=jeu
+
 all: main
 
 main: logger.o main.o
-	gcc -o jeu -lncurses logger.o main.o
+	$(CC) -o $@ $^ $(LDFLAGS)
 
 logger.o: logger.c
-	gcc -o logger.o -c logger.c -W -Wall -pedantic
+	$(CC) -o $@ -c $< $(CFLAGS)
 
 main.o: main.c logger.c
-	gcc -o main.o -c main.c -W -Wall -pedantic
+	$(CC) -o $@ -c $< $(CFLAGS)
 
 clean:
 	rm -rf *.o
 
 mrproper: clean
-	rm -rf jeu
+	rm -rf $(EXEC)

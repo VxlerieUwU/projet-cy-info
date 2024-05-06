@@ -15,4 +15,6 @@ int logMessage(int level, char* message);
 
 int moveLog();
 
+void clearBuf(char * buf);
+
 #endif 

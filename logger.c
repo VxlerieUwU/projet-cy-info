@@ -1,7 +1,7 @@
 #include <stdio.h>
+#include <string.h>
 #include <time.h>
-#include <assert.h>
-#include <errno.h>
+
 
 #define FILENAME "latest.log"
 
@@ -67,6 +67,10 @@ int logMessage(int level, char* message) {
     return 0;
 }
 
+void clearBuf(char * buf) {
+    strcpy(buf, "");
+}
+
 int moveLog() {
     char name[50];
     unsigned short int r;
@@ -75,8 +79,9 @@ int moveLog() {
     time_t t = time(NULL);
     tzset();
 
-    strftime(name, sizeof(name) - 1, "%d/%m/%Y-%H:%M:%S.log", localtime(&t));
+    strftime(name, sizeof(name) - 1, "%d-%m-%Y-%H:%M:%S.log", localtime(&t));
     logMessage(DEBUG, "deinit log");
+    logMessage(DEBUG, name);
 
     r = rename(FILENAME, name);
     if(r != 0) {
