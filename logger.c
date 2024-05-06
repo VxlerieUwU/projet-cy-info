@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
-
+#include "logger.h"
 
 #define FILENAME "latest.log"
 
@@ -9,13 +9,6 @@
  * copyright cy-chomâge valérie 2024
 */
 
-enum level {
-    DEBUG,
-    INFO,
-    WARNING,
-    ERROR,
-    CRITICAL,
-};
 
 int createLog() { // TODO: renvoyer le nom du fichier log + date heure minute seconde
     FILE* file = fopen(FILENAME, "w");

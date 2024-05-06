@@ -6,37 +6,11 @@
 #include <time.h>
 #include <unistd.h>
 
+#include "joueur.h"
 #include "logger.h"
 #include "salles.h"
 
 #define ESC 27
-#define INV_SIZE 10 
-
-
-typedef struct {
-    char name[255];
-    int count;
-    int id;
-}Item;
-
-typedef struct{
-	Item ItTab[INV_SIZE]; //l'inventaire est un tableau d'objets (a definir)
-}Inventory;
-
-typedef struct{
-	int hp;
-	int xp;
-	int lvl;
-	Inventory inventory;
-	int x;
-	int y;
-}Joueur;
-
-void initJoueur(Joueur* joueur){
-    joueur->hp = 100;
-    joueur->xp = 0;
-    joueur->lvl = 1;
-} 
 
 int main(int argc, char const *argv[])
 {
