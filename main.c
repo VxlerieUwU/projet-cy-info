@@ -1,9 +1,13 @@
+#include <linux/input-event-codes.h>
+#include <locale.h>
 #include <ncurses.h>
-#include <time.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 #include <unistd.h>
 
 #include "logger.h"
+#include "salles.h"
 
 #define ESC 27
 #define INV_SIZE 10 
@@ -38,11 +42,11 @@ int main(int argc, char const *argv[])
 {
 	char logBuffer[255];
 
-
-
+	setlocale(LC_ALL,""); // nécessaire pour UTF-8
 
     createLog();
     logMessage(INFO, "init ncurses");
+	srand(time(NULL)); //init rand 
 	initscr(); //initialise l'ecran
 	noecho(); //empeche d'afficher les caracteres saisis dans le terminal
 	cbreak(); //permet de quitter le programme avec Ctrl+c
@@ -69,12 +73,12 @@ int main(int argc, char const *argv[])
 
     joueur.x = width/2;
     joueur.y = height/2;
+	Salle * salle = creerSalleProced(joueur.x, joueur.y);
 
 	mvwaddch(mainwin,joueur.y, joueur.x, 'o'); // positionne le curseur au centre de l ecran
 	//pour l instant, j ai represente le joueur avec le caractere 'o' pour tester le programme
 
 	int key = wgetch(mainwin);//recupere touche pressee
-
 
     logMessage(INFO, "fin init");
 	while(key!=ESC){ // BOUCLE DU JEU
@@ -101,17 +105,24 @@ int main(int argc, char const *argv[])
                 sprintf(logBuffer, "position joueur x = %d, y = %d", joueur.x, joueur.y);
                 logMessage(DEBUG, logBuffer);
 				clearBuf(logBuffer);
+				if(salle != NULL) {
+					freeSalle(salle);
+				}
+				salle = creerSalleProced(joueur.x, joueur.y);
                 break;
 			default:
 				break;
 		}
 		mvwaddch(mainwin,joueur.y,joueur.x, 'o'); //deplace le joueur a la nouvelle position
+		if(salle != NULL) {
+			drawSalle(mainwin, salle);
+		}
 		wrefresh(mainwin);
 		key = wgetch(mainwin);
         usleep(100);
 	}
     logMessage(INFO, "fin du programme");
-
+	freeSalle(salle);
 	endwin();//ferme la fenetre
     moveLog();
 	return 0;
