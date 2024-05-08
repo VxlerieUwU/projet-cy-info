@@ -1,7 +1,7 @@
-#include "joueur.h"
+#include "CosmicYonder.h"
 
 void initJoueur(Joueur* joueur){
-    joueur->hp = 100;
+    joueur->pv = 100;
     joueur->xp = 0;
-    joueur->lvl = 1;
+    joueur->niv = 1;
 } 
