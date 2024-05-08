@@ -1,16 +1,4 @@
-#include <linux/input-event-codes.h>
-#include <locale.h>
-#include <ncurses.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
-#include <unistd.h>
-
-#include "joueur.h"
-#include "logger.h"
-#include "salles.h"
-
-#define ESC 27
+#include "CosmicYonder.h"
 
 int main(int argc, char const *argv[])
 {
@@ -25,12 +13,12 @@ int main(int argc, char const *argv[])
 	noecho(); //empeche d'afficher les caracteres saisis dans le terminal
 	cbreak(); //permet de quitter le programme avec Ctrl+c
 	curs_set(0); //rend le curseur invisible
-	int width, height;
-	getmaxyx(stdscr,height,width); //recupere la taille du terminal
+	int hauteur, longueur;
+	getmaxyx(stdscr,hauteur,longueur); //recupere la taille du terminal
 
 	WINDOW* mainwin = newwin(height,width,0,0); 
 
-    sprintf(logBuffer, "window width = %d, height = %d", width, height);
+    sprintf(logBuffer, "window longueur = %d, hauteur = %d", longueur, hauteur);
     logMessage(INFO, logBuffer);
 	clearBuf(logBuffer);
 
@@ -52,11 +40,11 @@ int main(int argc, char const *argv[])
 	mvwaddch(mainwin,joueur.y, joueur.x, 'o'); // positionne le curseur au centre de l ecran
 	//pour l instant, j ai represente le joueur avec le caractere 'o' pour tester le programme
 
-	int key = wgetch(mainwin);//recupere touche pressee
+	int cle = wgetch(mainwin);//recupere touche pressee
 
     logMessage(INFO, "fin init");
-	while(key!=ESC){ // BOUCLE DU JEU
-		switch(key){
+	while(cle!=ESC){ // BOUCLE DU JEU
+		switch(cle){
 			//change la position du joueur et efface le caractere qui se trouve a sa position actuelle
                 
 			case KEY_UP:
@@ -80,7 +68,7 @@ int main(int argc, char const *argv[])
                 logMessage(DEBUG, logBuffer);
 				clearBuf(logBuffer);
 				if(salle != NULL) {
-					freeSalle(salle);
+					libereSalle(salle);
 				}
 				salle = creerSalleProced(joueur.x, joueur.y);
                 break;
@@ -89,14 +77,14 @@ int main(int argc, char const *argv[])
 		}
 		mvwaddch(mainwin,joueur.y,joueur.x, 'o'); //deplace le joueur a la nouvelle position
 		if(salle != NULL) {
-			drawSalle(mainwin, salle);
+			dessineSalle(mainwin, salle);
 		}
 		wrefresh(mainwin);
 		key = wgetch(mainwin);
         usleep(100);
 	}
     logMessage(INFO, "fin du programme");
-	freeSalle(salle);
+	libereSalle(salle);
 	endwin();//ferme la fenetre
     moveLog();
 	return 0;
