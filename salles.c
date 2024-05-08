@@ -1,20 +1,5 @@
 #include "logger.h"
-#include <stdlib.h>
-#include <string.h>
-#include <wchar.h>
-#include "salles.h"
-
-#define UNICODE_STRING_LEN 10
-#define TAILLE_MAX_V 10
-#define TAILLE_MAX_H 20
-
-#define MUR_VERTI_CHR "\u2550"
-#define MUR_HORIZ_CHR "\u2551"
-#define MUR_SUPG_CHR "\u2557"
-#define MUR_SUPD_CHR "\u2554"
-#define MUR_INFG_CHR "\u255D"
-#define MUR_INFD_CHR "\u255A"
-#define PORTE_CHR "\u25A2"
+#include "CosmicYonder.h"
 
 Salle * creerSalle(int taille_horizontale, int taille_verticale, int x, int y, int nportes) {
     Salle * salle = NULL;
@@ -25,8 +10,8 @@ Salle * creerSalle(int taille_horizontale, int taille_verticale, int x, int y, i
         exit(1);
     }
 
-    salle->width = taille_horizontale;
-    salle->height = taille_verticale;
+    salle->longueur = taille_horizontale;
+    salle->hauteur = taille_verticale;
     salle->x = x;
     salle->y = y;
     salle->nportes = nportes;
@@ -115,10 +100,10 @@ Salle * creerSalleProced(int x, int y) {
 }
 
 
-void drawSalle(WINDOW * win, Salle * salle) {
+void dessineSalle(WINDOW * win, Salle * salle) {
     int i, j;
-    for(i=0; i < salle->height; i++){
-        for(j=0; j < salle->width; j++){
+    for(i=0; i < salle->hauteur; i++){
+        for(j=0; j < salle->longueur; j++){
             switch(salle->disp[i][j]){
                 case MUR_VERTI:
                     mvwaddstr(win, salle->y+i, salle->x+j, MUR_VERTI_CHR);
@@ -141,7 +126,7 @@ void drawSalle(WINDOW * win, Salle * salle) {
                 case PORTE:
                     mvwaddstr(win, salle->y+i, salle->x+j, PORTE_CHR);
                     break;
-                case VOID:
+                case VIDE:
                     //mvwaddstr(win, salle->y+i, salle->x+j, " ");
                     break;
             }
@@ -149,8 +134,8 @@ void drawSalle(WINDOW * win, Salle * salle) {
     }
 }
 
-void freeSalle(Salle * salle) {
-    for(int i=0;i<salle->height;i++){
+void libereSalle(Salle * salle) {
+    for(int i=0;i<salle->hauteur;i++){
         free(salle->disp[i]);
     }
     free(salle->disp);
