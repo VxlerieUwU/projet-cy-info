@@ -27,17 +27,17 @@
 
 //Structures
 
-typedef struct{
-	Item ItTab[INV_TAILLE]; //l'inventaire est un tableau d'objets (a definir)
-}Inventaire;
-
 typedef struct {
     char nom[255];
     int x;
     int y;
     int compteur;
     int id;
-}Item;
+}Objet;
+
+typedef struct{
+	Objet obTab[INV_TAILLE]; //l'inventaire est un tableau d'objets (a definir)
+}Inventaire;
 
 typedef struct{
 	int pv;
@@ -60,7 +60,7 @@ typedef struct {
     int x; //abscisse de l'origine de la salle
     int y; //ordonnée de l'origine de la salle
     int ** disp; //disposition de la salle en unicode (murs, objets, portes...)
-    int decouvert = 0; //1 si oui 0 si non
+    int decouvert; //1 si oui 0 si non
     Porte * portes; //Portes de la salle
     int nportes; //Nombres de portes de la salle
 }Salle;
@@ -88,3 +88,4 @@ Salle * creerSalleProced(int x, int y);
 void dessineSalle(WINDOW * win, Salle * salle);
 void libereSalle(Salle * salle);
 void initJoueur(Joueur* joueur);
+void interactions(int touche, Joueur* joueur, WINDOW* mainwin, char* logBuffer, Salle* salle);

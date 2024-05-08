@@ -5,7 +5,7 @@ EXEC=jeu
 
 all: jeu
 
-jeu: logger.o graphics.o salles.o joueur.o main.o
+jeu: logger.o graphics.o salles.o joueur.o main.o interactions.o
 	$(CC) -o $@ $^ $(LDFLAGS)
 
 logger.o: logger.c
@@ -19,8 +19,11 @@ salles.o: salles.c
 
 joueur.o: joueur.c
 	$(CC) -o $@ -c $< $(CFLAGS)
+	
+interactions.o: interactions.c
+	$(CC) -o $@ -c $< $(CFLAGS)
 
-main.o: main.c logger.c graphics.c salles.c joueur.c
+main.o: main.c logger.c graphics.c salles.c joueur.c interactions.c
 	$(CC) -o $@ -c $< $(CFLAGS)
 
 clean:

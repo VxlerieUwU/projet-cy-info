@@ -59,7 +59,7 @@ Salle * creerSalle(int taille_horizontale, int taille_verticale, int x, int y, i
         for(int j=0;j<taille_horizontale;j++){
             //Vérification allocation
 
-            salle->disp[i][j] = VOID;
+            salle->disp[i][j] = VIDE;
             
             if(i==0 || i==taille_verticale-1){
                 salle->disp[i][j] = MUR_VERTI;//Affichage bordure droite et gauche
