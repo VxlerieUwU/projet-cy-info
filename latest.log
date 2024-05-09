@@ -1,6 +1,8 @@
-[mer. mai 08 22:55:26 CEST 2024] INFO init ncurses
-[mer. mai 08 22:55:26 CEST 2024] INFO window longueur = 211, hauteur = 46
-[mer. mai 08 22:55:26 CEST 2024] DEBUG taille verticale = 7, taille horizontale = 15
-[mer. mai 08 22:55:27 CEST 2024] INFO fin init
-[mer. mai 08 22:55:37 CEST 2024] DEBUG position joueur x = 14, y = 14
-[mer. mai 08 22:55:37 CEST 2024] DEBUG taille verticale = 6, taille horizontale = 8
+[ven. mai 10 01:02:20 CEST 2024] INFO init ncurses
+[ven. mai 10 01:02:20 CEST 2024] INFO window longueur = 211, hauteur = 46
+[ven. mai 10 01:02:20 CEST 2024] DEBUG taille verticale = 9, taille horizontale = 19
+[ven. mai 10 01:02:20 CEST 2024] INFO fin init
+[ven. mai 10 01:02:23 CEST 2024] DEBUG taille verticale = 6, taille horizontale = 20
+[ven. mai 10 01:02:24 CEST 2024] DEBUG taille verticale = 8, taille horizontale = 15
+[ven. mai 10 01:02:27 CEST 2024] DEBUG taille verticale = 6, taille horizontale = 10
+[ven. mai 10 01:02:35 CEST 2024] DEBUG taille verticale = 9, taille horizontale = 12

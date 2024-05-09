@@ -89,14 +89,27 @@ Salle * creerSalle(int taille_horizontale, int taille_verticale, int x, int y, i
     return salle;
 }
 
-Salle * creerSalleProced(int x, int y) {
+Salle * creerSalleProced(int x, int y, int dir) {
     int v, h;
     v = TAILLE_MAX_V-(rand()%(TAILLE_MAX_V-3));
     h = TAILLE_MAX_H-(rand()%(TAILLE_MAX_H-4));
     char logBuffer[50];
     sprintf(logBuffer, "taille verticale = %d, taille horizontale = %d", v, h);
     logMessage(DEBUG, logBuffer);
-    return creerSalle(h, v, x, y, 4);
+
+    switch(dir){
+        case 1:
+            return creerSalle(h, v, x-h-1, y-v/2, 4);
+        case 2:
+            return creerSalle(h, v, x-h/2, y-v-1, 4);
+        case 3:
+            return creerSalle(h, v, x+2, y-v/2, 4);
+        case 4:
+            return creerSalle(h, v, x-h/2, y+2, 4);
+        default:
+            return creerSalle(h, v, x, y, 4);
+    }
+    
 }
 
 
@@ -124,7 +137,7 @@ void dessineSalle(WINDOW * win, Salle * salle) {
                     mvwaddstr(win, salle->y+i, salle->x+j, MUR_INFD_CHR);
                     break;
                 case PORTE:
-                    mvwaddstr(win, salle->y+i, salle->x+j, PORTE_CHR);
+                    mvwaddch(win, salle->y+i, salle->x+j, 'P');
                     break;
                 case VIDE:
                     //mvwaddstr(win, salle->y+i, salle->x+j, " ");
