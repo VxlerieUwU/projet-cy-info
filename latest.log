@@ -1,8 +1,8 @@
-[ven. mai 10 01:02:20 CEST 2024] INFO init ncurses
-[ven. mai 10 01:02:20 CEST 2024] INFO window longueur = 211, hauteur = 46
-[ven. mai 10 01:02:20 CEST 2024] DEBUG taille verticale = 9, taille horizontale = 19
-[ven. mai 10 01:02:20 CEST 2024] INFO fin init
-[ven. mai 10 01:02:23 CEST 2024] DEBUG taille verticale = 6, taille horizontale = 20
-[ven. mai 10 01:02:24 CEST 2024] DEBUG taille verticale = 8, taille horizontale = 15
-[ven. mai 10 01:02:27 CEST 2024] DEBUG taille verticale = 6, taille horizontale = 10
-[ven. mai 10 01:02:35 CEST 2024] DEBUG taille verticale = 9, taille horizontale = 12
+[ven. mai 10 01:20:16 CEST 2024] INFO init ncurses
+[ven. mai 10 01:20:16 CEST 2024] INFO window longueur = 211, hauteur = 46
+[ven. mai 10 01:20:16 CEST 2024] DEBUG taille verticale = 9, taille horizontale = 18
+[ven. mai 10 01:20:16 CEST 2024] INFO fin init
+[ven. mai 10 01:20:18 CEST 2024] DEBUG taille verticale = 4, taille horizontale = 15
+[ven. mai 10 01:20:19 CEST 2024] DEBUG taille verticale = 9, taille horizontale = 14
+[ven. mai 10 01:20:22 CEST 2024] DEBUG taille verticale = 5, taille horizontale = 15
+[ven. mai 10 01:20:24 CEST 2024] DEBUG taille verticale = 4, taille horizontale = 12

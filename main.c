@@ -36,7 +36,7 @@ int main()
 
     joueur.x = longueur/2;
     joueur.y = hauteur/2;
-	Salle * salle = creerSalleProced(joueur.x-1, joueur.y-1,0);
+	Salle * salle = creerSalleProced(joueur.x-2, joueur.y-2,0);
 
 	mvwaddch(mainwin,joueur.y, joueur.x, 'o'); // positionne le curseur au centre de l ecran
 	//pour l instant, j ai represente le joueur avec le caractere 'o' pour tester le programme
@@ -47,7 +47,8 @@ int main()
 	while(touche!=ESC){ // BOUCLE DU JEU
 		interactions(touche, &joueur, mainwin, logBuffer, salle);
 
-		if(mvwinch(mainwin, joueur.y-1, joueur.x)=='P'){
+		if(mvwinch(mainwin, joueur.y-1, joueur.x)=='P'){ /*l50 a 77 :
+		conditions servent a creer une salle quand le joueur passe devant une porte*/
 			if(salle != NULL) {
 				libereSalle(salle);
 			}

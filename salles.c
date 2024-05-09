@@ -97,16 +97,16 @@ Salle * creerSalleProced(int x, int y, int dir) {
     sprintf(logBuffer, "taille verticale = %d, taille horizontale = %d", v, h);
     logMessage(DEBUG, logBuffer);
 
-    switch(dir){
-        case 1:
+    switch(dir){ //gere l'origine de la salle en fonction de la direction de la porte
+        case 1: //porte a gauche
             return creerSalle(h, v, x-h-1, y-v/2, 4);
-        case 2:
+        case 2: //porte en haut
             return creerSalle(h, v, x-h/2, y-v-1, 4);
-        case 3:
+        case 3: //porte a droite
             return creerSalle(h, v, x+2, y-v/2, 4);
-        case 4:
+        case 4: //porte en bas
             return creerSalle(h, v, x-h/2, y+2, 4);
-        default:
+        default: 
             return creerSalle(h, v, x, y, 4);
     }
     
@@ -137,7 +137,8 @@ void dessineSalle(WINDOW * win, Salle * salle) {
                     mvwaddstr(win, salle->y+i, salle->x+j, MUR_INFD_CHR);
                     break;
                 case PORTE:
-                    mvwaddch(win, salle->y+i, salle->x+j, 'P');
+                    mvwaddch(win, salle->y+i, salle->x+j, 'P'); /*modifie temporairement
+                    car je n'ai pas trouve de moyen de detecter les caracteres unicodes affiches sur l'ecran*/
                     break;
                 case VIDE:
                     //mvwaddstr(win, salle->y+i, salle->x+j, " ");
