@@ -37,7 +37,7 @@ int main()
     joueur.x = longueur/2;
     joueur.y = hauteur/2;
 
-	Salle * salle = creerSalleProced(joueur.x-2, joueur.y-2,0);
+	Salle * salle = creerSalleProced(joueur.x-2, joueur.y-2,0,mainwin);
 	dessineSalle(mainwin, salle);
 	
 	mvwaddch(mainwin,joueur.y, joueur.x, 'o'); // positionne le curseur au centre de l ecran
@@ -55,7 +55,7 @@ int main()
 				libereSalle(salle);
 			}
 			mvwaddch(mainwin,joueur.y-1,joueur.x,' ');
-			salle = creerSalleProced(joueur.x, joueur.y,2);
+			salle = creerSalleProced(joueur.x, joueur.y,2,mainwin);
 			dessineSalle(mainwin, salle);
 			mvwaddch(mainwin,joueur.y-2,joueur.x,' ');
 		}
@@ -64,7 +64,7 @@ int main()
 				libereSalle(salle);
 			}
 			mvwaddch(mainwin,joueur.y+1,joueur.x,' ');
-			salle = creerSalleProced(joueur.x, joueur.y,4);
+			salle = creerSalleProced(joueur.x, joueur.y,4,mainwin);
 			dessineSalle(mainwin, salle);
 			mvwaddch(mainwin,joueur.y+2,joueur.x,' ');
 		}
@@ -73,7 +73,7 @@ int main()
 				libereSalle(salle);
 			}
 			mvwaddch(mainwin,joueur.y,joueur.x-1,' ');
-			salle = creerSalleProced(joueur.x, joueur.y,1);
+			salle = creerSalleProced(joueur.x, joueur.y,1,mainwin);
 			dessineSalle(mainwin, salle);
 			mvwaddch(mainwin,joueur.y,joueur.x-2,' ');
 		}
@@ -82,7 +82,7 @@ int main()
 				libereSalle(salle);
 			}
 			mvwaddch(mainwin,joueur.y,joueur.x+1,' ');
-			salle = creerSalleProced(joueur.x, joueur.y,3);
+			salle = creerSalleProced(joueur.x, joueur.y,3,mainwin);
 			dessineSalle(mainwin, salle);
 			mvwaddch(mainwin,joueur.y,joueur.x+2,' ');
 		}

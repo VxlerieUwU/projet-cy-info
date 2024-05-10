@@ -1,7 +1,31 @@
 #include "logger.h"
 #include "CosmicYonder.h"
 
-Salle * creerSalle(int taille_horizontale, int taille_verticale, int x, int y, int nportes, int entree) {
+Salle * creerSalle(int taille_horizontale, int taille_verticale, int x, int y, int nportes, int entree, WINDOW* win) {
+    for(int i=0;i<taille_verticale;i++){ //boucle qui verifie que l emplacement de la salle est libre
+        for(int j=0;j<taille_horizontale;j++){
+            if(mvwinch(win,i+y,j+x)!=' '&&mvwinch(win,i+y,j+x)!='o'){
+                switch(entree){
+                    case 1:
+                        return creerSalleProced(x+taille_horizontale+1,y+taille_verticale/2,entree, win);
+                        break;
+                    case 2:
+                        return creerSalleProced(x-taille_horizontale/2,y+taille_verticale+1,entree, win);
+                        break;
+                    case 3:
+                        return creerSalleProced(x-2,y+taille_verticale/2,entree, win);
+                        break;
+                    case 4:
+                        return creerSalleProced(x+taille_horizontale/2,y-2,entree, win);
+                        break;
+                    default:
+                        return creerSalleProced(x,y,entree, win);
+                        break;
+                }
+            }
+        }
+    }
+
     Salle * salle = NULL;
     salle = malloc(sizeof(Salle));
 
@@ -96,6 +120,9 @@ Salle * creerSalle(int taille_horizontale, int taille_verticale, int x, int y, i
 
         for(int j=0;j<taille_horizontale;j++){
             //Vérification allocation
+            if(mvwinch(win,i,j)!=' '&&mvwinch(win,i,j)!='o'){
+            //    return creerSalleProced(x,y,entree, win);
+            }
 
             salle->disp[i][j] = VIDE;
             
@@ -127,7 +154,7 @@ Salle * creerSalle(int taille_horizontale, int taille_verticale, int x, int y, i
     return salle;
 }
 
-Salle * creerSalleProced(int x, int y, int dir) {
+Salle * creerSalleProced(int x, int y, int dir, WINDOW* win) {
     int v, h;
     v = TAILLE_MAX_V-(rand()%(TAILLE_MAX_V-3));
     h = TAILLE_MAX_H-(rand()%(TAILLE_MAX_H-4));
@@ -137,15 +164,20 @@ Salle * creerSalleProced(int x, int y, int dir) {
 
     switch(dir){ //gere l'origine de la salle en fonction de la direction de la porte
         case 1: //porte a gauche
-            return creerSalle(h, v, x-h-1, y-v/2, 3, dir);
+            return creerSalle(h, v, x-h-1, y-v/2, 3, dir,win);
+            break;
         case 2: //porte en haut
-            return creerSalle(h, v, x-h/2, y-v-1, 3, dir);
+            return creerSalle(h, v, x-h/2, y-v-1, 3, dir,win);
+            break;
         case 3: //porte a droite
-            return creerSalle(h, v, x+2, y-v/2, 3, dir);
+            return creerSalle(h, v, x+2, y-v/2, 3, dir,win);
+            break;
         case 4: //porte en bas
-            return creerSalle(h, v, x-h/2, y+2, 3, dir);
+            return creerSalle(h, v, x-h/2, y+2, 3, dir,win);
+            break;
         default: 
-            return creerSalle(h, v, x, y, 4, dir);
+            return creerSalle(h, v, x, y, 4, dir,win);
+            break;
     }
     
 }
