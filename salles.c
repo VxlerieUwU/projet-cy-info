@@ -1,7 +1,7 @@
 #include "logger.h"
 #include "CosmicYonder.h"
 
-Salle * creerSalle(int taille_horizontale, int taille_verticale, int x, int y, int nportes) {
+Salle * creerSalle(int taille_horizontale, int taille_verticale, int x, int y, int nportes, int entree) {
     Salle * salle = NULL;
     salle = malloc(sizeof(Salle));
 
@@ -37,7 +37,45 @@ Salle * creerSalle(int taille_horizontale, int taille_verticale, int x, int y, i
             salle->portes[3].y = taille_verticale-1;
         } else {
             // TODO:  nportes != 4 / salles de boss?
+            switch(entree){
+                case 1: //entree a droite
+                    salle->portes[0].x = 0;
+                    salle->portes[0].y = (rand() % (taille_verticale-1)) + 1;
+                    salle->portes[1].x = (rand() % (taille_horizontale-1)) + 1;
+                    salle->portes[1].y = 0;
+                    salle->portes[2].x = (rand() % (taille_horizontale-1)) + 1;
+                    salle->portes[2].y = taille_verticale-1;
+                    break;
+                case 2: //entree en haut
+                    salle->portes[0].x = 0;
+                    salle->portes[0].y = (rand() % (taille_verticale-1)) + 1;
+                    salle->portes[1].x = (rand() % (taille_horizontale-1)) + 1;
+                    salle->portes[1].y = 0;
+                    salle->portes[2].x = taille_horizontale-1;
+                    salle->portes[2].y = (rand() % (taille_verticale-1)) + 1;
+                    break;
+                case 3: //entree a gauche
+                    salle->portes[0].x = (rand() % (taille_horizontale-1)) + 1;
+                    salle->portes[0].y = 0;
+                    salle->portes[1].x = taille_horizontale-1;
+                    salle->portes[1].y = (rand() % (taille_verticale-1)) + 1;
+                    salle->portes[2].x = (rand() % (taille_horizontale-1)) + 1;
+                    salle->portes[2].y = taille_verticale-1;
+                    break;
+                case 4: //entree en bas
+                    salle->portes[0].x = 0;
+                    salle->portes[0].y = (rand() % (taille_verticale-1)) + 1;
+                    salle->portes[1].x = taille_horizontale-1;
+                    salle->portes[1].y = (rand() % (taille_verticale-1)) + 1;
+                    salle->portes[2].x = (rand() % (taille_horizontale-1)) + 1;
+                    salle->portes[2].y = taille_verticale-1;
+                    break;
+                default:
+                    break;
+            }
         }
+
+
     }
 
     // ALLOCATION MURS 
@@ -99,15 +137,15 @@ Salle * creerSalleProced(int x, int y, int dir) {
 
     switch(dir){ //gere l'origine de la salle en fonction de la direction de la porte
         case 1: //porte a gauche
-            return creerSalle(h, v, x-h-1, y-v/2, 4);
+            return creerSalle(h, v, x-h-1, y-v/2, 3, dir);
         case 2: //porte en haut
-            return creerSalle(h, v, x-h/2, y-v-1, 4);
+            return creerSalle(h, v, x-h/2, y-v-1, 3, dir);
         case 3: //porte a droite
-            return creerSalle(h, v, x+2, y-v/2, 4);
+            return creerSalle(h, v, x+2, y-v/2, 3, dir);
         case 4: //porte en bas
-            return creerSalle(h, v, x-h/2, y+2, 4);
+            return creerSalle(h, v, x-h/2, y+2, 3, dir);
         default: 
-            return creerSalle(h, v, x, y, 4);
+            return creerSalle(h, v, x, y, 4, dir);
     }
     
 }

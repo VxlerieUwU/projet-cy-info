@@ -36,8 +36,10 @@ int main()
 
     joueur.x = longueur/2;
     joueur.y = hauteur/2;
-	Salle * salle = creerSalleProced(joueur.x-2, joueur.y-2,0);
 
+	Salle * salle = creerSalleProced(joueur.x-2, joueur.y-2,0);
+	dessineSalle(mainwin, salle);
+	
 	mvwaddch(mainwin,joueur.y, joueur.x, 'o'); // positionne le curseur au centre de l ecran
 	//pour l instant, j ai represente le joueur avec le caractere 'o' pour tester le programme
 
@@ -54,6 +56,8 @@ int main()
 			}
 			mvwaddch(mainwin,joueur.y-1,joueur.x,' ');
 			salle = creerSalleProced(joueur.x, joueur.y,2);
+			dessineSalle(mainwin, salle);
+			mvwaddch(mainwin,joueur.y-2,joueur.x,' ');
 		}
 		if(mvwinch(mainwin, joueur.y+1, joueur.x)=='P'){
 			if(salle != NULL) {
@@ -61,6 +65,8 @@ int main()
 			}
 			mvwaddch(mainwin,joueur.y+1,joueur.x,' ');
 			salle = creerSalleProced(joueur.x, joueur.y,4);
+			dessineSalle(mainwin, salle);
+			mvwaddch(mainwin,joueur.y+2,joueur.x,' ');
 		}
 		if(mvwinch(mainwin, joueur.y, joueur.x-1)=='P'){
 			if(salle != NULL) {
@@ -68,6 +74,8 @@ int main()
 			}
 			mvwaddch(mainwin,joueur.y,joueur.x-1,' ');
 			salle = creerSalleProced(joueur.x, joueur.y,1);
+			dessineSalle(mainwin, salle);
+			mvwaddch(mainwin,joueur.y,joueur.x-2,' ');
 		}
 		if(mvwinch(mainwin, joueur.y, joueur.x+1)=='P'){
 			if(salle != NULL) {
@@ -75,12 +83,12 @@ int main()
 			}
 			mvwaddch(mainwin,joueur.y,joueur.x+1,' ');
 			salle = creerSalleProced(joueur.x, joueur.y,3);
+			dessineSalle(mainwin, salle);
+			mvwaddch(mainwin,joueur.y,joueur.x+2,' ');
 		}
 
 		mvwaddch(mainwin,joueur.y,joueur.x, 'o'); //deplace le joueur a la nouvelle position
-		if(salle != NULL) {
-			dessineSalle(mainwin, salle);
-		}
+
 		wrefresh(mainwin);
 		touche = wgetch(mainwin);
    		usleep(100);
