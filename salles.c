@@ -141,7 +141,7 @@ Salle * creerSalle(int taille_horizontale, int taille_verticale, int x, int y, i
                 for(int j=1; j<=3; j++){
                     for(int k=-2; k<=2; k++){
                         if(mvwinch(win, y+salle->portes[i].y-k, x+salle->portes[i].x-j)!=' '){
-                            salle->disp[salle->portes[i].y][salle->portes[i].x] = MUR_VERTI;
+                            salle->disp[salle->portes[i].y][salle->portes[i].x] = MUR_HORIZ;
                         }
                     }
                 }
@@ -150,7 +150,7 @@ Salle * creerSalle(int taille_horizontale, int taille_verticale, int x, int y, i
                 for(int j=1; j<=3; j++){
                     for(int k=-2; k<=2; k++){
                         if(mvwinch(win, y+salle->portes[i].y-k, x+salle->portes[i].x+j)!=' '){
-                            salle->disp[salle->portes[i].y][salle->portes[i].x] = MUR_VERTI;
+                            salle->disp[salle->portes[i].y][salle->portes[i].x] = MUR_HORIZ;
                         }                  
                     }
                 }
@@ -159,7 +159,7 @@ Salle * creerSalle(int taille_horizontale, int taille_verticale, int x, int y, i
                 for(int j=-2; j<=2; j++){
                     for(int k=1; k<=3; k++){
                         if(mvwinch(win, y+salle->portes[i].y-k, x+salle->portes[i].x+j)!=' '){
-                            salle->disp[salle->portes[i].y][salle->portes[i].x] = MUR_HORIZ;
+                            salle->disp[salle->portes[i].y][salle->portes[i].x] = MUR_VERTI;
                         }                         
                     }
                 }
@@ -168,7 +168,7 @@ Salle * creerSalle(int taille_horizontale, int taille_verticale, int x, int y, i
                 for(int j=-2; j<=2; j++){
                     for(int k=1; k<=3; k++){
                         if(mvwinch(win, y+salle->portes[i].y+k, x+salle->portes[i].x+j)!=' '){
-                            salle->disp[salle->portes[i].y][salle->portes[i].x] = MUR_HORIZ;
+                            salle->disp[salle->portes[i].y][salle->portes[i].x] = MUR_VERTI;
                         }                      
                     }
                 }
