@@ -36,7 +36,7 @@ void interactions(int touche, Joueur* joueur, WINDOW* mainwin, char* logBuffer, 
 			if(salle != NULL) {
 				libereSalle(salle);
 			}
-			salle = creerSalleProced(joueur->x, joueur->y,0);
+			salle = creerSalleProced(joueur->x, joueur->y,0,mainwin);
 			break;
 		default:
 			break;
