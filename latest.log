@@ -1,28 +1,13 @@
-[lun. mai 13 22:43:44 CEST 2024] INFO init ncurses
-[lun. mai 13 22:43:44 CEST 2024] INFO window longueur = 211, hauteur = 47
-[lun. mai 13 22:43:44 CEST 2024] DEBUG taille verticale = 9, taille horizontale = 8
-[lun. mai 13 22:43:45 CEST 2024] INFO fin init
-[lun. mai 13 22:43:45 CEST 2024] DEBUG taille verticale = 5, taille horizontale = 13
-[lun. mai 13 22:43:47 CEST 2024] DEBUG taille verticale = 10, taille horizontale = 6
-[lun. mai 13 22:43:49 CEST 2024] DEBUG taille verticale = 5, taille horizontale = 5
-[lun. mai 13 22:43:50 CEST 2024] DEBUG taille verticale = 5, taille horizontale = 18
-[lun. mai 13 22:43:54 CEST 2024] DEBUG taille verticale = 7, taille horizontale = 10
-[lun. mai 13 22:43:56 CEST 2024] DEBUG taille verticale = 4, taille horizontale = 18
-[lun. mai 13 22:43:56 CEST 2024] DEBUG taille verticale = 9, taille horizontale = 8
-[lun. mai 13 22:43:56 CEST 2024] DEBUG taille verticale = 9, taille horizontale = 8
-[lun. mai 13 22:43:56 CEST 2024] DEBUG taille verticale = 4, taille horizontale = 13
-[lun. mai 13 22:43:56 CEST 2024] DEBUG taille verticale = 5, taille horizontale = 17
-[lun. mai 13 22:43:56 CEST 2024] DEBUG taille verticale = 5, taille horizontale = 5
-[lun. mai 13 22:43:58 CEST 2024] DEBUG taille verticale = 9, taille horizontale = 6
-[lun. mai 13 22:43:59 CEST 2024] DEBUG taille verticale = 4, taille horizontale = 12
-[lun. mai 13 22:43:59 CEST 2024] DEBUG taille verticale = 4, taille horizontale = 13
-[lun. mai 13 22:43:59 CEST 2024] DEBUG taille verticale = 10, taille horizontale = 14
-[lun. mai 13 22:43:59 CEST 2024] DEBUG taille verticale = 5, taille horizontale = 12
-[lun. mai 13 22:43:59 CEST 2024] DEBUG taille verticale = 7, taille horizontale = 19
-[lun. mai 13 22:43:59 CEST 2024] DEBUG taille verticale = 7, taille horizontale = 16
-[lun. mai 13 22:43:59 CEST 2024] DEBUG taille verticale = 6, taille horizontale = 12
-[lun. mai 13 22:43:59 CEST 2024] DEBUG taille verticale = 6, taille horizontale = 8
-[lun. mai 13 22:43:59 CEST 2024] DEBUG taille verticale = 7, taille horizontale = 13
-[lun. mai 13 22:43:59 CEST 2024] DEBUG taille verticale = 6, taille horizontale = 8
-[lun. mai 13 22:43:59 CEST 2024] DEBUG taille verticale = 8, taille horizontale = 9
-[lun. mai 13 22:43:59 CEST 2024] DEBUG taille verticale = 6, taille horizontale = 5
+[lun. mai 13 23:42:30 CEST 2024] INFO init ncurses
+[lun. mai 13 23:42:30 CEST 2024] INFO window longueur = 211, hauteur = 47
+[lun. mai 13 23:42:30 CEST 2024] DEBUG taille verticale = 9, taille horizontale = 17
+[lun. mai 13 23:42:31 CEST 2024] INFO fin init
+[lun. mai 13 23:42:31 CEST 2024] DEBUG taille verticale = 7, taille horizontale = 5
+[lun. mai 13 23:42:33 CEST 2024] DEBUG taille verticale = 8, taille horizontale = 11
+[lun. mai 13 23:42:35 CEST 2024] DEBUG taille verticale = 4, taille horizontale = 16
+[lun. mai 13 23:42:41 CEST 2024] DEBUG taille verticale = 4, taille horizontale = 17
+[lun. mai 13 23:42:43 CEST 2024] DEBUG taille verticale = 5, taille horizontale = 13
+[lun. mai 13 23:42:48 CEST 2024] DEBUG taille verticale = 4, taille horizontale = 14
+[lun. mai 13 23:42:49 CEST 2024] DEBUG taille verticale = 4, taille horizontale = 17
+[lun. mai 13 23:42:49 CEST 2024] DEBUG taille verticale = 6, taille horizontale = 19
+[lun. mai 13 23:42:49 CEST 2024] DEBUG taille verticale = 5, taille horizontale = 5

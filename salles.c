@@ -6,16 +6,16 @@ Salle * creerSalle(int taille_horizontale, int taille_verticale, int x, int y, i
         for(int j=0;j<taille_horizontale;j++){
             if(mvwinch(win,i+y,j+x)!=' '&&mvwinch(win,i+y,j+x)!='o'){
                 switch(entree){
-                    case 1:
+                    case DROITE:
                         return creerSalleProced(x+taille_horizontale+1,y+taille_verticale/2,entree, win,sallesrest);
                         break;
-                    case 2:
+                    case BAS:
                         return creerSalleProced(x+taille_horizontale/2,y+taille_verticale+1,entree, win,sallesrest);
                         break;
-                    case 3:
+                    case GAUCHE:
                         return creerSalleProced(x-2,y+taille_verticale/2,entree, win,sallesrest);
                         break;
-                    case 4:
+                    case HAUT:
                         return creerSalleProced(x+taille_horizontale/2,y-2,entree, win,sallesrest);
                         break;
                     default:
@@ -94,7 +94,7 @@ Salle * creerSalle(int taille_horizontale, int taille_verticale, int x, int y, i
             }
         } else {
             // TODO:  nportes != 4 / salles de boss?
-            if(entree!=1 && *sallesrest>0){
+            if(entree!=DROITE && *sallesrest>0){
                 salle->portes[0].x = taille_horizontale-1;
                 salle->portes[0].y = (rand() % (taille_verticale-1)) + 1;
                 (*sallesrest)--;
@@ -109,7 +109,7 @@ Salle * creerSalle(int taille_horizontale, int taille_verticale, int x, int y, i
                 salle->portes[0].y = -1;
             }
 
-            if(entree!=2 && *sallesrest>0){
+            if(entree!=BAS && *sallesrest>0){
                 salle->portes[1].x = (rand() % (taille_horizontale-1)) + 1;
                 salle->portes[1].y = taille_verticale-1;
                 (*sallesrest)--;
@@ -124,12 +124,12 @@ Salle * creerSalle(int taille_horizontale, int taille_verticale, int x, int y, i
                 salle->portes[1].y = -1;
             } 
 
-            if((entree==1||entree==3) && *sallesrest>0){
+            if((entree==DROITE||entree==GAUCHE) && *sallesrest>0){
                 salle->portes[2].x = (rand() % (taille_horizontale-1)) + 1;
                 salle->portes[2].y = 0;
                 (*sallesrest)--;
             } 
-            else if((entree==2||entree==4) && *sallesrest>0){
+            else if((entree==BAS||entree==HAUT) && *sallesrest>0){
                 salle->portes[2].x = 0;
                 salle->portes[2].y = (rand() % (taille_verticale-1)) + 1;
                 (*sallesrest)--;  
@@ -239,17 +239,17 @@ Salle * creerSalleProced(int x, int y, int dir, WINDOW* win, int* sallesrest) {
     sprintf(logBuffer, "taille verticale = %d, taille horizontale = %d", v, h);
     logMessage(DEBUG, logBuffer);
 
-    switch(dir){ //gere l'origine de la salle en fonction de la direction de la porte
-        case 1: //porte a gauche
+    switch(dir){ //gere l'origine de la salle en fonction de la direction de l'entree de la salle
+        case DROITE: 
             return creerSalle(h, v, x-h-1, y-v/2, 3, dir,win,sallesrest);
             break;
-        case 2: //porte en haut
+        case BAS: 
             return creerSalle(h, v, x-h/2, y-v-1, 3, dir,win,sallesrest);
             break;
-        case 3: //porte a droite
+        case GAUCHE: 
             return creerSalle(h, v, x+2, y-v/2, 3, dir,win,sallesrest);
             break;
-        case 4: //porte en bas
+        case HAUT: 
             return creerSalle(h, v, x-h/2, y+2, 3, dir,win,sallesrest);
             break;
         default: 

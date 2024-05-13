@@ -70,6 +70,12 @@ typedef struct{
 	int y;
 }Tuile;
 
+typedef struct{
+    int pv;
+    int x;
+    int y;
+}Ennemi;
+
 //Enumération des élements possibles de la salle
 enum {
     MUR_SUPG,
@@ -82,10 +88,18 @@ enum {
     PORTE,
 };
 
+//Enumération des directions
+enum{
+    DROITE,
+    BAS,
+    GAUCHE,
+    HAUT
+};
+
 //Fonctions
 Salle * creerSalle(int taille_horizontale, int taille_verticale, int x, int y, int nportes, int entree, WINDOW* win, int* sallerest);
 Salle * creerSalleProced(int x, int y, int dir, WINDOW* win, int* sallerest);
 void dessineSalle(WINDOW * win, Salle * salle);
 void libereSalle(Salle * salle);
 void initJoueur(Joueur* joueur);
-void interactions(int touche, Joueur* joueur, WINDOW* mainwin, char* logBuffer, Salle* salle);
+void interactions(int touche, Joueur* joueur, WINDOW* mainwin);

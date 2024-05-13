@@ -46,7 +46,7 @@ int main()
     	exit(2);
     }   
 
-	carte[0] = creerSalleProced(joueur.x-2, joueur.y-2,0,mainwin, &nsalles);
+	carte[0] = creerSalleProced(joueur.x-2, joueur.y-2,-1,mainwin, &nsalles);
 	dessineSalle(mainwin, carte[0]);
 	
 	mvwaddch(mainwin,joueur.y, joueur.x, 'o'); // positionne le curseur au centre de l ecran
@@ -56,7 +56,7 @@ int main()
 
     logMessage(INFO, "fin init");
 	while(touche!=ESC){ // BOUCLE DU JEU
-		interactions(touche, &joueur, mainwin, logBuffer, carte[0]);
+		interactions(touche, &joueur, mainwin);
 
 		if(mvwinch(mainwin, joueur.y-1, joueur.x)=='P'){ /*l50 a 77 :
 			conditions servent a creer une salle quand le joueur passe devant une porte*/
@@ -64,7 +64,7 @@ int main()
 				libereSalle(carte[i]);
 			}
 			mvwaddch(mainwin,joueur.y-1,joueur.x,' ');
-			carte[i] = creerSalleProced(joueur.x, joueur.y,2,mainwin, &nsalles);
+			carte[i] = creerSalleProced(joueur.x, joueur.y,BAS,mainwin, &nsalles);
 			dessineSalle(mainwin, carte[i]);
 			mvwaddch(mainwin,joueur.y-2,joueur.x,' ');
 		}
@@ -73,7 +73,7 @@ int main()
 				libereSalle(carte[i]);
 			}
 			mvwaddch(mainwin,joueur.y+1,joueur.x,' ');
-			carte[i] = creerSalleProced(joueur.x, joueur.y,4,mainwin,&nsalles);
+			carte[i] = creerSalleProced(joueur.x, joueur.y,HAUT,mainwin,&nsalles);
 			dessineSalle(mainwin, carte[i]);
 			mvwaddch(mainwin,joueur.y+2,joueur.x,' ');
 		}
@@ -82,7 +82,7 @@ int main()
 				libereSalle(carte[i]);
 			}
 			mvwaddch(mainwin,joueur.y,joueur.x-1,' ');
-			carte[i] = creerSalleProced(joueur.x, joueur.y,1,mainwin,&nsalles);
+			carte[i] = creerSalleProced(joueur.x, joueur.y,DROITE,mainwin,&nsalles);
 			dessineSalle(mainwin, carte[i]);
 			mvwaddch(mainwin,joueur.y,joueur.x-2,' ');
 		}
@@ -91,7 +91,7 @@ int main()
 				libereSalle(carte[i]);
 			}
 			mvwaddch(mainwin,joueur.y,joueur.x+1,' ');
-			carte[i] = creerSalleProced(joueur.x, joueur.y,3,mainwin,&nsalles);
+			carte[i] = creerSalleProced(joueur.x, joueur.y,GAUCHE,mainwin,&nsalles);
 			dessineSalle(mainwin, carte[i]);
 			mvwaddch(mainwin,joueur.y,joueur.x+2,' ');
 		}	
