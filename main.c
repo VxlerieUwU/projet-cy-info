@@ -15,6 +15,8 @@ int main()
 	cbreak(); //permet de quitter le programme avec Ctrl+c
 	curs_set(0); //rend le curseur invisible
 	int hauteur, longueur;
+	int nsalles = 3;
+	int i=1;
 	getmaxyx(stdscr,hauteur,longueur); //recupere la taille du terminal
 
 	WINDOW* mainwin = newwin(hauteur,longueur,0,0); 
@@ -37,8 +39,15 @@ int main()
     joueur.x = longueur/2;
     joueur.y = hauteur/2;
 
-	Salle * salle = creerSalleProced(joueur.x-2, joueur.y-2,0,mainwin);
-	dessineSalle(mainwin, salle);
+    Salle** carte;
+    carte = malloc(nsalles * sizeof(Salle));
+    if(carte == NULL) {
+    	logMessage(CRITICAL, "erreur malloc portes salle");
+    	exit(2);
+    }   
+
+	carte[0] = creerSalleProced(joueur.x-2, joueur.y-2,0,mainwin);
+	dessineSalle(mainwin, carte[0]);
 	
 	mvwaddch(mainwin,joueur.y, joueur.x, 'o'); // positionne le curseur au centre de l ecran
 	//pour l instant, j ai represente le joueur avec le caractere 'o' pour tester le programme
@@ -47,44 +56,51 @@ int main()
 
     logMessage(INFO, "fin init");
 	while(touche!=ESC){ // BOUCLE DU JEU
-		interactions(touche, &joueur, mainwin, logBuffer, salle);
+		interactions(touche, &joueur, mainwin, logBuffer, carte[i]);
 
-		if(mvwinch(mainwin, joueur.y-1, joueur.x)=='P'){ /*l50 a 77 :
-		conditions servent a creer une salle quand le joueur passe devant une porte*/
-			if(salle != NULL) {
-				libereSalle(salle);
+		while(i<nsalles){
+			if(mvwinch(mainwin, joueur.y-1, joueur.x)=='P'){ /*l50 a 77 :
+			conditions servent a creer une salle quand le joueur passe devant une porte*/
+				if(carte[i] != NULL) {
+					libereSalle(carte[i]);
+				}
+				mvwaddch(mainwin,joueur.y-1,joueur.x,' ');
+				carte[i] = creerSalleProced(joueur.x, joueur.y,2,mainwin);
+				dessineSalle(mainwin, carte[i]);
+				mvwaddch(mainwin,joueur.y-2,joueur.x,' ');
+				i++;
 			}
-			mvwaddch(mainwin,joueur.y-1,joueur.x,' ');
-			salle = creerSalleProced(joueur.x, joueur.y,2,mainwin);
-			dessineSalle(mainwin, salle);
-			mvwaddch(mainwin,joueur.y-2,joueur.x,' ');
-		}
-		if(mvwinch(mainwin, joueur.y+1, joueur.x)=='P'){
-			if(salle != NULL) {
-				libereSalle(salle);
+			if(mvwinch(mainwin, joueur.y+1, joueur.x)=='P'){
+				if(carte[i] != NULL) {
+					libereSalle(carte[i]);
+				}
+				mvwaddch(mainwin,joueur.y+1,joueur.x,' ');
+				carte[i] = creerSalleProced(joueur.x, joueur.y,4,mainwin);
+				dessineSalle(mainwin, carte[i]);
+				mvwaddch(mainwin,joueur.y+2,joueur.x,' ');
+				i++;
 			}
-			mvwaddch(mainwin,joueur.y+1,joueur.x,' ');
-			salle = creerSalleProced(joueur.x, joueur.y,4,mainwin);
-			dessineSalle(mainwin, salle);
-			mvwaddch(mainwin,joueur.y+2,joueur.x,' ');
-		}
-		if(mvwinch(mainwin, joueur.y, joueur.x-1)=='P'){
-			if(salle != NULL) {
-				libereSalle(salle);
+			if(mvwinch(mainwin, joueur.y, joueur.x-1)=='P'){
+				if(carte[i] != NULL) {
+					libereSalle(carte[i]);
+				}
+				mvwaddch(mainwin,joueur.y,joueur.x-1,' ');
+				carte[i] = creerSalleProced(joueur.x, joueur.y,1,mainwin);
+				dessineSalle(mainwin, carte[i]);
+				mvwaddch(mainwin,joueur.y,joueur.x-2,' ');
+				i++;
 			}
-			mvwaddch(mainwin,joueur.y,joueur.x-1,' ');
-			salle = creerSalleProced(joueur.x, joueur.y,1,mainwin);
-			dessineSalle(mainwin, salle);
-			mvwaddch(mainwin,joueur.y,joueur.x-2,' ');
-		}
-		if(mvwinch(mainwin, joueur.y, joueur.x+1)=='P'){
-			if(salle != NULL) {
-				libereSalle(salle);
-			}
-			mvwaddch(mainwin,joueur.y,joueur.x+1,' ');
-			salle = creerSalleProced(joueur.x, joueur.y,3,mainwin);
-			dessineSalle(mainwin, salle);
-			mvwaddch(mainwin,joueur.y,joueur.x+2,' ');
+			if(mvwinch(mainwin, joueur.y, joueur.x+1)=='P'){
+				if(carte[i] != NULL) {
+					libereSalle(carte[i]);
+				}
+				mvwaddch(mainwin,joueur.y,joueur.x+1,' ');
+				carte[i] = creerSalleProced(joueur.x, joueur.y,3,mainwin);
+				dessineSalle(mainwin, carte[i]);
+				mvwaddch(mainwin,joueur.y,joueur.x+2,' ');
+				i++;
+			}	
+			break;
 		}
 
 		mvwaddch(mainwin,joueur.y,joueur.x, 'o'); //deplace le joueur a la nouvelle position
@@ -94,7 +110,9 @@ int main()
    		usleep(100);
 	}
     logMessage(INFO, "fin du programme");
-	libereSalle(salle);
+    for(int i=0;i<nsalles;i++){
+    	libereSalle(carte[i]);
+    }
 	endwin();//ferme la fenetre
     moveLog();
 	return 0;
