@@ -24,6 +24,8 @@
 #define UNICODE_STRING_LONG 10
 #define TAILLE_MAX_V 10
 #define TAILLE_MAX_H 20
+#define AFFICHAGE_V 200
+#define AFFICHEAGE_H 400
 
 //Structures
 
