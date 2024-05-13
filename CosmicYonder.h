@@ -83,8 +83,8 @@ enum {
 };
 
 //Fonctions
-Salle * creerSalle(int taille_horizontale, int taille_verticale, int x, int y, int nportes, int entree, WINDOW* win);
-Salle * creerSalleProced(int x, int y, int dir, WINDOW* win);
+Salle * creerSalle(int taille_horizontale, int taille_verticale, int x, int y, int nportes, int entree, WINDOW* win, int* sallerest);
+Salle * creerSalleProced(int x, int y, int dir, WINDOW* win, int* sallerest);
 void dessineSalle(WINDOW * win, Salle * salle);
 void libereSalle(Salle * salle);
 void initJoueur(Joueur* joueur);

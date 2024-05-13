@@ -1,25 +1,25 @@
 #include "logger.h"
 #include "CosmicYonder.h"
 
-Salle * creerSalle(int taille_horizontale, int taille_verticale, int x, int y, int nportes, int entree, WINDOW* win) {
+Salle * creerSalle(int taille_horizontale, int taille_verticale, int x, int y, int nportes, int entree, WINDOW* win, int* sallesrest) {
     for(int i=0;i<taille_verticale;i++){ //boucle qui verifie que l emplacement de la salle est libre
         for(int j=0;j<taille_horizontale;j++){
             if(mvwinch(win,i+y,j+x)!=' '&&mvwinch(win,i+y,j+x)!='o'){
                 switch(entree){
                     case 1:
-                        return creerSalleProced(x+taille_horizontale+1,y+taille_verticale/2,entree, win);
+                        return creerSalleProced(x+taille_horizontale+1,y+taille_verticale/2,entree, win,sallesrest);
                         break;
                     case 2:
-                        return creerSalleProced(x+taille_horizontale/2,y+taille_verticale+1,entree, win);
+                        return creerSalleProced(x+taille_horizontale/2,y+taille_verticale+1,entree, win,sallesrest);
                         break;
                     case 3:
-                        return creerSalleProced(x-2,y+taille_verticale/2,entree, win);
+                        return creerSalleProced(x-2,y+taille_verticale/2,entree, win,sallesrest);
                         break;
                     case 4:
-                        return creerSalleProced(x+taille_horizontale/2,y-2,entree, win);
+                        return creerSalleProced(x+taille_horizontale/2,y-2,entree, win,sallesrest);
                         break;
                     default:
-                        return creerSalleProced(x,y,entree, win);
+                        return creerSalleProced(x,y,entree, win,sallesrest);
                         break;
                 }
             }
@@ -44,62 +44,101 @@ Salle * creerSalle(int taille_horizontale, int taille_verticale, int x, int y, i
     if(salle->nportes == 0) {
         salle->portes = NULL;
     } else {
+        //if(*sallesrest>=3){
         salle->portes = malloc(sizeof(Porte) * salle->nportes);
+        //}
+        //else{
+        //    salle->portes = malloc(sizeof(Porte)*(*sallesrest));
+        //}
         if(salle->portes == NULL) {
             logMessage(CRITICAL, "erreur malloc portes salle");
             exit(2);
         };
 
         if(salle->nportes == 4) { 
-            salle->portes[0].x = 0;
-            salle->portes[0].y = (rand() % (taille_verticale-1)) + 1;
-            salle->portes[1].x = (rand() % (taille_horizontale-1)) + 1;
-            salle->portes[1].y = 0;
-            salle->portes[2].x = taille_horizontale-1;
-            salle->portes[2].y = (rand() % (taille_verticale-1)) + 1;
-            salle->portes[3].x = (rand() % (taille_horizontale-1)) + 1;
-            salle->portes[3].y = taille_verticale-1;
+            if(*sallesrest>0){
+                salle->portes[0].x = -1;
+                salle->portes[0].y = (rand() % (taille_verticale-1)) + 1;
+                (*sallesrest)--;
+            }
+            else{
+                salle->portes[0].x = -1;
+                salle->portes[0].y = -1;
+            }
+            if(*sallesrest>0){
+                salle->portes[1].x = (rand() % (taille_horizontale-1)) + 1;
+                salle->portes[1].y = 0;
+                (*sallesrest)--;
+            }
+            else{
+                salle->portes[1].x = -1;
+                salle->portes[1].y = -1;
+            }
+            if(*sallesrest>0){
+                salle->portes[2].x = taille_horizontale-1;
+                salle->portes[2].y = (rand() % (taille_verticale-1)) + 1;
+                (*sallesrest)--;
+            }
+            else{
+                salle->portes[2].x = -1;
+                salle->portes[2].y = -1;
+            }
+            if(*sallesrest>0){
+                salle->portes[3].x = (rand() % (taille_horizontale-1)) + 1;
+                salle->portes[3].y = taille_verticale-1;
+                (*sallesrest)--;
+            }
+            else{
+                salle->portes[3].x = -1;
+                salle->portes[3].y = -1;
+            }
         } else {
             // TODO:  nportes != 4 / salles de boss?
-            switch(entree){
-                case 1: //entree a droite
-                    salle->portes[0].x = 0;
-                    salle->portes[0].y = (rand() % (taille_verticale-1)) + 1;
-                    salle->portes[1].x = (rand() % (taille_horizontale-1)) + 1;
-                    salle->portes[1].y = 0;
-                    salle->portes[2].x = (rand() % (taille_horizontale-1)) + 1;
-                    salle->portes[2].y = taille_verticale-1;
-                    break;
-                case 2: //entree en haut
-                    salle->portes[0].x = 0;
-                    salle->portes[0].y = (rand() % (taille_verticale-1)) + 1;
-                    salle->portes[1].x = (rand() % (taille_horizontale-1)) + 1;
-                    salle->portes[1].y = 0;
-                    salle->portes[2].x = taille_horizontale-1;
-                    salle->portes[2].y = (rand() % (taille_verticale-1)) + 1;
-                    break;
-                case 3: //entree a gauche
-                    salle->portes[0].x = (rand() % (taille_horizontale-1)) + 1;
-                    salle->portes[0].y = 0;
-                    salle->portes[1].x = taille_horizontale-1;
-                    salle->portes[1].y = (rand() % (taille_verticale-1)) + 1;
-                    salle->portes[2].x = (rand() % (taille_horizontale-1)) + 1;
-                    salle->portes[2].y = taille_verticale-1;
-                    break;
-                case 4: //entree en bas
-                    salle->portes[0].x = 0;
-                    salle->portes[0].y = (rand() % (taille_verticale-1)) + 1;
-                    salle->portes[1].x = taille_horizontale-1;
-                    salle->portes[1].y = (rand() % (taille_verticale-1)) + 1;
-                    salle->portes[2].x = (rand() % (taille_horizontale-1)) + 1;
-                    salle->portes[2].y = taille_verticale-1;
-                    break;
-                default:
-                    break;
+            if(entree!=1 && *sallesrest>0){
+                salle->portes[0].x = taille_horizontale-1;
+                salle->portes[0].y = (rand() % (taille_verticale-1)) + 1;
+                (*sallesrest)--;
+            } 
+            else if(*sallesrest>0){
+                salle->portes[0].x = 0;
+                salle->portes[0].y = (rand() % (taille_verticale-1)) + 1;
+                (*sallesrest)--;  
+            }
+            else{
+                salle->portes[0].x = -1;
+                salle->portes[0].y = -1;
+            }
+
+            if(entree!=2 && *sallesrest>0){
+                salle->portes[1].x = (rand() % (taille_horizontale-1)) + 1;
+                salle->portes[1].y = taille_verticale-1;
+                (*sallesrest)--;
+            } 
+            else if(*sallesrest>0){
+                salle->portes[1].x = (rand() % (taille_horizontale-1)) + 1;
+                salle->portes[1].y = 0;
+                (*sallesrest)--;
+            } 
+            else{
+                salle->portes[1].x = -1;
+                salle->portes[1].y = -1;
+            } 
+
+            if((entree==1||entree==3) && *sallesrest>0){
+                salle->portes[2].x = (rand() % (taille_horizontale-1)) + 1;
+                salle->portes[2].y = 0;
+                (*sallesrest)--;
+            } 
+            else if((entree==2||entree==4) && *sallesrest>0){
+                salle->portes[2].x = 0;
+                salle->portes[2].y = (rand() % (taille_verticale-1)) + 1;
+                (*sallesrest)--;  
+            } 
+            else{
+                salle->portes[2].x = -1;
+                salle->portes[2].y = -1;
             }
         }
-
-
     }
 
     // ALLOCATION MURS 
@@ -134,45 +173,48 @@ Salle * creerSalle(int taille_horizontale, int taille_verticale, int x, int y, i
 
     if(salle->nportes != 0) {
         for(int i=0; i<salle->nportes; i++) {
-            salle->disp[salle->portes[i].y][salle->portes[i].x] = PORTE;
+            if(salle->portes[i].x!=-1 && salle->portes[i].y!=-1){
 
-            //on verifie qu'il y ait l'espace disponible pour generer une salle derriere les portes
-            if(salle->portes[i].x==0){ //porte a gauche
-                for(int j=1; j<=4; j++){
-                    for(int k=-2; k<=2; k++){
-                        if(mvwinch(win, y+salle->portes[i].y-k, x+salle->portes[i].x-j)!=' '){
-                            salle->disp[salle->portes[i].y][salle->portes[i].x] = MUR_HORIZ;
+                salle->disp[salle->portes[i].y][salle->portes[i].x] = PORTE;
+
+                //on verifie qu'il y ait l'espace disponible pour generer une salle derriere les portes
+                if(salle->portes[i].x==0){ //porte a gauche
+                    for(int j=1; j<=4; j++){
+                        for(int k=-2; k<=2; k++){
+                            if(mvwinch(win, y+salle->portes[i].y-k, x+salle->portes[i].x-j)!=' '){
+                                salle->disp[salle->portes[i].y][salle->portes[i].x] = MUR_HORIZ;
+                            }
                         }
                     }
                 }
-            }
-            if(salle->portes[i].x==taille_horizontale-1){ //porte a droite
-                for(int j=1; j<=4; j++){
-                    for(int k=-2; k<=2; k++){
-                        if(mvwinch(win, y+salle->portes[i].y-k, x+salle->portes[i].x+j)!=' '){
-                            salle->disp[salle->portes[i].y][salle->portes[i].x] = MUR_HORIZ;
-                        }                  
+                if(salle->portes[i].x==taille_horizontale-1){ //porte a droite
+                    for(int j=1; j<=4; j++){
+                        for(int k=-2; k<=2; k++){
+                            if(mvwinch(win, y+salle->portes[i].y-k, x+salle->portes[i].x+j)!=' '){
+                                salle->disp[salle->portes[i].y][salle->portes[i].x] = MUR_HORIZ;
+                            }                  
+                        }
                     }
                 }
-            }
-            if(salle->portes[i].y==0){ //porte en haut
-                for(int j=-2; j<=2; j++){
-                    for(int k=1; k<=4; k++){
-                        if(mvwinch(win, y+salle->portes[i].y-k, x+salle->portes[i].x+j)!=' '){
-                            salle->disp[salle->portes[i].y][salle->portes[i].x] = MUR_VERTI;
-                        }                         
+                if(salle->portes[i].y==0){ //porte en haut
+                    for(int j=-2; j<=2; j++){
+                        for(int k=1; k<=4; k++){
+                            if(mvwinch(win, y+salle->portes[i].y-k, x+salle->portes[i].x+j)!=' '){
+                                salle->disp[salle->portes[i].y][salle->portes[i].x] = MUR_VERTI;
+                            }                         
+                        }
                     }
                 }
-            }
-            if(salle->portes[i].y==taille_verticale-1){ //porte en bas
-                for(int j=-2; j<=2; j++){
-                    for(int k=1; k<=4; k++){
-                        if(mvwinch(win, y+salle->portes[i].y+k, x+salle->portes[i].x+j)!=' '){
-                            salle->disp[salle->portes[i].y][salle->portes[i].x] = MUR_VERTI;
-                        }                      
+                if(salle->portes[i].y==taille_verticale-1){ //porte en bas
+                    for(int j=-2; j<=2; j++){
+                        for(int k=1; k<=4; k++){
+                            if(mvwinch(win, y+salle->portes[i].y+k, x+salle->portes[i].x+j)!=' '){
+                                salle->disp[salle->portes[i].y][salle->portes[i].x] = MUR_VERTI;
+                            }                      
+                        }
                     }
-                }
-            }            
+                }    
+            }        
         }
     }
     //Bord supérieur gauche
@@ -189,7 +231,7 @@ Salle * creerSalle(int taille_horizontale, int taille_verticale, int x, int y, i
     return salle;
 }
 
-Salle * creerSalleProced(int x, int y, int dir, WINDOW* win) {
+Salle * creerSalleProced(int x, int y, int dir, WINDOW* win, int* sallesrest) {
     int v, h;
     v = TAILLE_MAX_V-(rand()%(TAILLE_MAX_V-3));
     h = TAILLE_MAX_H-(rand()%(TAILLE_MAX_H-4));
@@ -199,19 +241,19 @@ Salle * creerSalleProced(int x, int y, int dir, WINDOW* win) {
 
     switch(dir){ //gere l'origine de la salle en fonction de la direction de la porte
         case 1: //porte a gauche
-            return creerSalle(h, v, x-h-1, y-v/2, 3, dir,win);
+            return creerSalle(h, v, x-h-1, y-v/2, 3, dir,win,sallesrest);
             break;
         case 2: //porte en haut
-            return creerSalle(h, v, x-h/2, y-v-1, 3, dir,win);
+            return creerSalle(h, v, x-h/2, y-v-1, 3, dir,win,sallesrest);
             break;
         case 3: //porte a droite
-            return creerSalle(h, v, x+2, y-v/2, 3, dir,win);
+            return creerSalle(h, v, x+2, y-v/2, 3, dir,win,sallesrest);
             break;
         case 4: //porte en bas
-            return creerSalle(h, v, x-h/2, y+2, 3, dir,win);
+            return creerSalle(h, v, x-h/2, y+2, 3, dir,win,sallesrest);
             break;
         default: 
-            return creerSalle(h, v, x, y, 4, dir,win);
+            return creerSalle(h, v, x, y, 4, dir,win,sallesrest);
             break;
     }
     
