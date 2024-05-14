@@ -2,7 +2,8 @@
 #include "CosmicYonder.h"
 
 Salle * creerSalle(int taille_horizontale, int taille_verticale, int x, int y, int nportes, int entree, WINDOW* win, int* sallesrest) {
-    for(int i=0;i<taille_verticale;i++){ //boucle qui verifie que l emplacement de la salle est libre
+    //boucle qui verifie que l emplacement de la salle est libre et la regenere si elle se superpose avec une autre salle
+    for(int i=0;i<taille_verticale;i++){ 
         for(int j=0;j<taille_horizontale;j++){
             if(mvwinch(win,i+y,j+x)!=' '&&mvwinch(win,i+y,j+x)!='o'){
                 switch(entree){
@@ -26,6 +27,7 @@ Salle * creerSalle(int taille_horizontale, int taille_verticale, int x, int y, i
         }
     }
 
+    //allocation salle
     Salle * salle = NULL;
     salle = malloc(sizeof(Salle));
 
@@ -34,6 +36,7 @@ Salle * creerSalle(int taille_horizontale, int taille_verticale, int x, int y, i
         exit(1);
     }
 
+    //init attributs salle
     salle->longueur = taille_horizontale;
     salle->hauteur = taille_verticale;
     salle->x = x;
@@ -44,20 +47,16 @@ Salle * creerSalle(int taille_horizontale, int taille_verticale, int x, int y, i
     if(salle->nportes == 0) {
         salle->portes = NULL;
     } else {
-        //if(*sallesrest>=3){
         salle->portes = malloc(sizeof(Porte) * salle->nportes);
-        //}
-        //else{
-        //    salle->portes = malloc(sizeof(Porte)*(*sallesrest));
-        //}
         if(salle->portes == NULL) {
             logMessage(CRITICAL, "erreur malloc portes salle");
             exit(2);
         };
 
-        if(salle->nportes == 4) { 
+        //verifie si il reste au moins une salle a generer et genere une porte si c'est le cas
+        if(salle->nportes == 4) { //4 portes
             if(*sallesrest>0){
-                salle->portes[0].x = -1;
+                salle->portes[0].x = 0;
                 salle->portes[0].y = (rand() % (taille_verticale-1)) + 1;
                 (*sallesrest)--;
             }
@@ -241,15 +240,19 @@ Salle * creerSalleProced(int x, int y, int dir, WINDOW* win, int* sallesrest) {
 
     switch(dir){ //gere l'origine de la salle en fonction de la direction de l'entree de la salle
         case DROITE: 
-            return creerSalle(h, v, x-h-1, y-v/2, 3, dir,win,sallesrest);
+            //genere la salle a gauche de la salle actuelle
+            return creerSalle(h, v, x-h-1, y-v/2, 3, dir,win,sallesrest); 
             break;
         case BAS: 
+            //genere la salle en haut de la salle actuelle
             return creerSalle(h, v, x-h/2, y-v-1, 3, dir,win,sallesrest);
             break;
         case GAUCHE: 
+            //genere la salle a droite de la salle actuelle
             return creerSalle(h, v, x+2, y-v/2, 3, dir,win,sallesrest);
             break;
         case HAUT: 
+            //genere la salle en bas de la salle actuelle
             return creerSalle(h, v, x-h/2, y+2, 3, dir,win,sallesrest);
             break;
         default: 

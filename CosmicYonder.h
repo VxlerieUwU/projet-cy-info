@@ -97,9 +97,16 @@ enum{
 };
 
 //Fonctions
+
+//Cette fonction permet de creer une salle a partir de dimensions fixees a l'aide de creerSalleProced
 Salle * creerSalle(int taille_horizontale, int taille_verticale, int x, int y, int nportes, int entree, WINDOW* win, int* sallerest);
+//permet de creer des dimensions aleatoires pour generer une salle
 Salle * creerSalleProced(int x, int y, int dir, WINDOW* win, int* sallerest);
+//affiche une salle passee en parametre
 void dessineSalle(WINDOW * win, Salle * salle);
+//libere l'emplacement memoire de la salle
 void libereSalle(Salle * salle);
+//initialise la structure joueur
 void initJoueur(Joueur* joueur);
-void interactions(int touche, Joueur* joueur, WINDOW* mainwin);
+//cette fonction gere les interactions du joueur avec le jeu, comme les mouvements ou les combats
+void interactions(int touche, Joueur* joueur, WINDOW* mainwin); 

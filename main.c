@@ -58,9 +58,10 @@ int main()
 	while(touche!=ESC){ // BOUCLE DU JEU
 		interactions(touche, &joueur, mainwin);
 
-		if(mvwinch(mainwin, joueur.y-1, joueur.x)=='P'){ /*l50 a 77 :
-			conditions servent a creer une salle quand le joueur passe devant une porte*/
-			if(carte[i] != NULL) {
+		/*conditions servent a creer une salle quand le joueur passe devant une porte, 
+		en fonction de la position de la porte par rapport au joueur*/
+		if(mvwinch(mainwin, joueur.y-1, joueur.x)=='P'){ //porte en haut
+			if(carte[i] != NULL) {  
 				libereSalle(carte[i]);
 			}
 			mvwaddch(mainwin,joueur.y-1,joueur.x,' ');
@@ -68,7 +69,7 @@ int main()
 			dessineSalle(mainwin, carte[i]);
 			mvwaddch(mainwin,joueur.y-2,joueur.x,' ');
 		}
-		if(mvwinch(mainwin, joueur.y+1, joueur.x)=='P'){
+		if(mvwinch(mainwin, joueur.y+1, joueur.x)=='P'){ //porte en bas
 			if(carte[i] != NULL) {
 				libereSalle(carte[i]);
 			}
@@ -77,7 +78,7 @@ int main()
 			dessineSalle(mainwin, carte[i]);
 			mvwaddch(mainwin,joueur.y+2,joueur.x,' ');
 		}
-		if(mvwinch(mainwin, joueur.y, joueur.x-1)=='P'){
+		if(mvwinch(mainwin, joueur.y, joueur.x-1)=='P'){ //porte a gauche
 			if(carte[i] != NULL) {
 				libereSalle(carte[i]);
 			}
@@ -86,7 +87,7 @@ int main()
 			dessineSalle(mainwin, carte[i]);
 			mvwaddch(mainwin,joueur.y,joueur.x-2,' ');
 		}
-		if(mvwinch(mainwin, joueur.y, joueur.x+1)=='P'){
+		if(mvwinch(mainwin, joueur.y, joueur.x+1)=='P'){ //porte a droite
 			if(carte[i] != NULL) {
 				libereSalle(carte[i]);
 			}
