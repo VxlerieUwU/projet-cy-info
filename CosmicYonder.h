@@ -74,6 +74,8 @@ typedef struct{
     int pv;
     int x;
     int y;
+    int att;
+    int def;
 }Ennemi;
 
 //Enumération des élements possibles de la salle
@@ -110,3 +112,5 @@ void libereSalle(Salle * salle);
 void initJoueur(Joueur* joueur);
 //cette fonction gere les interactions du joueur avec le jeu, comme les mouvements ou les combats
 void interactions(int touche, Joueur* joueur, WINDOW* mainwin); 
+//initialise un ennemi à l'aide d'attributs passés en paramètre
+Ennemi initEnnemi(int x, int y, int pv, int att, int def);
