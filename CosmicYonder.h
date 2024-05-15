@@ -24,6 +24,7 @@
 #define UNICODE_STRING_LONG 10
 #define TAILLE_MAX_V 10
 #define TAILLE_MAX_H 20
+#define MAX_SALLES 10
 
 //Structures
 
@@ -52,6 +53,7 @@ typedef struct{
 typedef struct {
     int x;
     int y;
+    int ouvert;
 }Porte;
 
 typedef struct {
@@ -104,6 +106,8 @@ enum{
 Salle * creerSalle(int taille_horizontale, int taille_verticale, int x, int y, int nportes, int entree, WINDOW* win, int* sallerest);
 //permet de creer des dimensions aleatoires pour generer une salle
 Salle * creerSalleProced(int x, int y, int dir, WINDOW* win, int* sallerest);
+//permet d'afficher toutes les salles
+void dessineSalles(WINDOW * win, Salle ** salle, int salles_existantes);
 //affiche une salle passee en parametre
 void dessineSalle(WINDOW * win, Salle * salle);
 //libere l'emplacement memoire de la salle
@@ -111,6 +115,6 @@ void libereSalle(Salle * salle);
 //initialise la structure joueur
 void initJoueur(Joueur* joueur);
 //cette fonction gere les interactions du joueur avec le jeu, comme les mouvements ou les combats
-void interactions(int touche, Joueur* joueur, WINDOW* mainwin); 
+void interactions(int touche, Joueur* joueur, Salle ** carte, int salles_existantes, WINDOW* mainwin); 
 //initialise un ennemi à l'aide d'attributs passés en paramètre
 Ennemi initEnnemi(int x, int y, int pv, int att, int def);

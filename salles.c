@@ -58,6 +58,7 @@ Salle * creerSalle(int taille_horizontale, int taille_verticale, int x, int y, i
             if(*sallesrest>0){
                 salle->portes[0].x = 0;
                 salle->portes[0].y = (rand() % (taille_verticale-1)) + 1;
+                salle->portes[0].ouvert = 0;
                 (*sallesrest)--;
             }
             else{
@@ -67,6 +68,7 @@ Salle * creerSalle(int taille_horizontale, int taille_verticale, int x, int y, i
             if(*sallesrest>0){
                 salle->portes[1].x = (rand() % (taille_horizontale-1)) + 1;
                 salle->portes[1].y = 0;
+                salle->portes[1].ouvert = 0;
                 (*sallesrest)--;
             }
             else{
@@ -76,6 +78,7 @@ Salle * creerSalle(int taille_horizontale, int taille_verticale, int x, int y, i
             if(*sallesrest>0){
                 salle->portes[2].x = taille_horizontale-1;
                 salle->portes[2].y = (rand() % (taille_verticale-1)) + 1;
+                salle->portes[2].ouvert = 0;
                 (*sallesrest)--;
             }
             else{
@@ -85,6 +88,7 @@ Salle * creerSalle(int taille_horizontale, int taille_verticale, int x, int y, i
             if(*sallesrest>0){
                 salle->portes[3].x = (rand() % (taille_horizontale-1)) + 1;
                 salle->portes[3].y = taille_verticale-1;
+                salle->portes[3].ouvert = 0;
                 (*sallesrest)--;
             }
             else{
@@ -96,11 +100,13 @@ Salle * creerSalle(int taille_horizontale, int taille_verticale, int x, int y, i
             if(entree!=DROITE && *sallesrest>0){
                 salle->portes[0].x = taille_horizontale-1;
                 salle->portes[0].y = (rand() % (taille_verticale-1)) + 1;
+                salle->portes[0].ouvert = 0;
                 (*sallesrest)--;
             } 
             else if(*sallesrest>0){
                 salle->portes[0].x = 0;
                 salle->portes[0].y = (rand() % (taille_verticale-1)) + 1;
+                salle->portes[0].ouvert = 0;
                 (*sallesrest)--;  
             }
             else{
@@ -111,11 +117,13 @@ Salle * creerSalle(int taille_horizontale, int taille_verticale, int x, int y, i
             if(entree!=BAS && *sallesrest>0){
                 salle->portes[1].x = (rand() % (taille_horizontale-1)) + 1;
                 salle->portes[1].y = taille_verticale-1;
+                salle->portes[1].ouvert = 0;
                 (*sallesrest)--;
             } 
             else if(*sallesrest>0){
                 salle->portes[1].x = (rand() % (taille_horizontale-1)) + 1;
                 salle->portes[1].y = 0;
+                salle->portes[1].ouvert = 0;
                 (*sallesrest)--;
             } 
             else{
@@ -126,11 +134,13 @@ Salle * creerSalle(int taille_horizontale, int taille_verticale, int x, int y, i
             if((entree==DROITE||entree==GAUCHE) && *sallesrest>0){
                 salle->portes[2].x = (rand() % (taille_horizontale-1)) + 1;
                 salle->portes[2].y = 0;
+                salle->portes[2].ouvert = 0;
                 (*sallesrest)--;
             } 
             else if((entree==BAS||entree==HAUT) && *sallesrest>0){
                 salle->portes[2].x = 0;
                 salle->portes[2].y = (rand() % (taille_verticale-1)) + 1;
+                salle->portes[2].ouvert = 0;
                 (*sallesrest)--;  
             } 
             else{
@@ -295,6 +305,12 @@ void dessineSalle(WINDOW * win, Salle * salle) {
                     break;
             }
         }
+    }
+}
+
+void dessineSalles(WINDOW * win, Salle ** carte, int salles_existantes) {
+    for(int i = 0; i<salles_existantes; i++) {
+        dessineSalle(win, carte[i]);
     }
 }
 
