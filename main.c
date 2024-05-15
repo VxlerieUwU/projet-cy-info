@@ -62,32 +62,36 @@ int main()
 			for(int k=0; k<carte[j]->nportes;k++){
 				/*conditions servent a creer une salle quand le joueur passe devant une porte, 
 				en fonction de la position de la porte par rapport au joueur*/
-				if(carte[j]->portes[k].x+carte[j]->x==joueur.x && carte[j]->portes[k].y+carte[j]->y==joueur.y-1){ //porte en haut
+				if(carte[j]->portes[k].x+carte[j]->x==joueur.x && carte[j]->portes[k].y+carte[j]->y==joueur.y-1 && carte[j]->portes[k].ouvert==0){ //porte en haut
 					if(carte[i] != NULL) {  
 						libereSalle(carte[i]);
 					}
 					carte[i] = creerSalleProced(joueur.x, joueur.y,BAS,mainwin, &nsalles);
+					carte[j]->portes[k].ouvert=1;
 					i++;
 				}
-				if(carte[j]->portes[k].x+carte[j]->x==joueur.x && carte[j]->portes[k].y+carte[j]->y==joueur.y+1){ //porte en bas
+				if(carte[j]->portes[k].x+carte[j]->x==joueur.x && carte[j]->portes[k].y+carte[j]->y==joueur.y+1 && carte[j]->portes[k].ouvert==0){ //porte en bas
 					if(carte[i] != NULL) {
 						libereSalle(carte[i]);
 					}
 					carte[i] = creerSalleProced(joueur.x, joueur.y,HAUT,mainwin,&nsalles);
+					carte[j]->portes[k].ouvert=1;
 					i++;
 				}
-				if(carte[j]->portes[k].x+carte[j]->x==joueur.x-1 && carte[j]->portes[k].y+carte[j]->y==joueur.y){ //porte a gauche
+				if(carte[j]->portes[k].x+carte[j]->x==joueur.x-1 && carte[j]->portes[k].y+carte[j]->y==joueur.y && carte[j]->portes[k].ouvert==0){ //porte a gauche
 					if(carte[i] != NULL) {
 						libereSalle(carte[i]);
 					}
 					carte[i] = creerSalleProced(joueur.x, joueur.y,DROITE,mainwin,&nsalles);
+					carte[j]->portes[k].ouvert=1;
 					i++;
 				}
-				if(carte[j]->portes[k].x+carte[j]->x==joueur.x+1 && carte[j]->portes[k].y+carte[j]->y==joueur.y){ //porte a droite
+				if(carte[j]->portes[k].x+carte[j]->x==joueur.x+1 && carte[j]->portes[k].y+carte[j]->y==joueur.y && carte[j]->portes[k].ouvert==0){ //porte a droite
 					if(carte[i] != NULL) {
 						libereSalle(carte[i]);
 					}
 					carte[i] = creerSalleProced(joueur.x, joueur.y,GAUCHE,mainwin,&nsalles);
+					carte[j]->portes[k].ouvert=1;
 					i++;
 				}	
 			}
