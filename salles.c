@@ -53,8 +53,9 @@ Salle * creerSalle(int taille_horizontale, int taille_verticale, int x, int y, i
             exit(2);
         };
 
-        //verifie si il reste au moins une salle a generer et genere une porte si c'est le cas
-        if(salle->nportes == 4) { //4 portes
+        /*verifie si il reste au moins une salle a generer et genere une porte si c'est le cas
+        si la porte ne dois pas se generer, j'ai mis ses coordonnees a -1*/
+        if(entree==-1) { //4 portes, salle de départ
             if(*sallesrest>0){
                 salle->portes[0].x = 0;
                 salle->portes[0].y = (rand() % (taille_verticale-1)) + 1;
@@ -97,55 +98,76 @@ Salle * creerSalle(int taille_horizontale, int taille_verticale, int x, int y, i
             }
         } else {
             // TODO:  nportes != 4 / salles de boss?
+
+            // cree la porte d'entree, ici porte[0] = porte d'entree
+            switch(entree){
+                case GAUCHE:
+                    salle->portes[0].x = 0;
+                    salle->portes[0].y = taille_verticale/2;
+                    break;
+                case DROITE:
+                    salle->portes[0].x = taille_horizontale-1;
+                    salle->portes[0].y = taille_verticale/2;
+                    break;
+                case HAUT:
+                    salle->portes[0].x = taille_horizontale/2;
+                    salle->portes[0].y = 0;
+                    break;
+                case BAS: 
+                    salle->portes[0].x = taille_horizontale/2;
+                    salle->portes[0].y = taille_verticale-1;
+                    break;
+            }
+            //les conditions suivantes creent les autres portes
             if(entree!=DROITE && *sallesrest>0){
-                salle->portes[0].x = taille_horizontale-1;
-                salle->portes[0].y = (rand() % (taille_verticale-1)) + 1;
-                salle->portes[0].ouvert = 0;
+                salle->portes[1].x = taille_horizontale-1;
+                salle->portes[1].y = (rand() % (taille_verticale-1)) + 1;
+                salle->portes[1].ouvert = 0;
                 (*sallesrest)--;
             } 
             else if(*sallesrest>0){
-                salle->portes[0].x = 0;
-                salle->portes[0].y = (rand() % (taille_verticale-1)) + 1;
-                salle->portes[0].ouvert = 0;
+                salle->portes[1].x = 0;
+                salle->portes[1].y = (rand() % (taille_verticale-1)) + 1;
+                salle->portes[1].ouvert = 0;
                 (*sallesrest)--;  
             }
             else{
-                salle->portes[0].x = -1;
-                salle->portes[0].y = -1;
+                salle->portes[1].x = -1;
+                salle->portes[1].y = -1;
             }
 
             if(entree!=BAS && *sallesrest>0){
-                salle->portes[1].x = (rand() % (taille_horizontale-1)) + 1;
-                salle->portes[1].y = taille_verticale-1;
-                salle->portes[1].ouvert = 0;
+                salle->portes[2].x = (rand() % (taille_horizontale-1)) + 1;
+                salle->portes[2].y = taille_verticale-1;
+                salle->portes[2].ouvert = 0;
                 (*sallesrest)--;
             } 
             else if(*sallesrest>0){
-                salle->portes[1].x = (rand() % (taille_horizontale-1)) + 1;
-                salle->portes[1].y = 0;
-                salle->portes[1].ouvert = 0;
-                (*sallesrest)--;
-            } 
-            else{
-                salle->portes[1].x = -1;
-                salle->portes[1].y = -1;
-            } 
-
-            if((entree==DROITE||entree==GAUCHE) && *sallesrest>0){
                 salle->portes[2].x = (rand() % (taille_horizontale-1)) + 1;
                 salle->portes[2].y = 0;
                 salle->portes[2].ouvert = 0;
                 (*sallesrest)--;
             } 
-            else if((entree==BAS||entree==HAUT) && *sallesrest>0){
-                salle->portes[2].x = 0;
-                salle->portes[2].y = (rand() % (taille_verticale-1)) + 1;
-                salle->portes[2].ouvert = 0;
-                (*sallesrest)--;  
-            } 
             else{
                 salle->portes[2].x = -1;
                 salle->portes[2].y = -1;
+            } 
+
+            if((entree==DROITE||entree==GAUCHE) && *sallesrest>0){
+                salle->portes[3].x = (rand() % (taille_horizontale-1)) + 1;
+                salle->portes[3].y = 0;
+                salle->portes[3].ouvert = 0;
+                (*sallesrest)--;
+            } 
+            else if((entree==BAS||entree==HAUT) && *sallesrest>0){
+                salle->portes[3].x = 0;
+                salle->portes[3].y = (rand() % (taille_verticale-1)) + 1;
+                salle->portes[3].ouvert = 0;
+                (*sallesrest)--;  
+            } 
+            else{
+                salle->portes[3].x = -1;
+                salle->portes[3].y = -1;
             }
         }
     }
@@ -179,14 +201,17 @@ Salle * creerSalle(int taille_horizontale, int taille_verticale, int x, int y, i
             }   
         }
     }
-
+    //affichage des portes
     if(salle->nportes != 0) {
         for(int i=0; i<salle->nportes; i++) {
-            if(salle->portes[i].x!=-1 && salle->portes[i].y!=-1){
+            if(salle->portes[i].x!=-1 && salle->portes[i].y!=-1){//verifie que la porte existe
 
                 salle->disp[salle->portes[i].y][salle->portes[i].x] = PORTE;
 
-                //on verifie qu'il y ait l'espace disponible pour generer une salle derriere les portes
+                /*on verifie qu'il y ait l'espace disponible pour generer une salle derriere les portes
+                on verifie dans un espace de 3 en longueur x 4 en largeur 
+                s'il n'y a pas la place on remplace la porte par un mur*/
+
                 if(salle->portes[i].x==0){ //porte a gauche
                     for(int j=1; j<=4; j++){
                         for(int k=-2; k<=2; k++){
@@ -241,29 +266,35 @@ Salle * creerSalle(int taille_horizontale, int taille_verticale, int x, int y, i
 }
 
 Salle * creerSalleProced(int x, int y, int dir, WINDOW* win, int* sallesrest) {
+    //init attributs salles
     int v, h;
     v = TAILLE_MAX_V-(rand()%(TAILLE_MAX_V-3));
     h = TAILLE_MAX_H-(rand()%(TAILLE_MAX_H-4));
+    //logs
     char logBuffer[50];
     sprintf(logBuffer, "taille verticale = %d, taille horizontale = %d", v, h);
     logMessage(DEBUG, logBuffer);
 
-    switch(dir){ //gere l'origine de la salle en fonction de la direction de l'entree de la salle
+    /*gere l'origine de la salle en fonction de la direction de l'entree de la salle
+    pour l'instant place l'entree de la salle generee au milieu
+    il faudrait changer la boucle qui empeche la superposition afin d'eviter ce probleme*/
+
+    switch(dir){ 
         case DROITE: 
             //genere la salle a gauche de la salle actuelle
-            return creerSalle(h, v, x-h-1, y-v/2, 3, dir,win,sallesrest); 
+            return creerSalle(h, v, x-h-1, y-v/2, 4, dir,win,sallesrest); 
             break;
         case BAS: 
             //genere la salle en haut de la salle actuelle
-            return creerSalle(h, v, x-h/2, y-v-1, 3, dir,win,sallesrest);
+            return creerSalle(h, v, x-h/2, y-v-1, 4, dir,win,sallesrest);
             break;
         case GAUCHE: 
             //genere la salle a droite de la salle actuelle
-            return creerSalle(h, v, x+2, y-v/2, 3, dir,win,sallesrest);
+            return creerSalle(h, v, x+2, y-v/2, 4, dir,win,sallesrest);
             break;
         case HAUT: 
             //genere la salle en bas de la salle actuelle
-            return creerSalle(h, v, x-h/2, y+2, 3, dir,win,sallesrest);
+            return creerSalle(h, v, x-h/2, y+2, 4, dir,win,sallesrest);
             break;
         default: 
             return creerSalle(h, v, x, y, 4, dir,win,sallesrest);
@@ -274,6 +305,7 @@ Salle * creerSalleProced(int x, int y, int dir, WINDOW* win, int* sallesrest) {
 
 
 void dessineSalle(WINDOW * win, Salle * salle) {
+    /* affiche la salle sur la fenetre en parcourant la salle*/
     int i, j;
     for(i=0; i < salle->hauteur; i++){
         for(j=0; j < salle->longueur; j++){
@@ -309,12 +341,14 @@ void dessineSalle(WINDOW * win, Salle * salle) {
 }
 
 void dessineSalles(WINDOW * win, Salle ** carte, int salles_existantes) {
+    /*affiche l'ensemble des salles*/
     for(int i = 0; i<salles_existantes; i++) {
         dessineSalle(win, carte[i]);
     }
 }
 
 void libereSalle(Salle * salle) {
+    /*libere l'emplacement memoire de la salle*/
     for(int i=0;i<salle->hauteur;i++){
         free(salle->disp[i]);
     }
@@ -322,7 +356,30 @@ void libereSalle(Salle * salle) {
     free(salle);
 }
 
-void ouvrirPorte(Salle * salle, int indexPorte) {
-    salle->portes[indexPorte].ouvert = 1;
-    salle->disp[salle->portes[indexPorte].y][salle->portes[indexPorte].x] = VIDE; // TODO: caractère porte ouverte
+void ouvrirPorte(Salle ** carte, int indexSalleAct,int indexNouvSalle, int indexPorte, int dir) {
+    /*permet de gerer l'ouverture des portes pour la creation de salles*/
+
+    //ouvre la porte de la salle ou le joueur se trouve
+    carte[indexSalleAct]->portes[indexPorte].ouvert = 1;
+    carte[indexSalleAct]->disp[carte[indexSalleAct]->portes[indexPorte].y][carte[indexSalleAct]->portes[indexPorte].x] = VIDE; // TODO: caractère porte ouverte
+
+    //ouvre la porte de la salle generee en fonction de la direction de la porte d'entree
+    switch(dir){
+        case GAUCHE:
+            carte[indexNouvSalle]->disp[carte[indexNouvSalle]->portes[0].y][carte[indexNouvSalle]->portes[0].x] = VIDE;
+            carte[indexNouvSalle]->portes[0].ouvert = 1;
+            break;
+        case DROITE:
+            carte[indexNouvSalle]->disp[carte[indexNouvSalle]->portes[0].y][carte[indexNouvSalle]->portes[0].x] = VIDE;
+            carte[indexNouvSalle]->portes[0].ouvert = 1;
+            break;
+        case HAUT:
+            carte[indexNouvSalle]->disp[carte[indexNouvSalle]->portes[0].y][carte[indexNouvSalle]->portes[0].x] = VIDE;
+            carte[indexNouvSalle]->portes[0].ouvert = 1;
+            break;
+        case BAS:
+            carte[indexNouvSalle]->disp[carte[indexNouvSalle]->portes[0].y][carte[indexNouvSalle]->portes[0].x] = VIDE;
+            carte[indexNouvSalle]->portes[0].ouvert = 1;
+            break;
+    }
 }
