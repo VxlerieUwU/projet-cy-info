@@ -367,15 +367,19 @@ void ouvrirPorte(Salle ** carte, int indexSalleAct,int indexNouvSalle, int index
     switch(dir){
         case GAUCHE:
             carte[indexNouvSalle]->disp[carte[indexNouvSalle]->portes[0].y][carte[indexNouvSalle]->portes[0].x] = VIDE;
+            carte[indexNouvSalle]->portes[0].ouvert = 1;
             break;
         case DROITE:
             carte[indexNouvSalle]->disp[carte[indexNouvSalle]->portes[0].y][carte[indexNouvSalle]->portes[0].x] = VIDE;
+            carte[indexNouvSalle]->portes[0].ouvert = 1;
             break;
         case HAUT:
             carte[indexNouvSalle]->disp[carte[indexNouvSalle]->portes[0].y][carte[indexNouvSalle]->portes[0].x] = VIDE;
+            carte[indexNouvSalle]->portes[0].ouvert = 1;
             break;
         case BAS:
             carte[indexNouvSalle]->disp[carte[indexNouvSalle]->portes[0].y][carte[indexNouvSalle]->portes[0].x] = VIDE;
+            carte[indexNouvSalle]->portes[0].ouvert = 1;
             break;
     }
 }
