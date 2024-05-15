@@ -115,13 +115,18 @@ void dessineSalles(WINDOW * win, Salle ** salle, int salles_existantes);
 void dessineSalle(WINDOW * win, Salle * salle);
 //libere l'emplacement memoire de la salle
 void libereSalle(Salle * salle);
+// Ouverture de porte
+
+void ouvrirPorte(Salle ** carte, int indexSalleAct,int indexNouvSalle, int indexPorte, int dir);
 //initialise la structure joueur
 void initJoueur(Joueur* joueur);
 //cette fonction gere les interactions du joueur avec le jeu, comme les mouvements ou les combats
 void interactions(int touche, Joueur* joueur, Salle ** carte, int salles_existantes, WINDOW* mainwin); 
 //initialise un ennemi à l'aide d'attributs passés en paramètre
 Ennemi initEnnemi(int x, int y, int pv, int att, int def);
+
 int creation_graine(); //Crée la graine de génération du jeu.
-int maj_niveau(Joueur* joueur); //Gère mise à jour du niveau du joueur en fonction de son expérience;
-int perte_vie(Joueur* joueur, Ennemi* ennemi) //Gère la perte de vie du joueur;
+int maj_niveau(Joueur* joueur); //Gère mise à jour du niveau du joueur en fonction de son expérience
+int perte_vie(Joueur* joueur, Ennemi* ennemi); //Gère la perte de vie du joueur
+
 #endif
