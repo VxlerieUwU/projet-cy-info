@@ -321,3 +321,8 @@ void libereSalle(Salle * salle) {
     free(salle->disp);
     free(salle);
 }
+
+void ouvrirPorte(Salle * salle, int indexPorte) {
+    salle->portes[indexPorte].ouvert = 1;
+    salle->disp[salle->portes[indexPorte].y][salle->portes[indexPorte].x] = VIDE; // TODO: caractère porte ouverte
+}
