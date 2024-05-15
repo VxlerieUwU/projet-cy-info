@@ -10,7 +10,8 @@
 #include <wchar.h>
 
 //Constantes
-#define GRAPHIQUES_H_
+#ifndef COSMICYONDER_H_
+#define COSMICYONDER_H_
 #define ESC 27
 #define INV_TAILLE 10 
 #define JOUEUR_H_
@@ -112,9 +113,13 @@ void dessineSalles(WINDOW * win, Salle ** salle, int salles_existantes);
 void dessineSalle(WINDOW * win, Salle * salle);
 //libere l'emplacement memoire de la salle
 void libereSalle(Salle * salle);
+// Ouverture de porte
+void ouvrirPorte(Salle * salle, int indexPorte)
 //initialise la structure joueur
 void initJoueur(Joueur* joueur);
 //cette fonction gere les interactions du joueur avec le jeu, comme les mouvements ou les combats
 void interactions(int touche, Joueur* joueur, Salle ** carte, int salles_existantes, WINDOW* mainwin); 
 //initialise un ennemi à l'aide d'attributs passés en paramètre
 Ennemi initEnnemi(int x, int y, int pv, int att, int def);
+
+#endif
