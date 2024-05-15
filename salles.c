@@ -298,6 +298,12 @@ void dessineSalle(WINDOW * win, Salle * salle) {
     }
 }
 
+void dessineSalles(WINDOW * win, Salle ** carte, int salles_existantes) {
+    for(int i = 0; i<salles_existantes; i++) {
+        dessineSalle(win, carte[i]);
+    }
+}
+
 void libereSalle(Salle * salle) {
     for(int i=0;i<salle->hauteur;i++){
         free(salle->disp[i]);

@@ -15,8 +15,8 @@ int main()
 	cbreak(); //permet de quitter le programme avec Ctrl+c
 	curs_set(0); //rend le curseur invisible
 	int hauteur, longueur;
-	int nsalles = 10;
-	int i=1;
+	int nsalles = MAX_SALLES;
+	int i = 1;
 	getmaxyx(stdscr,hauteur,longueur); //recupere la taille du terminal
 
 	WINDOW* mainwin = newwin(hauteur,longueur,0,0); 
@@ -40,7 +40,7 @@ int main()
     joueur.y = hauteur/2;
 
     Salle** carte;
-    carte = malloc(nsalles * sizeof(Salle));
+    carte = malloc(MAX_SALLES * sizeof(Salle));
     if(carte == NULL) {
     	logMessage(CRITICAL, "erreur malloc portes salle");
     	exit(2);
@@ -56,7 +56,7 @@ int main()
 
     logMessage(INFO, "fin init");
 	while(touche!=ESC){ // BOUCLE DU JEU
-		interactions(touche, &joueur, mainwin);
+		interactions(touche, &joueur, carte, i, mainwin);
 
 		/*conditions servent a creer une salle quand le joueur passe devant une porte, 
 		en fonction de la position de la porte par rapport au joueur*/
@@ -65,40 +65,41 @@ int main()
 				libereSalle(carte[i]);
 			}
 			mvwaddch(mainwin,joueur.y-1,joueur.x,' ');
-			carte[i] = creerSalleProced(joueur.x, joueur.y,BAS,mainwin, &nsalles);
-			dessineSalle(mainwin, carte[i]);
+			carte[i] = creerSalleProced(joueur.x, joueur.y,HAUT,mainwin, &nsalles);
 			mvwaddch(mainwin,joueur.y-2,joueur.x,' ');
+			i = MAX_SALLES - nsalles - 1;
 		}
 		if(mvwinch(mainwin, joueur.y+1, joueur.x)=='P'){ //porte en bas
 			if(carte[i] != NULL) {
 				libereSalle(carte[i]);
 			}
 			mvwaddch(mainwin,joueur.y+1,joueur.x,' ');
-			carte[i] = creerSalleProced(joueur.x, joueur.y,HAUT,mainwin,&nsalles);
-			dessineSalle(mainwin, carte[i]);
+			carte[i] = creerSalleProced(joueur.x, joueur.y,BAS,mainwin,&nsalles);
 			mvwaddch(mainwin,joueur.y+2,joueur.x,' ');
+			i = MAX_SALLES - nsalles - 1;
+
 		}
 		if(mvwinch(mainwin, joueur.y, joueur.x-1)=='P'){ //porte a gauche
 			if(carte[i] != NULL) {
 				libereSalle(carte[i]);
 			}
 			mvwaddch(mainwin,joueur.y,joueur.x-1,' ');
-			carte[i] = creerSalleProced(joueur.x, joueur.y,DROITE,mainwin,&nsalles);
-			dessineSalle(mainwin, carte[i]);
+			carte[i] = creerSalleProced(joueur.x, joueur.y,GAUCHE,mainwin,&nsalles);
 			mvwaddch(mainwin,joueur.y,joueur.x-2,' ');
+			i = MAX_SALLES - nsalles - 1;
 		}
 		if(mvwinch(mainwin, joueur.y, joueur.x+1)=='P'){ //porte a droite
-			if(carte[i] != NULL) {
+			if(carte[i] != NULL) {e
 				libereSalle(carte[i]);
 			}
 			mvwaddch(mainwin,joueur.y,joueur.x+1,' ');
-			carte[i] = creerSalleProced(joueur.x, joueur.y,GAUCHE,mainwin,&nsalles);
-			dessineSalle(mainwin, carte[i]);
+			carte[i] = creerSalleProced(joueur.x, joueur.y,DROITE,mainwin,&nsalles);
 			mvwaddch(mainwin,joueur.y,joueur.x+2,' ');
+			i = MAX_SALLES - nsalles - 1;
 		}	
-
+		wclear(mainwin);
 		mvwaddch(mainwin,joueur.y,joueur.x, 'o'); //deplace le joueur a la nouvelle position
-
+		dessineSalles(mainwin, carte, i);
 		wrefresh(mainwin);
 		touche = wgetch(mainwin);
    		usleep(100);
