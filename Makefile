@@ -23,7 +23,10 @@ joueur.o: joueur.c
 interactions.o: interactions.c
 	$(CC) -o $@ -c $< $(CFLAGS)
 
-main.o: main.c logger.c graphics.c salles.c joueur.c interactions.c
+ennemi.o: ennemi.c
+	$(CC) -o $@ -c $< $(CFLAGS)
+
+main.o: main.c logger.c graphics.c salles.c joueur.c interactions.c ennemi.c
 	$(CC) -o $@ -c $< $(CFLAGS)
 
 clean:
