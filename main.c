@@ -55,8 +55,6 @@ int main()
 
     logMessage(INFO, "fin init");
 	while(touche!=ESC){ // BOUCLE DU JEU
-		interactions(touche, &joueur,carte, i, mainwin);
-
 		for(int j=0;j<i;j++){
 			for(int k=0; k<carte[j]->nportes;k++){
 				/*conditions servent a creer une salle quand le joueur passe devant une porte, 
@@ -95,6 +93,8 @@ int main()
 				}	
 			}
 		}
+		interactions(touche, &joueur,carte, i, mainwin);
+		
 		wclear(mainwin);
 		dessineSalles(mainwin, carte, i);
 		mvwaddch(mainwin,joueur.y,joueur.x, 'o'); //deplace le joueur a la nouvelle position
