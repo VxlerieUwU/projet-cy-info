@@ -41,7 +41,7 @@ Salle * creerSalle(int taille_horizontale, int taille_verticale, int x, int y, i
     salle->hauteur = taille_verticale;
     salle->x = x;
     salle->y = y;
-    salle->nportes = 4; //à modifier
+    salle->nportes = nportes;
 
     // ALLOCATION PORTES
     if(salle->nportes == 0) {
@@ -54,7 +54,7 @@ Salle * creerSalle(int taille_horizontale, int taille_verticale, int x, int y, i
         };
 
         //verifie si il reste au moins une salle a generer et genere une porte si c'est le cas
-        if(salle->nportes == 4) { //4 portes
+        if(entree==-1) { //4 portes, salle de départ
             if(*sallesrest>0){
                 salle->portes[0].x = 0;
                 salle->portes[0].y = (rand() % (taille_verticale-1)) + 1;
@@ -272,19 +272,19 @@ Salle * creerSalleProced(int x, int y, int dir, WINDOW* win, int* sallesrest) {
     switch(dir){ //gere l'origine de la salle en fonction de la direction de l'entree de la salle
         case DROITE: 
             //genere la salle a gauche de la salle actuelle
-            return creerSalle(h, v, x-h-1, y-v/2, 3, dir,win,sallesrest); 
+            return creerSalle(h, v, x-h-1, y-v/2, 4, dir,win,sallesrest); 
             break;
         case BAS: 
             //genere la salle en haut de la salle actuelle
-            return creerSalle(h, v, x-h/2, y-v-1, 3, dir,win,sallesrest);
+            return creerSalle(h, v, x-h/2, y-v-1, 4, dir,win,sallesrest);
             break;
         case GAUCHE: 
             //genere la salle a droite de la salle actuelle
-            return creerSalle(h, v, x+2, y-v/2, 3, dir,win,sallesrest);
+            return creerSalle(h, v, x+2, y-v/2, 4, dir,win,sallesrest);
             break;
         case HAUT: 
             //genere la salle en bas de la salle actuelle
-            return creerSalle(h, v, x-h/2, y+2, 3, dir,win,sallesrest);
+            return creerSalle(h, v, x-h/2, y+2, 4, dir,win,sallesrest);
             break;
         default: 
             return creerSalle(h, v, x, y, 4, dir,win,sallesrest);
@@ -343,22 +343,22 @@ void libereSalle(Salle * salle) {
     free(salle);
 }
 
-void ouvrirPorte(Salle ** carte, int i, int indexPorte, int dir) {
-    carte[i]->portes[indexPorte].ouvert = 1;
-    carte[i]->disp[carte[i]->portes[indexPorte].y][carte[i]->portes[indexPorte].x] = VIDE; // TODO: caractère porte ouverte
-    
+void ouvrirPorte(Salle ** carte, int j,int i, int indexPorte, int dir) {
+    carte[j]->portes[indexPorte].ouvert = 1;
+    carte[j]->disp[carte[j]->portes[indexPorte].y][carte[j]->portes[indexPorte].x] = VIDE; // TODO: caractère porte ouverte
+
     switch(dir){
         case GAUCHE:
-            carte[i+1]->disp[carte[i+1]->portes[0].y][carte[i+1]->portes[0].x] = VIDE;
+            carte[i]->disp[carte[i]->portes[0].y][carte[i]->portes[0].x] = VIDE;
             break;
         case DROITE:
-            carte[i+1]->disp[carte[i+1]->portes[0].y][carte[i+1]->portes[0].x] = VIDE;
+            carte[i]->disp[carte[i]->portes[0].y][carte[i]->portes[0].x] = VIDE;
             break;
         case HAUT:
-            carte[i+1]->disp[carte[i+1]->portes[0].y][carte[i+1]->portes[0].x] = VIDE;
+            carte[i]->disp[carte[i]->portes[0].y][carte[i]->portes[0].x] = VIDE;
             break;
         case BAS:
-            carte[i+1]->disp[carte[i+1]->portes[0].y][carte[i+1]->portes[0].x] = VIDE;
+            carte[i]->disp[carte[i]->portes[0].y][carte[i]->portes[0].x] = VIDE;
             break;
     }
 }

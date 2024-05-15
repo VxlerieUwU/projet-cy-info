@@ -20,7 +20,6 @@ int main()
 	getmaxyx(stdscr,hauteur,longueur); //recupere la taille du terminal
 
 	WINDOW* mainwin = newwin(hauteur,longueur,0,0); 
-
    	sprintf(logBuffer, "window longueur = %d, hauteur = %d", longueur, hauteur);
    	logMessage(INFO, logBuffer);
 	clearBuf(logBuffer);
@@ -67,7 +66,7 @@ int main()
 						libereSalle(carte[i]);
 					}
 					carte[i] = creerSalleProced(joueur.x, joueur.y,BAS,mainwin, &nsalles);
-					ouvrirPorte(carte,i-1, k, BAS);
+					ouvrirPorte(carte,j,i, k, BAS);
 					i++;			
 				}
 				if(carte[j]->portes[k].x+carte[j]->x==joueur.x && carte[j]->portes[k].y+carte[j]->y==joueur.y+1 && carte[j]->portes[k].ouvert==0){ //porte en bas
@@ -75,7 +74,7 @@ int main()
 						libereSalle(carte[i]);
 					}
 					carte[i] = creerSalleProced(joueur.x, joueur.y,HAUT,mainwin,&nsalles);
-					ouvrirPorte(carte,i-1, k, HAUT);
+					ouvrirPorte(carte,j,i, k, HAUT);
 					i++;					
 				}
 				if(carte[j]->portes[k].x+carte[j]->x==joueur.x-1 && carte[j]->portes[k].y+carte[j]->y==joueur.y && carte[j]->portes[k].ouvert==0){ //porte a gauche
@@ -83,7 +82,7 @@ int main()
 						libereSalle(carte[i]);
 					}
 					carte[i] = creerSalleProced(joueur.x, joueur.y,DROITE,mainwin,&nsalles);
-					ouvrirPorte(carte,i-1, k, DROITE);
+					ouvrirPorte(carte,j,i, k, DROITE);
 					i++;
 				}
 				if(carte[j]->portes[k].x+carte[j]->x==joueur.x+1 && carte[j]->portes[k].y+carte[j]->y==joueur.y && carte[j]->portes[k].ouvert==0){ //porte a droite
@@ -91,7 +90,7 @@ int main()
 						libereSalle(carte[i]);
 					}
 					carte[i] = creerSalleProced(joueur.x, joueur.y,GAUCHE,mainwin,&nsalles);
-					ouvrirPorte(carte,i-1, k, GAUCHE);
+					ouvrirPorte(carte,j,i, k, GAUCHE);
 					i++;					
 				}	
 			}
