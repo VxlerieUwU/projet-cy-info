@@ -13,8 +13,9 @@ int creation_graine(){
 	do{
 		printf("Entrez une graine pour générer le jeu.\n");
 		verif_int = scanf("%d",&graine);
+		while(getchar()!='\n'){}
 		compteur_tentatives++;
-	}while(graine<0 || verif_int != 1 || compteur_tentatives != 3);
+	}while(graine<0 || (verif_int != 1 && compteur_tentatives>=3));
 	if(compteur_tentatives == 3){
 		graine = rand();
 	}

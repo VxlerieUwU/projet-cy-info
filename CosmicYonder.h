@@ -10,7 +10,8 @@
 #include <wchar.h>
 
 //Constantes
-#define GRAPHIQUES_H_
+#ifndef COSMICYONDER_H_
+#define COSMICYONDER_H_
 #define ESC 27
 #define INV_TAILLE 10 
 #define JOUEUR_H_
@@ -120,3 +121,4 @@ void interactions(int touche, Joueur* joueur, Salle ** carte, int salles_existan
 Ennemi initEnnemi(int x, int y, int pv, int att, int def);
 int creation_graine(); //Crée la graine de génération du jeu.
 
+#endif
