@@ -9,7 +9,8 @@ int main()
 
    	createLog();
    	logMessage(INFO, "init ncurses");
-	srand(time(NULL)); //init rand 
+	int graine = creation_graine();
+	srand(graine); //init rand 
 	initscr(); //initialise l'ecran
 	noecho(); //empeche d'afficher les caracteres saisis dans le terminal
 	cbreak(); //permet de quitter le programme avec Ctrl+c
