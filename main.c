@@ -67,23 +67,23 @@ int main()
 						libereSalle(carte[i]);
 					}
 					carte[i] = creerSalleProced(joueur.x, joueur.y,BAS,mainwin, &nsalles);
-					carte[j]->portes[k].ouvert=1;
-					i++;
+					ouvrirPorte(carte,i-1, k, BAS);
+					i++;			
 				}
 				if(carte[j]->portes[k].x+carte[j]->x==joueur.x && carte[j]->portes[k].y+carte[j]->y==joueur.y+1 && carte[j]->portes[k].ouvert==0){ //porte en bas
 					if(carte[i] != NULL) {
 						libereSalle(carte[i]);
 					}
 					carte[i] = creerSalleProced(joueur.x, joueur.y,HAUT,mainwin,&nsalles);
-					carte[j]->portes[k].ouvert=1;
-					i++;
+					ouvrirPorte(carte,i-1, k, HAUT);
+					i++;					
 				}
 				if(carte[j]->portes[k].x+carte[j]->x==joueur.x-1 && carte[j]->portes[k].y+carte[j]->y==joueur.y && carte[j]->portes[k].ouvert==0){ //porte a gauche
 					if(carte[i] != NULL) {
 						libereSalle(carte[i]);
 					}
 					carte[i] = creerSalleProced(joueur.x, joueur.y,DROITE,mainwin,&nsalles);
-					carte[j]->portes[k].ouvert=1;
+					ouvrirPorte(carte,i-1, k, DROITE);
 					i++;
 				}
 				if(carte[j]->portes[k].x+carte[j]->x==joueur.x+1 && carte[j]->portes[k].y+carte[j]->y==joueur.y && carte[j]->portes[k].ouvert==0){ //porte a droite
@@ -91,8 +91,8 @@ int main()
 						libereSalle(carte[i]);
 					}
 					carte[i] = creerSalleProced(joueur.x, joueur.y,GAUCHE,mainwin,&nsalles);
-					carte[j]->portes[k].ouvert=1;
-					i++;
+					ouvrirPorte(carte,i-1, k, GAUCHE);
+					i++;					
 				}	
 			}
 		}
