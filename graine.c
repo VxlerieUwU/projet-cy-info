@@ -5,9 +5,10 @@ int creation_graine(){
 	Si le nombre est invalide plus de 3 fois de suite c'est à dire qu'il n'est pas un entier ou est trop 
  	grand, la graine est choisie aléatoirement.*/
   
-	int graine;
-	int verif_int; //Sert à vérifier que la graine est bien un entier.
+	int graine = -1;
+	int verif_int = 0; //Sert à vérifier que la graine est bien un entier.
 	int compteur_tentatives = 0; //Compte le nombre de fois que le nombre de la graine est invalide.
+	srand(time(NULL));
 	
 	do{
 		printf("Entrez une graine pour générer le jeu.\n");
