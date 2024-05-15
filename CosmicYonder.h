@@ -10,9 +10,7 @@
 #include <wchar.h>
 
 //Constantes
-#ifndef COSMICYONDER_H_
-#define COSMICYONDER_H_
-
+#define GRAPHIQUES_H_
 #define ESC 27
 #define INV_TAILLE 10 
 #define JOUEUR_H_
@@ -26,7 +24,6 @@
 #define UNICODE_STRING_LONG 10
 #define TAILLE_MAX_V 10
 #define TAILLE_MAX_H 20
-#define MAX_SALLES 10
 
 //Structures
 
@@ -102,15 +99,18 @@ enum{
 };
 
 //Fonctions
+
+//Cette fonction permet de creer une salle a partir de dimensions fixees a l'aide de creerSalleProced
 Salle * creerSalle(int taille_horizontale, int taille_verticale, int x, int y, int nportes, int entree, WINDOW* win, int* sallerest);
+//permet de creer des dimensions aleatoires pour generer une salle
 Salle * creerSalleProced(int x, int y, int dir, WINDOW* win, int* sallerest);
+//affiche une salle passee en parametre
 void dessineSalle(WINDOW * win, Salle * salle);
-void dessineSalles(WINDOW * win, Salle ** salle, int salles_existantes);
+//libere l'emplacement memoire de la salle
 void libereSalle(Salle * salle);
+//initialise la structure joueur
 void initJoueur(Joueur* joueur);
 //cette fonction gere les interactions du joueur avec le jeu, comme les mouvements ou les combats
-void interactions(int touche, Joueur* joueur, Salle ** carte, int salles_existantes, WINDOW* mainwin);
+void interactions(int touche, Joueur* joueur, WINDOW* mainwin); 
 //initialise un ennemi à l'aide d'attributs passés en paramètre
 Ennemi initEnnemi(int x, int y, int pv, int att, int def);
-
-#endif
