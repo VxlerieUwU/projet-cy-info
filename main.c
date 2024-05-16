@@ -1,6 +1,9 @@
 #include "CosmicYonder.h"
 #include "logger.h"
 
+#include "ui/ui.h"
+#include <ncurses.h>
+
 int main()
 {
 	char logBuffer[255];
@@ -27,12 +30,31 @@ int main()
 
 	// creer une fenetre de la taille du terminal ou le coin superieur gauche est a la position (0,0)
 	
-	box(mainwin,0,0); //creer un rectangle qui represente les bordures de l ecran
 	refresh();
 	wrefresh(mainwin); 
 	//refresh et wrefresh permettent de rafraichir l ecran pour y afficher ce qui est contenu dans la memoire
 	keypad(mainwin, true); // active la possibilite de lire certains caracteres commes les fleches du clavier
+	
+	Menu * menu = cosmicMenu(hauteur, longueur); //affiche le menu
 
+	renduFenetreMenu(mainwin, *menu, hauteur, longueur);
+	int touche = wgetch(mainwin);
+
+	while(touche != ESC && menu->selEtat == 0) {
+		touche = wgetch(mainwin);
+		renduBoutons(mainwin, menu->boutons, menu->selecteur, menu->nbBoutons);
+		entrees(menu, touche);
+		usleep(100);
+		wrefresh(mainwin);
+	}
+
+	wclear(mainwin);
+	if(menu->selecteur != 0) { // NOT IMPLEMENTED
+		endwin();//ferme la fenetre
+    	moveLog();
+		return 0;
+	}
+	
 	//init joueur
     Joueur joueur;
     initJoueur(&joueur);
@@ -55,7 +77,7 @@ int main()
 	mvwaddch(mainwin,joueur.y, joueur.x, 'o'); // positionne le curseur au centre de l ecran
 	//pour l instant, j ai represente le joueur avec le caractere 'o' pour tester le programme
 
-	int touche = wgetch(mainwin);//recupere touche pressee
+	touche = wgetch(mainwin);//recupere touche pressee
 
     logMessage(INFO, "fin init");
 	while(touche!=ESC){ // BOUCLE DU JEU
@@ -114,6 +136,7 @@ int main()
 		touche = wgetch(mainwin);
    		usleep(100);
 	}
+
     logMessage(INFO, "fin du programme");
     for(int i=0;i<nsalles;i++){
     	libereSalle(carte[i]);
