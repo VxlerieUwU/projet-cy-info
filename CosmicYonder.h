@@ -77,8 +77,12 @@ typedef struct{
 
 typedef struct{
     int pv;
-    int x;
-    int y;
+    //position globale de l'ennemi
+    int xGlobal;
+    int yGlobal;
+    //position relative de l'ennemi par rapport a l'origine de la salle ou il se trouve
+    int xRelatif;
+    int yRelatif;
     int att;
     int def;
 }Ennemi;
@@ -124,7 +128,10 @@ void initJoueur(Joueur* joueur);
 void interactions(int touche, Joueur* joueur, Salle ** carte, int salles_existantes, WINDOW* mainwin); 
 //initialise un ennemi à l'aide d'attributs passés en paramètre
 Ennemi initEnnemi(int x, int y, int pv, int att, int def);
-
+//gere les mouvements de l'ennemi
+void ennemimv(Ennemi* ennemi,Salle* salle,Joueur* joueur, WINDOW* mainwin);
+//affiche un ennemi
+void afficheEnnemi(Ennemi* ennemi, WINDOW* mainwin);
 int creation_graine(); //Crée la graine de génération du jeu.
 int maj_niveau(Joueur* joueur); //Gère mise à jour du niveau du joueur en fonction de son expérience
 int perte_vie(Joueur* joueur, Ennemi* ennemi); //Gère la perte de vie du joueur
