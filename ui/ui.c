@@ -19,10 +19,9 @@ void initCouleur() {
     init_pair(3, COLOR_BLUE, COLOR_BLACK);
     init_pair(4, COLOR_YELLOW, COLOR_BLACK);
     init_pair(5, COLOR_CYAN, COLOR_BLACK);
-	init_pair(6, COLOR_MAGENTA, COLOR_BLACK);
-  	init_pair(7, COLOR_WHITE, COLOR_BLACK);
-
-  	init_pair(8, COLOR_BLACK, COLOR_YELLOW);
+    init_pair(6, COLOR_MAGENTA, COLOR_BLACK);
+    init_pair(7, COLOR_WHITE, COLOR_BLACK);
+    init_pair(8, COLOR_BLACK, COLOR_YELLOW);
 }
 
 void renduTexte(WINDOW * win, Texte texte) {
