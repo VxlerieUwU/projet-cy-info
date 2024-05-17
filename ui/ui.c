@@ -7,7 +7,7 @@
 // TODO: libérer la mémoire mdrrrr
 
 void initCouleur() {
-	if(has_colors()) {
+    if(!has_colors()) {
         logMessage(WARNING, "erreur initialisation couleur");
         return;
     }

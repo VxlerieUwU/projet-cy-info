@@ -18,6 +18,7 @@ int main()
 	noecho(); //empeche d'afficher les caracteres saisis dans le terminal
 	cbreak(); //permet de quitter le programme avec Ctrl+c
 	curs_set(0); //rend le curseur invisible
+	initCouleur();
 	int hauteur, longueur;
 	int nsalles = MAX_SALLES;
 	int salles_existantes = 0; //compteur de salles existantes
@@ -29,7 +30,6 @@ int main()
 	clearBuf(logBuffer);
 
 	// creer une fenetre de la taille du terminal ou le coin superieur gauche est a la position (0,0)
-	
 	refresh();
 	wrefresh(mainwin); 
 	//refresh et wrefresh permettent de rafraichir l ecran pour y afficher ce qui est contenu dans la memoire
