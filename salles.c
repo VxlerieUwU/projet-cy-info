@@ -3,26 +3,23 @@
 
 Salle * creerSalle(int taille_horizontale, int taille_verticale, int x, int y, int nportes, int entree, WINDOW* win, int* sallesrest) {
     //boucle qui verifie que l emplacement de la salle est libre et la regenere si elle se superpose avec une autre salle
+    //verif win
+    if(win == NULL){
+        exit(1);
+    }
+    //verif sallesrest
+    if(sallesrest == NULL){
+        exit(2);
+    }
+    //verif taille
+    if(taille_horizontale<3 || taille_verticale<3){
+        exit(3);
+    }
+    
     for(int i=0;i<taille_verticale;i++){ 
         for(int j=0;j<taille_horizontale;j++){
             if(mvwinch(win,i+y,j+x)!=' '&&mvwinch(win,i+y,j+x)!='o'){
-                switch(entree){
-                    case DROITE:
-                        return creerSalleProced(x+taille_horizontale+1,y+taille_verticale/2,entree, win,sallesrest);
-                        break;
-                    case BAS:
-                        return creerSalleProced(x+taille_horizontale/2,y+taille_verticale+1,entree, win,sallesrest);
-                        break;
-                    case GAUCHE:
-                        return creerSalleProced(x-2,y+taille_verticale/2,entree, win,sallesrest);
-                        break;
-                    case HAUT:
-                        return creerSalleProced(x+taille_horizontale/2,y-2,entree, win,sallesrest);
-                        break;
-                    default:
-                        return creerSalleProced(x,y,entree, win,sallesrest);
-                        break;
-                }
+                creerSalle(taille_horizontale-j, taille_verticale-i, x, y, nportes, entree, win, sallesrest);
             }
         }
     }
