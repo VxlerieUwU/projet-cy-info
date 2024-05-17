@@ -15,7 +15,7 @@ Salle * creerSalle(int taille_horizontale, int taille_verticale, int x, int y, i
     if(taille_horizontale<3 || taille_verticale<3){
         exit(3);
     }
-    
+
     for(int i=0;i<taille_verticale;i++){ 
         for(int j=0;j<taille_horizontale;j++){
             if(mvwinch(win,i+y,j+x)!=' '&&mvwinch(win,i+y,j+x)!='o'){
@@ -101,10 +101,12 @@ Salle * creerSalle(int taille_horizontale, int taille_verticale, int x, int y, i
                 case GAUCHE:
                     salle->portes[0].x = 0;
                     salle->portes[0].y = taille_verticale/2;
+                    salle->portes[0].ouvert = 0;
                     break;
                 case DROITE:
                     salle->portes[0].x = taille_horizontale-1;
                     salle->portes[0].y = taille_verticale/2;
+                    salle->portes[0].ouvert = 0;
                     break;
                 case HAUT:
                     salle->portes[0].x = taille_horizontale/2;
@@ -113,6 +115,7 @@ Salle * creerSalle(int taille_horizontale, int taille_verticale, int x, int y, i
                 case BAS: 
                     salle->portes[0].x = taille_horizontale/2;
                     salle->portes[0].y = taille_verticale-1;
+                    salle->portes[0].ouvert = 0;
                     break;
             }
             //les conditions suivantes creent les autres portes
