@@ -13,13 +13,13 @@ Salle * creerSalle(int taille_horizontale, int taille_verticale, int x, int y, i
     }
     //verif taille
     if(taille_horizontale<3 || taille_verticale<3){
-        exit(3);
+        //exit(3);
     }
 
     for(int i=0;i<taille_verticale;i++){ 
         for(int j=0;j<taille_horizontale;j++){
-            if(mvwinch(win,i+y,j+x)!=' '&&mvwinch(win,i+y,j+x)!='o'){
-                creerSalle(taille_horizontale-j, taille_verticale-i, x, y, nportes, entree, win, sallesrest);
+            if(mvwinch(win,i+y,j+x)!=' '){
+                creerSalle(taille_horizontale-1, taille_verticale-1, x, y, nportes, entree, win, sallesrest);
             }
         }
     }
@@ -268,8 +268,8 @@ Salle * creerSalle(int taille_horizontale, int taille_verticale, int x, int y, i
 Salle * creerSalleProced(int x, int y, int dir, WINDOW* win, int* sallesrest) {
     //init attributs salles
     int v, h;
-    v = TAILLE_MAX_V-(rand()%(TAILLE_MAX_V-3));
-    h = TAILLE_MAX_H-(rand()%(TAILLE_MAX_H-4));
+    v = rand()%(TAILLE_MAX_V-2)+3;
+    h = rand()%(TAILLE_MAX_H-2)+3;
     //logs
     char logBuffer[50];
     sprintf(logBuffer, "taille verticale = %d, taille horizontale = %d", v, h);
