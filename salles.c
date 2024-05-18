@@ -2,7 +2,7 @@
 #include "CosmicYonder.h"
 /*Ce fichier contient les fonctions relatives au fonctionnement des salles*/
 
-Salle * creerSalle(int taille_horizontale, int taille_verticale, int x, int y, int nportes, int entree, WINDOW* win, int* sallesrest) {
+Salle * creerSalle(int taille_horizontale, int taille_verticale, int x, int y, int nportes, int entree, int posEntree, WINDOW* win, int* sallesrest) {
     //verif win
     if(win == NULL){
         exit(1);
@@ -13,14 +13,14 @@ Salle * creerSalle(int taille_horizontale, int taille_verticale, int x, int y, i
     }
     //verif taille
     if(taille_horizontale<3 || taille_verticale<3){
-        exit(3);
+        //exit(3);
     }
     
-    //boucle qui verifie que l emplacement de la salle est libre et la regenere si elle se superpose avec une autre salle
+    //boucle qui verifie que la salle ne se superpose pas avec une autre salle
     for(int i=0;i<taille_verticale;i++){ 
         for(int j=0;j<taille_horizontale;j++){
-            if(mvwinch(win,i+y,j+x)!=' '){
-                creerSalle(taille_horizontale-1, taille_verticale-1, x, y, nportes, entree, win, sallesrest);
+            if(mvwinch(win,y+i,x+j)!=' '){
+                creerSalle(j, i, x, y, nportes, entree,posEntree, win, sallesrest);
             }
         }
     }
@@ -77,21 +77,21 @@ Salle * creerSalle(int taille_horizontale, int taille_verticale, int x, int y, i
             switch(entree){
                 case GAUCHE:
                     salle->portes[0].x = 0;
-                    salle->portes[0].y = taille_verticale/2;
+                    salle->portes[0].y = posEntree;
                     salle->portes[0].ouvert = 0;
                     break;
                 case DROITE:
                     salle->portes[0].x = taille_horizontale-1;
-                    salle->portes[0].y = taille_verticale/2;
+                    salle->portes[0].y = posEntree;
                     salle->portes[0].ouvert = 0;
                     break;
                 case HAUT:
-                    salle->portes[0].x = taille_horizontale/2;
+                    salle->portes[0].x = posEntree;
                     salle->portes[0].y = 0;
                     salle->portes[0].ouvert = 0;
                     break;
                 case BAS: 
-                    salle->portes[0].x = taille_horizontale/2;
+                    salle->portes[0].x = posEntree;
                     salle->portes[0].y = taille_verticale-1;
                     salle->portes[0].ouvert = 0;
                     break;
@@ -256,6 +256,7 @@ Salle * creerSalleProced(int x, int y, int nportes, int dir, WINDOW* win, int* s
     int v, h;
     v = rand()%(TAILLE_MAX_V-2)+3;
     h = rand()%(TAILLE_MAX_H-2)+3;
+    int posEntree=0;
     //logs
     char logBuffer[50];
     sprintf(logBuffer, "taille verticale = %d, taille horizontale = %d", v, h);
@@ -268,22 +269,26 @@ Salle * creerSalleProced(int x, int y, int nportes, int dir, WINDOW* win, int* s
     switch(dir){ 
         case DROITE: 
             //genere la salle a gauche de la salle actuelle
-            return creerSalle(h, v, x-h-1, y-v/2, nportes, dir,win,sallesrest); 
+            posEntree = rand()%(v-2)+1; 
+            return creerSalle(h, v, x-h-1, y-posEntree, nportes, dir, posEntree, win, sallesrest); 
             break;
         case BAS: 
             //genere la salle en haut de la salle actuelle
-            return creerSalle(h, v, x-h/2, y-v-1, nportes, dir,win,sallesrest);
+            posEntree = rand()%(h-2)+1; 
+            return creerSalle(h, v, x-posEntree, y-v-1, nportes, dir,posEntree,win,sallesrest);
             break;
         case GAUCHE: 
             //genere la salle a droite de la salle actuelle
-            return creerSalle(h, v, x+2, y-v/2, nportes, dir,win,sallesrest);
+            posEntree = rand()%(v-2)+1; 
+            return creerSalle(h, v, x+2, y-posEntree, nportes, dir, posEntree, win,sallesrest);
             break;
         case HAUT: 
             //genere la salle en bas de la salle actuelle
-            return creerSalle(h, v, x-h/2, y+2, nportes, dir,win,sallesrest);
+            posEntree = rand()%(h-2)+1; 
+            return creerSalle(h, v, x-posEntree, y+2, nportes, dir,posEntree,win,sallesrest);
             break;
         default: 
-            return creerSalle(h, v, x, y, nportes, dir,win,sallesrest);
+            return creerSalle(h, v, x, y, nportes, dir,posEntree,win,sallesrest);
             break;
     }
 }
