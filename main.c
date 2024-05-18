@@ -81,7 +81,7 @@ int main()
 					salles_existantes++;			
 				}
 				//porte en bas
-				if(carte[j]->portes[k].x+carte[j]->x==joueur.x && carte[j]->portes[k].y+carte[j]->y==joueur.y+1 && carte[j]->portes[k].ouvert==0){ 
+				else if(carte[j]->portes[k].x+carte[j]->x==joueur.x && carte[j]->portes[k].y+carte[j]->y==joueur.y+1 && carte[j]->portes[k].ouvert==0){ 
 					if(carte[salles_existantes] != NULL) {
 						libereSalle(carte[salles_existantes]);
 					}
@@ -90,7 +90,7 @@ int main()
 					salles_existantes++;					
 				}
 				//porte a gauche
-				if(carte[j]->portes[k].x+carte[j]->x==joueur.x-1 && carte[j]->portes[k].y+carte[j]->y==joueur.y && carte[j]->portes[k].ouvert==0){ 
+				else if(carte[j]->portes[k].x+carte[j]->x==joueur.x-1 && carte[j]->portes[k].y+carte[j]->y==joueur.y && carte[j]->portes[k].ouvert==0){ 
 					if(carte[salles_existantes] != NULL) {
 						libereSalle(carte[salles_existantes]);
 					}
@@ -99,7 +99,7 @@ int main()
 					salles_existantes++;
 				}
 				//porte a droite
-				if(carte[j]->portes[k].x+carte[j]->x==joueur.x+1 && carte[j]->portes[k].y+carte[j]->y==joueur.y && carte[j]->portes[k].ouvert==0){ 
+				else if(carte[j]->portes[k].x+carte[j]->x==joueur.x+1 && carte[j]->portes[k].y+carte[j]->y==joueur.y && carte[j]->portes[k].ouvert==0){ 
 					if(carte[salles_existantes] != NULL) {
 						libereSalle(carte[salles_existantes]);
 					}

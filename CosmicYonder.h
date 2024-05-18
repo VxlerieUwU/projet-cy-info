@@ -119,8 +119,9 @@ void dessineSalles(WINDOW * win, Salle ** salle, int salles_existantes);
 void dessineSalle(WINDOW * win, Salle * salle);
 //libere l'emplacement memoire de la salle
 void libereSalle(Salle * salle);
+//fonction constructeur de la porte
+Porte initPorte(int dir,int v,int h);
 // Ouverture de porte
-
 void ouvrirPorte(Salle ** carte, int indexSalleAct,int indexNouvSalle, int indexPorte, int dir);
 //initialise la structure joueur
 void initJoueur(Joueur* joueur);

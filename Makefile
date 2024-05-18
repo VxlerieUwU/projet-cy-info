@@ -5,7 +5,7 @@ EXEC=jeu
 
 all: jeu
 
-jeu: logger.o graphics.o salles.o joueur.o main.o interactions.o graine.o ennemi.o
+jeu: logger.o graphics.o salles.o joueur.o main.o interactions.o graine.o ennemi.o porte.o
 	$(CC) -o $@ $^ $(LDFLAGS)
 
 logger.o: logger.c
@@ -30,7 +30,10 @@ interactions.o: interactions.c
 ennemi.o: ennemi.c
 	$(CC) -o $@ -c $< $(CFLAGS)
 
-main.o: main.c logger.c graphics.c salles.c joueur.c interactions.c ennemi.c graine.c
+porte.o: porte.c
+	$(CC) -o $@ -c $< $(CFLAGS)
+
+main.o: main.c logger.c graphics.c salles.c joueur.c interactions.c ennemi.c graine.c porte.c
 	$(CC) -o $@ -c $< $(CFLAGS)
 
 clean:
