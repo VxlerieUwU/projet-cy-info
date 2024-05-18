@@ -87,20 +87,28 @@ Salle * creerSalle(int taille_horizontale, int taille_verticale, int x, int y, i
             // cree la porte d'entree, ici porte[0] = porte d'entree
             switch(entree){
                 case GAUCHE:
-                    salle->portes[0] = initPorte(GAUCHE,taille_verticale,taille_horizontale);
+                    salle->portes[0].x = 0;
+                    salle->portes[0].y = taille_verticale/2;
+                    salle->portes[0].ouvert = 0;
                     break;
                 case DROITE:
-                    salle->portes[0] = initPorte(DROITE,taille_verticale,taille_horizontale);
+                    salle->portes[0].x = taille_horizontale-1;
+                    salle->portes[0].y = taille_verticale/2;
+                    salle->portes[0].ouvert = 0;
                     break;
                 case HAUT:
-                    salle->portes[0] = initPorte(HAUT,taille_verticale,taille_horizontale);
+                    salle->portes[0].x = taille_horizontale/2;
+                    salle->portes[0].y = 0;
+                    salle->portes[0].ouvert = 0;
                     break;
                 case BAS: 
-                    salle->portes[0] = initPorte(BAS,taille_verticale,taille_horizontale);
+                    salle->portes[0].x = taille_horizontale/2;
+                    salle->portes[0].y = taille_verticale-1;
+                    salle->portes[0].ouvert = 0;
                     break;
             }
             //les conditions suivantes creent les autres portes
-            if(nportes==3){
+            if(nportes==4){
                 if(entree!=DROITE && *sallesrest>0){
                     salle->portes[1] = initPorte(DROITE,taille_verticale,taille_horizontale);
                     (*sallesrest)--;
@@ -324,3 +332,4 @@ void libereSalle(Salle * salle) {
     free(salle->disp);
     free(salle);
 }
+

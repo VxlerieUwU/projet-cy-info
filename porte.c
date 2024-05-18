@@ -27,8 +27,8 @@ Porte initPorte(int dir,int v,int h){
             porte.ouvert = 0;
             break;
         default:
-            porte.x = (rand() % (h-2)) + 1;
-            porte.y = v-1;
+            porte.x = -1;
+            porte.y = -1;
             porte.ouvert = 1;
             break;
     }
