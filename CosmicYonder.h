@@ -112,7 +112,7 @@ enum{
 //Cette fonction permet de creer une salle a partir de dimensions fixees a l'aide de creerSalleProced
 Salle * creerSalle(int taille_horizontale, int taille_verticale, int x, int y, int nportes, int entree, WINDOW* win, int* sallerest);
 //permet de creer des dimensions aleatoires pour generer une salle
-Salle * creerSalleProced(int x, int y, int dir, WINDOW* win, int* sallerest);
+Salle * creerSalleProced(int x, int y, int nportes, int dir, WINDOW* win, int* sallerest);
 //permet d'afficher toutes les salles
 void dessineSalles(WINDOW * win, Salle ** salle, int salles_existantes);
 //affiche une salle passee en parametre
