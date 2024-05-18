@@ -55,7 +55,7 @@ Salle * creerSalle(int taille_horizontale, int taille_verticale, int x, int y, i
         if(entree==-1) { //4 portes, salle de départ
             if(*sallesrest>0){
                 salle->portes[0].x = 0;
-                salle->portes[0].y = (rand() % (taille_verticale-1)) + 1;
+                salle->portes[0].y = (rand() % (taille_verticale-2)) + 1;
                 salle->portes[0].ouvert = 0;
                 (*sallesrest)--;
             }
@@ -64,7 +64,7 @@ Salle * creerSalle(int taille_horizontale, int taille_verticale, int x, int y, i
                 salle->portes[0].y = -1;
             }
             if(*sallesrest>0){
-                salle->portes[1].x = (rand() % (taille_horizontale-1)) + 1;
+                salle->portes[1].x = (rand() % (taille_horizontale-2)) + 1;
                 salle->portes[1].y = 0;
                 salle->portes[1].ouvert = 0;
                 (*sallesrest)--;
@@ -75,7 +75,7 @@ Salle * creerSalle(int taille_horizontale, int taille_verticale, int x, int y, i
             }
             if(*sallesrest>0){
                 salle->portes[2].x = taille_horizontale-1;
-                salle->portes[2].y = (rand() % (taille_verticale-1)) + 1;
+                salle->portes[2].y = (rand() % (taille_verticale-2)) + 1;
                 salle->portes[2].ouvert = 0;
                 (*sallesrest)--;
             }
@@ -84,7 +84,7 @@ Salle * creerSalle(int taille_horizontale, int taille_verticale, int x, int y, i
                 salle->portes[2].y = -1;
             }
             if(*sallesrest>0){
-                salle->portes[3].x = (rand() % (taille_horizontale-1)) + 1;
+                salle->portes[3].x = (rand() % (taille_horizontale-2)) + 1;
                 salle->portes[3].y = taille_verticale-1;
                 salle->portes[3].ouvert = 0;
                 (*sallesrest)--;
@@ -121,13 +121,13 @@ Salle * creerSalle(int taille_horizontale, int taille_verticale, int x, int y, i
             //les conditions suivantes creent les autres portes
             if(entree!=DROITE && *sallesrest>0){
                 salle->portes[1].x = taille_horizontale-1;
-                salle->portes[1].y = (rand() % (taille_verticale-1)) + 1;
+                salle->portes[1].y = (rand() % (taille_verticale-2)) + 1;
                 salle->portes[1].ouvert = 0;
                 (*sallesrest)--;
             } 
             else if(*sallesrest>0){
                 salle->portes[1].x = 0;
-                salle->portes[1].y = (rand() % (taille_verticale-1)) + 1;
+                salle->portes[1].y = (rand() % (taille_verticale-2)) + 1;
                 salle->portes[1].ouvert = 0;
                 (*sallesrest)--;  
             }
@@ -137,13 +137,13 @@ Salle * creerSalle(int taille_horizontale, int taille_verticale, int x, int y, i
             }
 
             if(entree!=BAS && *sallesrest>0){
-                salle->portes[2].x = (rand() % (taille_horizontale-1)) + 1;
+                salle->portes[2].x = (rand() % (taille_horizontale-2)) + 1;
                 salle->portes[2].y = taille_verticale-1;
                 salle->portes[2].ouvert = 0;
                 (*sallesrest)--;
             } 
             else if(*sallesrest>0){
-                salle->portes[2].x = (rand() % (taille_horizontale-1)) + 1;
+                salle->portes[2].x = (rand() % (taille_horizontale-2)) + 1;
                 salle->portes[2].y = 0;
                 salle->portes[2].ouvert = 0;
                 (*sallesrest)--;
@@ -154,14 +154,14 @@ Salle * creerSalle(int taille_horizontale, int taille_verticale, int x, int y, i
             } 
 
             if((entree==DROITE||entree==GAUCHE) && *sallesrest>0){
-                salle->portes[3].x = (rand() % (taille_horizontale-1)) + 1;
+                salle->portes[3].x = (rand() % (taille_horizontale-2)) + 1;
                 salle->portes[3].y = 0;
                 salle->portes[3].ouvert = 0;
                 (*sallesrest)--;
             } 
             else if((entree==BAS||entree==HAUT) && *sallesrest>0){
                 salle->portes[3].x = 0;
-                salle->portes[3].y = (rand() % (taille_verticale-1)) + 1;
+                salle->portes[3].y = (rand() % (taille_verticale-2)) + 1;
                 salle->portes[3].ouvert = 0;
                 (*sallesrest)--;  
             } 
