@@ -348,6 +348,18 @@ Salle * creerSalle(int taille_horizontale, int taille_verticale, int x, int y, i
     //Bord inférieur droit
     salle->disp[taille_verticale-1][0] = MUR_INFD;
 
+    //ALLOCATION OBJETS
+    int objets_existants = 0; //Objets existants dans la salle à sa création soit 0
+    for(int i = 0; i<3;i++){ //Il peut y avoir jusqu'à 3 objets par salle
+        /* Le pourcentage de chance d'apparition d'objets diminue en fonction du nombre
+        d'objets dans la salle (60% si 0, 30% si 1, 20% si 2)*/
+        if(rand()%100 <= (60/(objets_existants+1))){ 
+            objets[objets_existants] = salle->apparition_objet(salle); 
+        }
+    } 
+    
+
+
     return salle;
 }
 
@@ -453,6 +465,30 @@ void dessineSalle(WINDOW * win, Salle * salle) {
                 case VIDE:
                     //mvwaddstr(win, salle->y+i, salle->x+j, " ");
                     break;
+
+                /*TODO : Caractères unicodes pour les objets
+                case BOUTEILLE_O2:
+                    mvwaddstr(win, salle->y+i, salle->x+j, );
+                    break;
+                case BANDAGE:
+                    mvwaddstr(win, salle->y+i, salle->x+j, );
+                    break;
+                case CLE:
+                    mvwaddstr(win, salle->y+i, salle->x+j, );
+                    break;
+                case GENERATEUR:
+                    mvwaddstr(win, salle->y+i, salle->x+j, );
+                    break;
+                case REACTEUR_1:
+                    mvwaddstr(win, salle->y+i, salle->x+j, );
+                    break;
+                case REACTEUR_2:
+                    mvwaddstr(win, salle->y+i, salle->x+j, );
+                    break;
+                case PC:
+                    mvwaddstr(win, salle->y+i, salle->x+j, );
+                    break;
+                */
             }
         }
     }

@@ -164,7 +164,9 @@ int main()
 						ouvrirPorte(carte,j,salles_existantes, k, GAUCHE);
 						dessineSalle(mainwin, carte[salles_existantes]);	
 						salles_existantes++;	
-					}	
+					}
+
+						
 				}	
 			}
 		}

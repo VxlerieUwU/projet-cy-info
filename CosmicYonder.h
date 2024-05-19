@@ -28,6 +28,37 @@
 #define MAX_SALLES 10
 #define FRAMES_PER_SECOND 60
 
+//Enumération des différents objets
+typedef enum{
+    BOUTEILLE_O2, //Objet commun
+    BANDAGE, //Objet commun
+    CLE, //Objet commun
+    GENERATEUR, //Objet à récupérer pour gagner
+    REACTEUR_1, // Objet à récupérer pour gagner
+    REACTEUR_2, // Objet à récupérer pour gagner
+    PC, // Objet à récupérer pour gagner
+}Id;
+
+//Enumération des élements possibles de la salle
+enum {
+    MUR_SUPG,
+    MUR_INFD,
+    MUR_SUPD,
+    MUR_INFG,
+    MUR_HORIZ,
+    MUR_VERTI,
+    VIDE,
+    PORTE,
+};
+
+//Enumération des directions
+enum{
+    DROITE,
+    BAS,
+    GAUCHE,
+    HAUT
+};
+
 //Structures
 
 typedef struct {
@@ -35,7 +66,7 @@ typedef struct {
     int x;
     int y;
     int compteur;
-    int id;
+    Id id;
 }Objet;
 
 typedef struct{
@@ -69,6 +100,7 @@ typedef struct {
     int decouvert; //1 si oui 0 si non
     Porte * portes; //Portes de la salle
     int nportes; //Nombres de portes de la salle
+    Objet* objets[3];
 }Salle;
 
 typedef struct{
@@ -88,25 +120,6 @@ typedef struct{
     int def;
 }Ennemi;
 
-//Enumération des élements possibles de la salle
-enum {
-    MUR_SUPG,
-    MUR_INFD,
-    MUR_SUPD,
-    MUR_INFG,
-    MUR_HORIZ,
-    MUR_VERTI,
-    VIDE,
-    PORTE,
-};
-
-//Enumération des directions
-enum{
-    DROITE,
-    BAS,
-    GAUCHE,
-    HAUT
-};
 
 //Fonctions
 
@@ -139,5 +152,9 @@ int creation_graine(EntreeTexte * graineEntree); //Crée la graine de générati
 
 int maj_niveau(Joueur* joueur); //Gère mise à jour du niveau du joueur en fonction de son expérience
 int perte_vie(Joueur* joueur, Ennemi* ennemi); //Gère la perte de vie du joueur
+
+Objet* creation_objet(Salle* salle, int objets_speciaux_apparus); //Crée un objet
+Objet* apparition_objet(Salle* salle, int objets_speciaux_apparus); //Fait apparaitre l'objet dans une salle
+ 
 
 #endif
