@@ -116,6 +116,10 @@ MiniMenu *pauseMenu(int x, int y, int hauteur, int largeur) {
     return pause;
 }
 
+MiniMenu * sauvegardeMenu(int x, int y, int hauteur, int largeur) {
+
+}
+
 EntreeTexte * graineMenu(int x, int y, int hauteur, int largeur) {
     Texte * titre;
     EntreeTexte *graine;
@@ -130,6 +134,19 @@ EntreeTexte * graineMenu(int x, int y, int hauteur, int largeur) {
     return graine;
 }
 
+EntreeTexte * sauvegardeEntree(int x, int y, int hauteur, int largeur) {
+    Texte * titre;
+    EntreeTexte *sauvegarde;
+    char **titreTexte = NULL;
+    titreTexte = (char **) malloc(sizeof(char) * (43 + 34));
+    titreTexte[0] = "Nom de la sauvegarde";
+    titreTexte[1] = "";
+
+    titre = creerTexte(largeur/2 + x - 20, y + hauteur/2 - 4, titreTexte, 2, 6);
+
+    sauvegarde = creerEntreeTexte(x - 10 + largeur/2, y + hauteur/2 + 2, 18, 4, titre);
+    return sauvegarde;
+}
 
 
 
