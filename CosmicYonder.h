@@ -77,8 +77,12 @@ typedef struct{
 
 typedef struct{
     int pv;
-    int x;
-    int y;
+    //position globale de l'ennemi
+    int xGlobal;
+    int yGlobal;
+    //position relative de l'ennemi par rapport a l'origine de la salle ou il se trouve
+    int xRelatif;
+    int yRelatif;
     int att;
     int def;
 }Ennemi;
@@ -106,17 +110,18 @@ enum{
 //Fonctions
 
 //Cette fonction permet de creer une salle a partir de dimensions fixees a l'aide de creerSalleProced
-Salle * creerSalle(int taille_horizontale, int taille_verticale, int x, int y, int nportes, int entree, WINDOW* win, int* sallerest);
+Salle * creerSalle(int taille_horizontale, int taille_verticale, int x, int y, int nportes, int entree, int posEntree, WINDOW* win, int* sallerest);
 //permet de creer des dimensions aleatoires pour generer une salle
-Salle * creerSalleProced(int x, int y, int dir, WINDOW* win, int* sallerest);
+Salle * creerSalleProced(int x, int y, int nportes, int dir, WINDOW* win, int* sallerest);
 //permet d'afficher toutes les salles
 void dessineSalles(WINDOW * win, Salle ** salle, int salles_existantes);
 //affiche une salle passee en parametre
 void dessineSalle(WINDOW * win, Salle * salle);
 //libere l'emplacement memoire de la salle
 void libereSalle(Salle * salle);
+//fonction constructeur de la porte
+Porte initPorte(int dir,int v,int h);
 // Ouverture de porte
-
 void ouvrirPorte(Salle ** carte, int indexSalleAct,int indexNouvSalle, int indexPorte, int dir);
 //initialise la structure joueur
 void initJoueur(Joueur* joueur);
@@ -124,8 +129,13 @@ void initJoueur(Joueur* joueur);
 void interactions(int touche, Joueur* joueur, Salle ** carte, int salles_existantes, WINDOW* mainwin); 
 //initialise un ennemi à l'aide d'attributs passés en paramètre
 Ennemi initEnnemi(int x, int y, int pv, int att, int def);
+//gere les mouvements de l'ennemi
+void ennemimv(Ennemi* ennemi,Salle* salle,Joueur* joueur, WINDOW* mainwin);
+//affiche un ennemi
+void afficheEnnemi(Ennemi* ennemi, WINDOW* mainwin);
 
 int creation_graine(EntreeTexte * graineEntree); //Crée la graine de génération du jeu.
+
 int maj_niveau(Joueur* joueur); //Gère mise à jour du niveau du joueur en fonction de son expérience
 int perte_vie(Joueur* joueur, Ennemi* ennemi); //Gère la perte de vie du joueur
 

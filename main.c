@@ -104,9 +104,18 @@ int main()
     }
 
     //creation de la premiere salle
-	carte[0] = creerSalleProced(joueur.x-2, joueur.y-2,-1,mainwin, &nsalles);
+	carte[0] = creerSalleProced(longueur/2, hauteur/2, 4, -1,mainwin, &nsalles);
 	salles_existantes++;
 	
+	//init joueur
+    Joueur joueur;
+    initJoueur(&joueur);
+    joueur.x = carte[0]->x + carte[0]->longueur/2;
+    joueur.y = carte[0]->y + carte[0]->hauteur/2;
+
+    //init ennemi
+    Ennemi ennemi = initEnnemi(5,5,10,10,10);
+
 	mvwaddch(mainwin,joueur.y, joueur.x, 'o'); // positionne le curseur au centre de l ecran
 	//pour l instant, j ai represente le joueur avec le caractere 'o' pour tester le programme
 
@@ -121,49 +130,55 @@ int main()
 				/*conditions servent a creer une salle quand le joueur passe devant une porte, 
 				en fonction de la position de la porte par rapport au joueur
 				verifie parmi le tableau de salles si une porte se trouve a cote du joueur et cree une salle si c'est le cas*/
-
-				//porte en haut
-				if(carte[j]->portes[k].x+carte[j]->x==joueur.x && carte[j]->portes[k].y+carte[j]->y==joueur.y-1 && carte[j]->portes[k].ouvert==0){ 
-					if(carte[salles_existantes] != NULL) {  
-						libereSalle(carte[salles_existantes]);
+				if(carte[j]->portes[k].ouvert==0){
+					//porte en haut
+					if(carte[j]->portes[k].x+carte[j]->x==joueur.x && carte[j]->portes[k].y+carte[j]->y==joueur.y-1){ 
+						if(carte[salles_existantes] != NULL) {  
+							libereSalle(carte[salles_existantes]);
+						}
+						carte[salles_existantes] = creerSalleProced(joueur.x, joueur.y,4,BAS,mainwin, &nsalles);
+						ouvrirPorte(carte,j,salles_existantes, k, BAS);
+						dessineSalle(mainwin, carte[salles_existantes]);
+						salles_existantes++;			
 					}
-					carte[salles_existantes] = creerSalleProced(joueur.x, joueur.y,BAS,mainwin, &nsalles);
-					ouvrirPorte(carte,j,salles_existantes, k, BAS);
-					salles_existantes++;			
-				}
-				//porte en bas
-				if(carte[j]->portes[k].x+carte[j]->x==joueur.x && carte[j]->portes[k].y+carte[j]->y==joueur.y+1 && carte[j]->portes[k].ouvert==0){ 
-					if(carte[salles_existantes] != NULL) {
-						libereSalle(carte[salles_existantes]);
+					//porte en bas
+					else if(carte[j]->portes[k].x+carte[j]->x==joueur.x && carte[j]->portes[k].y+carte[j]->y==joueur.y+1){ 
+						if(carte[salles_existantes] != NULL) {
+							libereSalle(carte[salles_existantes]);
+						}
+						carte[salles_existantes] = creerSalleProced(joueur.x, joueur.y,4,HAUT,mainwin,&nsalles);
+						ouvrirPorte(carte,j,salles_existantes, k, HAUT);
+						dessineSalle(mainwin, carte[salles_existantes]);
+						salles_existantes++;	
 					}
-					carte[salles_existantes] = creerSalleProced(joueur.x, joueur.y,HAUT,mainwin,&nsalles);
-					ouvrirPorte(carte,j,salles_existantes, k, HAUT);
-					salles_existantes++;					
-				}
-				//porte a gauche
-				if(carte[j]->portes[k].x+carte[j]->x==joueur.x-1 && carte[j]->portes[k].y+carte[j]->y==joueur.y && carte[j]->portes[k].ouvert==0){ 
-					if(carte[salles_existantes] != NULL) {
-						libereSalle(carte[salles_existantes]);
+					//porte a gauche
+					else if(carte[j]->portes[k].x+carte[j]->x==joueur.x-1 && carte[j]->portes[k].y+carte[j]->y==joueur.y){ 
+						if(carte[salles_existantes] != NULL) {
+							libereSalle(carte[salles_existantes]);
+						}
+						carte[salles_existantes] = creerSalleProced(joueur.x, joueur.y,4,DROITE,mainwin,&nsalles);
+						ouvrirPorte(carte,j,salles_existantes, k, DROITE);
+						dessineSalle(mainwin, carte[salles_existantes]);
+						salles_existantes++;
 					}
-					carte[salles_existantes] = creerSalleProced(joueur.x, joueur.y,DROITE,mainwin,&nsalles);
-					ouvrirPorte(carte,j,salles_existantes, k, DROITE);
-					salles_existantes++;
-				}
-				//porte a droite
-				if(carte[j]->portes[k].x+carte[j]->x==joueur.x+1 && carte[j]->portes[k].y+carte[j]->y==joueur.y && carte[j]->portes[k].ouvert==0){ 
-					if(carte[salles_existantes] != NULL) {
-						libereSalle(carte[salles_existantes]);
-					}
-					carte[salles_existantes] = creerSalleProced(joueur.x, joueur.y,GAUCHE,mainwin,&nsalles);
-					ouvrirPorte(carte,j,salles_existantes, k, GAUCHE);
-					salles_existantes++;					
+					//porte a droite
+					else if(carte[j]->portes[k].x+carte[j]->x==joueur.x+1 && carte[j]->portes[k].y+carte[j]->y==joueur.y){ 
+						if(carte[salles_existantes] != NULL) {
+							libereSalle(carte[salles_existantes]);
+						}
+						carte[salles_existantes] = creerSalleProced(joueur.x, joueur.y,4,GAUCHE,mainwin,&nsalles);
+						ouvrirPorte(carte,j,salles_existantes, k, GAUCHE);
+						dessineSalle(mainwin, carte[salles_existantes]);	
+						salles_existantes++;	
+					}	
 				}	
 			}
 		}
 		interactions(touche, &joueur,carte, salles_existantes, mainwin);
-
+		//ennemimv(&ennemi,carte[0],&joueur,mainwin);
 		wclear(mainwin);
 		dessineSalles(mainwin, carte, salles_existantes);
+		//afficheEnnemi(&ennemi, mainwin);
 		mvwaddch(mainwin,joueur.y,joueur.x, 'o'); //deplace le joueur a la nouvelle position
 		wrefresh(mainwin);
 		touche = wgetch(mainwin);
