@@ -11,18 +11,113 @@ Salle * creerSalle(int taille_horizontale, int taille_verticale, int x, int y, i
     if(sallesrest == NULL){
         exit(2);
     }
-    //verif taille
-    if(taille_horizontale<3 || taille_verticale<3){
-        //exit(3);
-    }
     
     //boucle qui verifie que la salle ne se superpose pas avec une autre salle
-    for(int i=0;i<taille_verticale;i++){ 
-        for(int j=0;j<taille_horizontale;j++){
-            if(mvwinch(win,y+i,x+j)!=' '){
-                creerSalle(j, i, x, y, nportes, entree,posEntree, win, sallesrest);
-            }
+    int i; //compteur
+    int se_superpose; //variable qui determine si la salle se superpose
+
+    do{
+        i=0;
+        se_superpose=0;
+        switch(entree){
+            case GAUCHE:
+                while(i<taille_horizontale || i<taille_verticale){
+                    if(i<taille_horizontale && taille_horizontale>3){
+                        if(mvwinch(win,y,x+i)!=' '||mvwinch(win,y+taille_verticale-1,x+i)!=' '){
+                            taille_horizontale--;
+                            se_superpose=1;
+                        }
+                    }
+                    if(i<taille_verticale && taille_verticale>3){
+                        if(mvwinch(win,y+i,x)!=' '||mvwinch(win,y+i,x+taille_horizontale-1)!=' '){
+                            if(i<posEntree){
+                                y++;
+                            }
+                            else{
+                                taille_verticale--;
+                            }
+                            se_superpose=1;
+                        }
+                    }
+                    i++;
+                }
+                break;
+            case DROITE:
+                while(i<taille_horizontale || i<taille_verticale){
+                    if(i<taille_horizontale && taille_horizontale>3){
+                        if(mvwinch(win,y,x+i)!=' '||mvwinch(win,y+taille_verticale-1,x+i)!=' '){
+                            x++;
+                            taille_horizontale--;
+                            se_superpose=1;
+                        }
+                    }
+                    if(i<taille_verticale && taille_verticale>3){
+                        if(mvwinch(win,y+i,x)!=' '||mvwinch(win,y+i,x+taille_horizontale-1)!=' '){
+                            if(i<posEntree){
+                                y++;
+                            }
+                            else{
+                                taille_verticale--;
+                            }
+                            se_superpose=1;
+                        }
+                    }
+                    i++;
+                }
+                break;
+            case HAUT:
+                while(i<taille_horizontale || i<taille_verticale){
+                    if(i<taille_horizontale && taille_horizontale>3){
+                        if(mvwinch(win,y,x+i)!=' '||mvwinch(win,y+taille_verticale-1,x+i)!=' '){
+                            if(i<posEntree){
+                                x++;
+                            }
+                            else{
+                                taille_horizontale--;
+                            }
+                            se_superpose=1;
+                        }
+                    }
+                    if(i<taille_verticale && taille_verticale>3){
+                        if(mvwinch(win,y+i,x)!=' '||mvwinch(win,y+i,x+taille_horizontale-1)!=' '){
+                            taille_verticale--;
+                            se_superpose=1;
+                        }
+                    }
+                    i++;
+                }
+                break;
+            case BAS:    
+                while(i<taille_horizontale || i<taille_verticale){
+                    if(i<taille_horizontale && taille_horizontale>3){
+                        if(mvwinch(win,y,x+i)!=' '||mvwinch(win,y+taille_verticale-1,x+i)!=' '){
+                            if(i<posEntree){
+                                x++;
+                            }
+                            else{
+                                taille_horizontale--;
+                            }
+                            se_superpose=1;
+                        }
+                    }
+                    if(i<taille_verticale && taille_verticale>3){
+                        if(mvwinch(win,y+i,x)!=' '||mvwinch(win,y+i,x+taille_horizontale-1)!=' '){
+                            y++;
+                            taille_verticale--;
+                            se_superpose=1;
+                        }
+                    }
+                    i++;
+                }
+                break;
+            default:
+                break;  
         }
+    }while(se_superpose==1);
+
+    //verif taille
+    if(taille_horizontale<3 || taille_verticale<3){
+        exit(3);
     }
 
     //allocation salle
