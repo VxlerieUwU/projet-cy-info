@@ -89,12 +89,6 @@ int main()
     // init graine
     graine = creation_graine(graineEntree);
     srand(graine);
-	//init joueur
-    Joueur joueur;
-    initJoueur(&joueur);
-    joueur.x = longueur/2;
-    joueur.y = hauteur/2;
-
     //init carte
     Salle** carte;
     carte = malloc(MAX_SALLES * sizeof(Salle));
