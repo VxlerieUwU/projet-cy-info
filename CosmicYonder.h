@@ -21,6 +21,7 @@
 #define MUR_INFG_CHR "\u255D"
 #define MUR_INFD_CHR "\u255A"
 #define PORTE_CHR "\u25A2"
+#define MARQUAGE_CHR "\u2800"
 #define UNICODE_STRING_LONG 10
 #define TAILLE_MAX_V 10
 #define TAILLE_MAX_H 20
