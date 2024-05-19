@@ -7,8 +7,7 @@
 #include <string.h>
 #include <time.h>
 #include <unistd.h>
-#include <wchar.h>
-
+#include "ui/ui.h"
 //Constantes
 #ifndef COSMICYONDER_H_
 #define COSMICYONDER_H_
@@ -26,6 +25,7 @@
 #define TAILLE_MAX_V 10
 #define TAILLE_MAX_H 20
 #define MAX_SALLES 10
+#define FRAMES_PER_SECOND 60
 
 //Structures
 
@@ -133,7 +133,9 @@ Ennemi initEnnemi(int x, int y, int pv, int att, int def);
 void ennemimv(Ennemi* ennemi,Salle* salle,Joueur* joueur, WINDOW* mainwin);
 //affiche un ennemi
 void afficheEnnemi(Ennemi* ennemi, WINDOW* mainwin);
-int creation_graine(); //Crée la graine de génération du jeu.
+
+int creation_graine(EntreeTexte * graineEntree); //Crée la graine de génération du jeu.
+
 int maj_niveau(Joueur* joueur); //Gère mise à jour du niveau du joueur en fonction de son expérience
 int perte_vie(Joueur* joueur, Ennemi* ennemi); //Gère la perte de vie du joueur
 
