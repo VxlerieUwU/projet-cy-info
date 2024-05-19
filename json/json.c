@@ -135,6 +135,8 @@ JSONValue parseJSONValue(char **str) {
     return v;
 }
 
+
+
 JSONObject * parseJSONObject(char ** str) {
     if (!chrLookup(str, '{')) {
         //logMessage(CRITICAL, "erreur parseJSONObject, { manquant");
@@ -165,5 +167,144 @@ JSONObject * parseJSONObject(char ** str) {
     return object;
 }
 
+char * serializeJSONString(JSONValue str) {
+    char * result = NULL;
+    result = malloc(strlen(str.stringValue) + 3);
+    if (result == NULL) {
+        //logMessage(CRITICAL, "erreur malloc result serializeJSONString");
+        exit(1);
+    }
+    sprintf(result, "\"%s\"", str.stringValue);
+    return result;
+}
 
+char * serializeJSONInt(JSONValue i) {
+    char * result = NULL;
+    result = malloc(sizeof(char) * );
+    if (result == NULL) {
+        //logMessage(CRITICAL, "erreur malloc result serializeJSONInt");
+        exit(1);
+    }
+    sprintf(result, "%d", i.numberValue);
+    return result;
+}
+
+char * serializeJSONBool(JSONValue b) {
+    char * result = NULL;
+    result = malloc(sizeof(char) * 6);
+    if (result == NULL) {
+        logMessage(CRITICAL, "erreur malloc result serializeJSONBool");
+        exit(1);
+    }
+    if (b.boolValue) {
+        sprintf(result, "true");
+    } else {
+        sprintf(result, "false");
+    }
+    return result;
+}
+
+char * serializeJSONArray(JSONArray a) {
+    char * result = NULL;
+    char * finalString = NULL;
+    char * value = NULL;
+
+    result = malloc(sizeof(char));
+    if (result == NULL) {
+        logMessage(CRITICAL, "erreur malloc result serializeJSONArray");
+        exit(1);
+    }
+    result[0] = '\0';
+    for (int i = 0; i < a.length; i++) {
+        switch (a.values[i].value.type) {
+            case JSON_STRING:
+                value = serializeJSONString(a.values[i].value);
+                break;
+            case JSON_NUMBER:
+                value = serializeJSONInt(a.values[i].value);
+                break;
+            case JSON_BOOL:
+                value = serializeJSONBool(a.values[i].value);
+                break;
+            case JSON_OBJECT:
+                value = serializeJSONObject(*a.values[i].value.objectValue);
+                break;
+            case JSON_ARRAY:
+                value = serializeJSONArray(*a.values[i].value.arrayValue);
+                break;
+            default:
+                logMessage(CRITICAL, "erreur serializeJSONArray");
+                exit(1);
+        }
+        result = realloc(result, strlen(result) + strlen(value) + 2);
+        strcat(result, value);
+        if (i < a.length - 1) {
+            result = realloc(result, strlen(result) + 2); // agrandit l'allocation suivant les données restantes
+            strcat(result, ",");
+        }
+        free(value);
+    }
+    finalString = malloc(strlen(result) + 3);
+    if (finalString == NULL) {
+        logMessage(CRITICAL, "erreur malloc finalResult serializeJSONArray");
+        exit(1);
+    }
+    sprintf(finalString, "[%s]", result);
+    free(result);
+    return finalString;
+}
+
+char * serializeJSONObject(JSONObject o) {
+    char * result = NULL;
+    char * value = NULL;
+    char * finalString = NULL;
+
+    result = malloc(sizeof(char));
+    if (result == NULL) {
+        logMessage(CRITICAL, "erreur malloc result serializeJSONObject");
+        exit(1);
+    }
+    result[0] = '\0';
+    for (int i = 0; i < o.length; i++) {
+        switch (o.pairs[i].value.type) {
+            case JSON_STRING:
+                value = serializeJSONString(o.pairs[i].value);
+                break;
+            case JSON_NUMBER:
+                value = serializeJSONInt(o.pairs[i].value);
+                break;
+            case JSON_BOOL:
+                value = serializeJSONBool(o.pairs[i].value);
+                break;
+            case JSON_OBJECT:
+                value = serializeJSONObject(*o.pairs[i].value.objectValue);
+                break;
+            case JSON_ARRAY:
+                value = serializeJSONArray(*o.pairs[i].value.arrayValue);
+                break;
+            default:
+                logMessage(CRITICAL, "erreur serializeJSONObject");
+                exit(1);
+        }
+        result = realloc(result, strlen(result) + strlen(o.pairs[i].key) + strlen(value) + 5);
+        strcat(result, "\"");
+        strcat(result, o.pairs[i].key);
+        strcat(result, "\":");
+        strcat(result, value);
+        if (i < o.length - 1) {
+            result = realloc(result, strlen(result) + 2);
+            strcat(result, ",");
+        }
+        free(value);
+    }
+
+    finalString = malloc(strlen(result) + 3); // + accolades et \0
+    if (finalString == NULL) {
+        logMessage(CRITICAL, "erreur malloc finalString serializeJSONObject");
+        exit(1);
+    }
+    sprintf(finalString, "{%s}", result); // ajoute les accolades
+    free(result); // libere la mémoire
+    return finalString;
+}
 

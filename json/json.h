@@ -54,4 +54,6 @@ char * parseJSONString(char **str);
 int chrLookup(char **str, char chr);
 char * skipSpaces(char *str);
 
+char * serializeJSONObject(JSONObject o);
+
 #endif // JSON_H
