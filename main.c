@@ -20,7 +20,7 @@ int main()
 	initCouleur();
     int etatJeu = 1; // permet de quitter le jeu si besoin
 	int hauteur, longueur;
-	int nsalles = MAX_SALLES;
+	int nsalles = MAX_SALLES; //bug constante a regler
 	int salles_existantes = 0; //compteur de salles existantes
 	getmaxyx(stdscr,hauteur,longueur); //recupere la taille du terminal
 

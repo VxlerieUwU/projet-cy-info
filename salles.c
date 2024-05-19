@@ -77,12 +77,12 @@ Salle * creerSalle(int taille_horizontale, int taille_verticale, int x, int y, i
                     si c'est le cas on reduit la taille verticale*/
                     if(mvwinch(win,y+i,x)!=' '||mvwinch(win,y+i,x+taille_horizontale-1)!=' '){
                         //si la superposition est en haut de la porte on change l'origine et on replace la position de l'entree
-                        if(i<posEntree){
+                        if(i<posEntree-1){
                             y++;
                             posEntree--;
                         }
                         //sinon on reduit la taille verticale
-                        else{
+                        else if(i>posEntree+1){
                             taille_verticale--;
                         }
                         se_superpose=1;
@@ -98,12 +98,12 @@ Salle * creerSalle(int taille_horizontale, int taille_verticale, int x, int y, i
                     si c'est le cas on reduit la taille horizontale*/
                     if(mvwinch(win,y,x+i)!=' '||mvwinch(win,y+taille_verticale-1,x+i)!=' '){
                         //si la superposition est a gauche de la porte on change l'origine et on replace la position de l'entree
-                        if(i<posEntree){
+                        if(i<posEntree-1){
                             x++;
                             posEntree--;
                         }
                         //sinon on reduit la taille horizontale
-                        else{
+                        else if(i>posEntree+1){
                             taille_horizontale--;
                         }
                         se_superpose=1;
@@ -156,8 +156,6 @@ Salle * creerSalle(int taille_horizontale, int taille_verticale, int x, int y, i
             logMessage(CRITICAL, "erreur malloc portes salle");
             exit(2);
         };
-        /*verifie si il reste au moins une salle a generer et genere une porte si c'est le cas
-        si la porte ne dois pas se generer, j'ai mis ses coordonnees a -1*/
 
         //salle de départ
         if(entree==-1) { 
@@ -291,7 +289,7 @@ Salle * creerSalle(int taille_horizontale, int taille_verticale, int x, int y, i
         }
     }
     //affichage des portes
-    for(int i=0; i<salle->nportes; i++) {
+    for(int i=1; i<salle->nportes; i++) {
         salle->disp[salle->portes[i].y][salle->portes[i].x] = PORTE;
 
         /*on verifie qu'il y ait l'espace disponible pour generer une salle derriere les portes
@@ -336,7 +334,11 @@ Salle * creerSalle(int taille_horizontale, int taille_verticale, int x, int y, i
                     }                      
                 }
             }
-        }          
+        }  
+        //si la porte n'a pas pu se generer, on reincremente le nombre de salles restantes
+        if(salle->disp[salle->portes[i].y][salle->portes[i].x] == MUR_HORIZ || salle->disp[salle->portes[i].y][salle->portes[i].x] == MUR_VERTI){
+            (*sallesrest)++;
+        }    
     }
 
     //Bord supérieur gauche
