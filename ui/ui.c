@@ -57,14 +57,16 @@ void renduBoutons(WINDOW * win, Bouton ** boutons, int sel, int nbBoutons) {
 }
 
 
-void renduMessage(WINDOW * win, Message message, int selection) {
+void renduMessage(WINDOW * win, MiniMenu message) {
     int i;
     wattron(win, COLOR_PAIR(message.couleur));
     renduTexte(win, *message.titre);
-    renduTexte(win, *message.message);
+    if(message.message != NULL) {
+        renduTexte(win, *message.message);
+    }
     wattroff(win, COLOR_PAIR(message.couleur));
     for(i = 0; i < message.nbBoutons; i++) {
-        if(i == selection) {
+        if(i == message.curseur) {
             renduBouton(win, *message.boutons[i], 1);
         } else {
             renduBouton(win, *message.boutons[i], 0);
@@ -86,6 +88,7 @@ void renduMenu(WINDOW * win, Menu menu) {
     }
 }
 
+
 Menu * creerMenu(int hauteur, int largeur, Texte * titre, int nbBoutons, int espace, int couleurFond) {
     Menu * menu = NULL;
     menu = malloc(sizeof(Menu));
@@ -101,6 +104,7 @@ Menu * creerMenu(int hauteur, int largeur, Texte * titre, int nbBoutons, int esp
     menu->couleurFond = couleurFond;
     menu->selecteur = 0;
     menu->selEtat = 0;
+    menu->focus = 1;
     menu->boutons = NULL;
     menu->boutons = malloc(nbBoutons * sizeof(Bouton*));
     if(menu->boutons == NULL) {
@@ -125,9 +129,9 @@ Bouton * creerBouton(int x, int y, int couleur, int couleurSel, char * texte) {
     return bouton;
 }
 
-Message * creerMessage(int x, int y, int hauteur, int largeur, int couleur, Texte * titre, int nbBoutons, Texte * texte) {
-    Message * message = NULL;
-    message = malloc(sizeof(Message));
+MiniMenu * creerMessage(int x, int y, int hauteur, int largeur, int couleur, Texte * titre, int nbBoutons, Texte * texte) {
+    MiniMenu * message = NULL;
+    message = malloc(sizeof(MiniMenu));
     if(message == NULL) {
         logMessage(CRITICAL, "erreur malloc message");
         exit(1);
@@ -138,8 +142,16 @@ Message * creerMessage(int x, int y, int hauteur, int largeur, int couleur, Text
     message->largeur = largeur;
     message->couleur = couleur;
     message->titre = titre;
+    message->boutons = NULL;
+    message->boutons = malloc(nbBoutons * sizeof(Bouton*));
+    if(message->boutons == NULL) {
+        logMessage(CRITICAL, "erreur malloc boutons menu");
+        exit(1);
+    }
     message->nbBoutons = nbBoutons;
     message->message = texte;
+    message->curseur = 0;
+    message->selEtat = 0;
     return message;
 }
 
@@ -158,4 +170,60 @@ Texte * creerTexte(int x, int y, char ** texte, int nbLignes, int couleur) {
     return t;
 }
 
+EntreeTexte * creerEntreeTexte(int x, int y, int taille, int couleur, Texte * titre) {
+    EntreeTexte * entree = NULL;
+    entree = malloc(sizeof(EntreeTexte));
+    if(entree == NULL) {
+        logMessage(CRITICAL, "erreur malloc entree texte");
+        exit(1);
+    }
+    entree->x = x;
+    entree->y = y;
+    entree->curseur = 0;
+    entree->taille = taille;
+    entree->buffer = NULL;
+    entree->buffer = malloc(sizeof(char) * (taille + 1));
+    if(entree->buffer == NULL) {
+        logMessage(CRITICAL, "erreur malloc buffer entree texte");
+        exit(1);
+    }
+    entree->affichage = NULL;
+    entree->affichage = malloc(sizeof(char) * (taille + 1));
+    if(entree->affichage == NULL) {
+        logMessage(CRITICAL, "erreur malloc affichage buffer");
+        exit(1);
+    }
 
+    for(int i = 0; i < taille; i++) {
+        entree->affichage[i] = '_';
+    }
+    entree->affichage[taille] = '\0';
+
+    entree->buffer[0] = '\0'; // initialisation du buffer
+    entree->titre = titre;
+    entree->couleur = couleur;
+    entree->valide = 0;
+    return entree;
+}
+
+void renduEntreeTexte(WINDOW * win, EntreeTexte * entree) {
+    renduTexte(win, *entree->titre);
+    for(int i = 0; i < entree->taille; i++) {
+        mvwprintw(win, entree->y, entree->x + i," ");
+    }
+    wattron(win, COLOR_PAIR(entree->couleur));
+    mvwprintw(win, entree->y, entree->x, "%s", entree->affichage);
+    mvwchgat(win, entree->y, entree->x, entree->taille, A_REVERSE,entree->couleur, NULL);
+    mvwchgat(win, entree->y, entree->x + entree->curseur, 1, A_UNDERLINE, entree->couleur, NULL);
+    wattroff(win, COLOR_PAIR(entree->couleur));
+}
+
+void freeMenu(Menu * menu) {
+    free(menu->titre->texte);
+    free(menu->titre);
+    for(int i = 0; i < menu->nbBoutons; i++) {
+        free(menu->boutons[i]);
+    }
+    free(menu->boutons);
+    free(menu);
+}
