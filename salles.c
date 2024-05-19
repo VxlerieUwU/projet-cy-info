@@ -11,6 +11,10 @@ Salle * creerSalle(int taille_horizontale, int taille_verticale, int x, int y, i
     if(sallesrest == NULL){
         exit(2);
     }
+    //verif taille
+    if(taille_horizontale<3 || taille_verticale<3){
+        exit(3);
+    }
     
     //boucle qui verifie que la salle ne se superpose pas avec une autre salle
     int i; //compteur
@@ -32,6 +36,7 @@ Salle * creerSalle(int taille_horizontale, int taille_verticale, int x, int y, i
                         if(mvwinch(win,y+i,x)!=' '||mvwinch(win,y+i,x+taille_horizontale-1)!=' '){
                             if(i<posEntree){
                                 y++;
+                                posEntree--;
                             }
                             else{
                                 taille_verticale--;
@@ -55,6 +60,7 @@ Salle * creerSalle(int taille_horizontale, int taille_verticale, int x, int y, i
                         if(mvwinch(win,y+i,x)!=' '||mvwinch(win,y+i,x+taille_horizontale-1)!=' '){
                             if(i<posEntree){
                                 y++;
+                                posEntree--;
                             }
                             else{
                                 taille_verticale--;
@@ -71,6 +77,7 @@ Salle * creerSalle(int taille_horizontale, int taille_verticale, int x, int y, i
                         if(mvwinch(win,y,x+i)!=' '||mvwinch(win,y+taille_verticale-1,x+i)!=' '){
                             if(i<posEntree){
                                 x++;
+                                posEntree--;
                             }
                             else{
                                 taille_horizontale--;
@@ -93,6 +100,7 @@ Salle * creerSalle(int taille_horizontale, int taille_verticale, int x, int y, i
                         if(mvwinch(win,y,x+i)!=' '||mvwinch(win,y+taille_verticale-1,x+i)!=' '){
                             if(i<posEntree){
                                 x++;
+                                posEntree--;
                             }
                             else{
                                 taille_horizontale--;
@@ -114,11 +122,6 @@ Salle * creerSalle(int taille_horizontale, int taille_verticale, int x, int y, i
                 break;  
         }
     }while(se_superpose==1);
-
-    //verif taille
-    if(taille_horizontale<3 || taille_verticale<3){
-        exit(3);
-    }
 
     //allocation salle
     Salle * salle = NULL;

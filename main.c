@@ -33,16 +33,6 @@ int main()
 	//refresh et wrefresh permettent de rafraichir l ecran pour y afficher ce qui est contenu dans la memoire
 	keypad(mainwin, true); // active la possibilite de lire certains caracteres commes les fleches du clavier
 
-	//init joueur
-    Joueur joueur;
-    initJoueur(&joueur);
-    joueur.x = longueur/2;
-    joueur.y = hauteur/2;
-
-    //init ennemi
-    Ennemi ennemi = initEnnemi(5,5,10,10,10);
-
-
     //init carte
     Salle** carte;
     carte = malloc(MAX_SALLES * sizeof(Salle));
@@ -52,10 +42,19 @@ int main()
     }   
 
     //creation de la premiere salle
-	carte[0] = creerSalleProced(joueur.x-2, joueur.y-2, 4, -1,mainwin, &nsalles);
+	carte[0] = creerSalleProced(longueur/2, hauteur/2, 4, -1,mainwin, &nsalles);
 	dessineSalle(mainwin, carte[0]);
 	salles_existantes++;
 	
+	//init joueur
+    Joueur joueur;
+    initJoueur(&joueur);
+    joueur.x = carte[0]->x + carte[0]->longueur/2;
+    joueur.y = carte[0]->y + carte[0]->hauteur/2;
+
+    //init ennemi
+    Ennemi ennemi = initEnnemi(5,5,10,10,10);
+
 	mvwaddch(mainwin,joueur.y, joueur.x, 'o'); // positionne le curseur au centre de l ecran
 	//pour l instant, j ai represente le joueur avec le caractere 'o' pour tester le programme
 
@@ -78,6 +77,7 @@ int main()
 						}
 						carte[salles_existantes] = creerSalleProced(joueur.x, joueur.y,4,BAS,mainwin, &nsalles);
 						ouvrirPorte(carte,j,salles_existantes, k, BAS);
+						dessineSalle(mainwin, carte[salles_existantes]);
 						salles_existantes++;			
 					}
 					//porte en bas
@@ -87,7 +87,8 @@ int main()
 						}
 						carte[salles_existantes] = creerSalleProced(joueur.x, joueur.y,4,HAUT,mainwin,&nsalles);
 						ouvrirPorte(carte,j,salles_existantes, k, HAUT);
-						salles_existantes++;					
+						dessineSalle(mainwin, carte[salles_existantes]);
+						salles_existantes++;	
 					}
 					//porte a gauche
 					else if(carte[j]->portes[k].x+carte[j]->x==joueur.x-1 && carte[j]->portes[k].y+carte[j]->y==joueur.y){ 
@@ -96,6 +97,7 @@ int main()
 						}
 						carte[salles_existantes] = creerSalleProced(joueur.x, joueur.y,4,DROITE,mainwin,&nsalles);
 						ouvrirPorte(carte,j,salles_existantes, k, DROITE);
+						dessineSalle(mainwin, carte[salles_existantes]);
 						salles_existantes++;
 					}
 					//porte a droite
@@ -105,7 +107,8 @@ int main()
 						}
 						carte[salles_existantes] = creerSalleProced(joueur.x, joueur.y,4,GAUCHE,mainwin,&nsalles);
 						ouvrirPorte(carte,j,salles_existantes, k, GAUCHE);
-						salles_existantes++;					
+						dessineSalle(mainwin, carte[salles_existantes]);	
+						salles_existantes++;	
 					}	
 				}	
 			}
