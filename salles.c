@@ -2,7 +2,8 @@
 #include "CosmicYonder.h"
 /*Ce fichier contient les fonctions relatives au fonctionnement des salles*/
 
-Salle * creerSalle(int taille_horizontale, int taille_verticale, int x, int y, int nportes, int entree, int posEntree, WINDOW* win, int* sallesrest) {
+Salle * creerSalle(int taille_horizontale, int taille_verticale, int x, int y, int nportes, 
+int entree, int posEntree, WINDOW* win, int* sallesrest, int* objets_speciaux_apparus) {
     //verif win
     if(win == NULL){
         exit(1);
@@ -350,10 +351,24 @@ Salle * creerSalle(int taille_horizontale, int taille_verticale, int x, int y, i
     //Bord inférieur droit
     salle->disp[taille_verticale-1][0] = MUR_INFD;
 
+    //ALLOCATION OBJETS
+    int objets_existants = 0; //Objets existants dans la salle à sa création soit 0
+    for(int i = 0; i<3;i++){ //Il peut y avoir jusqu'à 3 objets par salle
+        /* Le pourcentage de chance d'apparition d'objets diminue en fonction du nombre
+        d'objets dans la salle (60% si 0, 30% si 1, 20% si 2)*/
+        if(rand()%100 <= (60/(objets_existants+1))){ 
+            salle->objets[objets_existants] = apparition_objet(salle, objets_speciaux_apparus);
+            objets_existants++;
+        }
+    } 
+    
+
+
     return salle;
 }
 
-Salle * creerSalleProced(int x, int y, int nportes, int dir, WINDOW* win, int* sallesrest) {
+Salle * creerSalleProced(int x, int y, int nportes, int dir, WINDOW* win, 
+int* sallesrest, int* objets_speciaux_apparus) {
     //init attributs salles
     int v, h;
     v = rand()%(TAILLE_MAX_V-2)+3;
@@ -372,25 +387,25 @@ Salle * creerSalleProced(int x, int y, int nportes, int dir, WINDOW* win, int* s
         case DROITE: 
             //genere la salle a gauche de la salle actuelle
             posEntree = rand()%(v-2)+1; 
-            return creerSalle(h, v, x-h-1, y-posEntree, nportes, dir, posEntree, win, sallesrest); 
+            return creerSalle(h, v, x-h-1, y-posEntree, nportes, dir, posEntree, win, sallesrest, objets_speciaux_apparus); 
             break;
         case BAS: 
             //genere la salle en haut de la salle actuelle
             posEntree = rand()%(h-2)+1; 
-            return creerSalle(h, v, x-posEntree, y-v-1, nportes, dir,posEntree,win,sallesrest);
+            return creerSalle(h, v, x-posEntree, y-v-1, nportes, dir,posEntree,win,sallesrest, objets_speciaux_apparus);
             break;
         case GAUCHE: 
             //genere la salle a droite de la salle actuelle
             posEntree = rand()%(v-2)+1; 
-            return creerSalle(h, v, x+2, y-posEntree, nportes, dir, posEntree, win,sallesrest);
+            return creerSalle(h, v, x+2, y-posEntree, nportes, dir, posEntree, win,sallesrest, objets_speciaux_apparus);
             break;
         case HAUT: 
             //genere la salle en bas de la salle actuelle
             posEntree = rand()%(h-2)+1; 
-            return creerSalle(h, v, x-posEntree, y+2, nportes, dir,posEntree,win,sallesrest);
+            return creerSalle(h, v, x-posEntree, y+2, nportes, dir,posEntree,win,sallesrest,objets_speciaux_apparus);
             break;
         default: 
-            return creerSalle(h, v, x, y, nportes, dir,posEntree,win,sallesrest);
+            return creerSalle(h, v, x, y, nportes, dir,posEntree,win,sallesrest,objets_speciaux_apparus);
             break;
     }
 }
@@ -454,6 +469,28 @@ void dessineSalle(WINDOW * win, Salle * salle) {
                     break;
                 case VIDE:
                     //mvwaddstr(win, salle->y+i, salle->x+j, " ");
+                    break;
+
+                case BOUTEILLE_O2:
+                    mvwaddstr(win, salle->y+i, salle->x+j, BOUTEILLE_O2_CHR);
+                    break;
+                case BANDAGE:
+                    mvwaddstr(win, salle->y+i, salle->x+j, BANDAGE_CHR);
+                    break;
+                case CLE:
+                    mvwaddstr(win, salle->y+i, salle->x+j, CLE_CHR);
+                    break;
+                case GENERATEUR:
+                    mvwaddstr(win, salle->y+i, salle->x+j, GENERATEUR_CHR);
+                    break;
+                case REACTEUR_1:
+                    mvwaddstr(win, salle->y+i, salle->x+j, REACTEUR_CHR);
+                    break;
+                case REACTEUR_2:
+                    mvwaddstr(win, salle->y+i, salle->x+j, REACTEUR_CHR);
+                    break;
+                case PC:
+                    mvwaddstr(win, salle->y+i, salle->x+j, PC_CHR);
                     break;
             }
         }
