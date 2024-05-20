@@ -15,11 +15,11 @@
 #define INV_TAILLE 10 
 #define JOUEUR_H_
 #define BOUTEILLE_O2_CHR "O"
-#define BANDAGE_CHR "\u26E8"
+#define BANDAGE_CHR "B"
 #define CLE_CHR "C"
-#define GENERATEUR_CHR "\u23FB"
-#define REACTEUR_CHR "\u2622"
-#define PC_CHR "\u2328"
+#define GENERATEUR_CHR "G"
+#define REACTEUR_CHR "R"
+#define PC_CHR "P"
 
 #define MUR_VERTI_CHR "\u2550"
 #define MUR_HORIZ_CHR "\u2551"
