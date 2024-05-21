@@ -34,3 +34,29 @@ void ennemimv(Ennemi* ennemi,Salle* salle, Joueur* joueur, WINDOW* mainwin){
 void afficheEnnemi(Ennemi* ennemi, WINDOW* mainwin){
     mvwaddstr(mainwin, ennemi->yGlobal, ennemi->xGlobal, "M");
 }
+
+Ennemi* apparition_ennemi(Salle* salle){
+    /* Fait apparaitre un ennemi Ennemi dans une salle Salle*/
+
+    //Vérification allocation salle
+    if(salle == NULL){
+        exit(2);
+    }
+
+    int x,y; //Coordonnées absolues de l'ennemi
+
+    Ennemi* ennemi;
+    //Vérification allocation ennemi
+    ennemi = malloc(sizeof(Ennemi));
+    if(ennemi==NULL){
+        exit(10);
+    }
+    do{
+        x = 1 + rand()%((salle->hauteur)-2); //Abscisse objet relative à la salle
+        y = 1 + rand()%((salle->longueur)-2); //Ordonnée objet relative à la salle
+    }while(salle->disp[x][y]!=VIDE); //Condition pour ne pas écraser un objet ou un monstre de la salle
+
+    *ennemi = initEnnemi(x, y, 10, 10, 10); //Type et création de l'ennemi
+
+    return ennemi;
+}

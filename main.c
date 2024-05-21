@@ -108,9 +108,6 @@ int main()
     joueur.x = carte[0]->x + carte[0]->longueur/2;
     joueur.y = carte[0]->y + carte[0]->hauteur/2;
 
-    //init ennemi
-    Ennemi ennemi = initEnnemi(5,5,10,10,10);
-
 	mvwaddch(mainwin,joueur.y, joueur.x, 'o'); // positionne le curseur au centre de l ecran
 	//pour l instant, j ai represente le joueur avec le caractere 'o' pour tester le programme
 
@@ -172,10 +169,18 @@ int main()
 			}
 		}
 		interactions(touche, &joueur,carte, salles_existantes, mainwin);
-		ennemimv(&ennemi,carte[0],&joueur,mainwin);
+		for(int i=0; i<salles_existantes; i++){
+			if(carte[i]->ennemi!=NULL){
+				ennemimv(carte[i]->ennemi,carte[i],&joueur,mainwin);
+			}
+		}	
 		wclear(mainwin);
 		dessineSalles(mainwin, carte, salles_existantes);
-		afficheEnnemi(&ennemi, mainwin);
+		for(int i=0; i<salles_existantes; i++){
+			if(carte[i]->ennemi!=NULL){
+				afficheEnnemi(carte[i]->ennemi, mainwin);
+			}
+		}	
 		mvwaddch(mainwin,joueur.y,joueur.x, 'o'); //deplace le joueur a la nouvelle position
 		wrefresh(mainwin);
 		touche = wgetch(mainwin);

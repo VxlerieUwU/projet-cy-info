@@ -360,9 +360,16 @@ int entree, int posEntree, WINDOW* win, int* sallesrest, int* objets_speciaux_ap
             salle->objets[objets_existants] = apparition_objet(salle, objets_speciaux_apparus);
             objets_existants++;
         }
-    } 
+    }
     
-
+    //ALLOCATION ENNEMI
+    //int ennemi_existant = 0; //ennemi existant dans la salle à sa création soit 0
+    //Il peut y avoir jusqu'à 1 ennemi par salle
+    /* Le pourcentage de chance d'apparition d'ennemi diminue en fonction du nombre
+    d'objets dans la salle (60% si 0, 30% si 1, 20% si 2)*/
+    if(rand()%100 <= 100){ 
+        salle->ennemi = apparition_ennemi(salle);
+    }
 
     return salle;
 }

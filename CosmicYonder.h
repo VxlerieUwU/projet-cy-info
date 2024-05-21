@@ -101,18 +101,6 @@ typedef struct {
     int ouvert;
 }Porte;
 
-typedef struct {
-    int longueur;
-    int hauteur;
-    int x; //abscisse de l'origine de la salle
-    int y; //ordonnée de l'origine de la salle
-    int ** disp; //disposition de la salle en unicode (murs, objets, portes...)
-    int decouvert; //1 si oui 0 si non
-    Porte * portes; //Portes de la salle
-    int nportes; //Nombres de portes de la salle
-    Objet objets[3];
-}Salle;
-
 typedef struct{
 	int x;
 	int y;
@@ -129,6 +117,19 @@ typedef struct{
     int att;
     int def;
 }Ennemi;
+
+typedef struct {
+    int longueur;
+    int hauteur;
+    int x; //abscisse de l'origine de la salle
+    int y; //ordonnée de l'origine de la salle
+    int ** disp; //disposition de la salle en unicode (murs, objets, portes...)
+    int decouvert; //1 si oui 0 si non
+    Porte * portes; //Portes de la salle
+    int nportes; //Nombres de portes de la salle
+    Objet objets[3];
+    Ennemi* ennemi;
+}Salle;
 
 
 //Fonctions
@@ -159,6 +160,8 @@ Ennemi initEnnemi(int x, int y, int pv, int att, int def);
 void ennemimv(Ennemi* ennemi,Salle* salle,Joueur* joueur, WINDOW* mainwin);
 //affiche un ennemi
 void afficheEnnemi(Ennemi* ennemi, WINDOW* mainwin);
+//spawn ennemi
+Ennemi* apparition_ennemi(Salle* salle);
 
 int creation_graine(EntreeTexte * graineEntree); //Crée la graine de génération du jeu.
 
