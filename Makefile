@@ -5,7 +5,11 @@ EXEC=jeu
 
 all: jeu
 
+<<<<<<< HEAD
 jeu: logger.o graphics.o objet.o salles.o joueur.o main.o interactions.o graine.o ennemi.o porte.o ui/menu.o ui/ui.o
+=======
+jeu: logger.o graphics.o salles.o joueur.o main.o interactions.o graine.o ennemi.o porte.o ui/menu.o ui/ui.o json/json.o
+>>>>>>> 56e101d7af19962534155725c990427775db4e29
 	$(CC) -o $@ $^ $(LDFLAGS)
 
 ui/menu.o: ui/menu.c
@@ -41,12 +45,20 @@ ennemi.o: ennemi.c
 porte.o: porte.c
 	$(CC) -o $@ -c $< $(CFLAGS)
 
+<<<<<<< HEAD
 main.o: main.c logger.c graphics.c objet.c salles.c joueur.c  interactions.c ennemi.c graine.c porte.c ui/menu.c ui/ui.c
+=======
+json/json.o: json/json.c
+	$(CC) -o $@ -c $< $(CFLAGS)
+
+main.o: main.c logger.c graphics.c salles.c joueur.c interactions.c ennemi.c graine.c porte.c ui/menu.c ui/ui.c json/json.c
+>>>>>>> 56e101d7af19962534155725c990427775db4e29
 	$(CC) -o $@ -c $< $(CFLAGS)
 
 clean:
 	rm -rf *.o
 	rm -rf ui/*.o
+	rm -rf json/*.o
 
 mrproper: clean
 	rm -rf $(EXEC)

@@ -55,5 +55,7 @@ int chrLookup(char **str, char chr);
 char * skipSpaces(char *str);
 
 char * serializeJSONObject(JSONObject o);
-
+char * serializeJSONArray(JSONArray a);
+char * serializeJSONBool(JSONValue b);
+char * serializeJSONInt(JSONValue i);
 #endif // JSON_H
