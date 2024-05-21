@@ -5,7 +5,7 @@ EXEC=jeu
 
 all: jeu
 
-jeu: logger.o graphics.o salles.o joueur.o main.o interactions.o graine.o ennemi.o porte.o ui/menu.o ui/ui.o
+jeu: logger.o graphics.o salles.o joueur.o main.o interactions.o graine.o ennemi.o porte.o ui/menu.o ui/ui.o json/json.o
 	$(CC) -o $@ $^ $(LDFLAGS)
 
 ui/menu.o: ui/menu.c
@@ -38,12 +38,16 @@ ennemi.o: ennemi.c
 porte.o: porte.c
 	$(CC) -o $@ -c $< $(CFLAGS)
 
-main.o: main.c logger.c graphics.c salles.c joueur.c interactions.c ennemi.c graine.c porte.c ui/menu.c ui/ui.c
+json/json.o: json/json.c
+	$(CC) -o $@ -c $< $(CFLAGS)
+
+main.o: main.c logger.c graphics.c salles.c joueur.c interactions.c ennemi.c graine.c porte.c ui/menu.c ui/ui.c json/json.c
 	$(CC) -o $@ -c $< $(CFLAGS)
 
 clean:
 	rm -rf *.o
 	rm -rf ui/*.o
+	rm -rf json/*.o
 
 mrproper: clean
 	rm -rf $(EXEC)

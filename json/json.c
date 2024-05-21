@@ -28,6 +28,40 @@ int chrLookup(char **str, char chr) { // place le caractère recherché en index
     return 0;
 }
 
+int intLength(int i) { // retourne la longueur d'un entier, plus rapide que log10()
+    if(i < 0) {
+        i = -i;
+    }
+    if (i >= 1000000000) {
+        return 10;
+    }
+    if (i >= 100000000) {
+        return 9;
+    }
+    if (i >= 10000000) {
+        return 8;
+    }
+    if (i >= 1000000) {
+        return 7;
+    }
+    if (i >= 100000) {
+        return 6;
+    }
+    if (i >= 10000) {
+        return 5;
+    }
+    if (i >= 1000) {
+        return 4;
+    }
+    if (i >= 100) {
+        return 3;
+    }
+    if (i >= 10) {
+        return 2;
+    }
+    return 1;
+}
+
 char * parseJSONString(char **str) {
     *str = skipSpaces(*str);
     if (**str != '"') { // pas une chaine de caractères
@@ -46,7 +80,7 @@ char * parseJSONString(char **str) {
     char * result = NULL;
     result = malloc(length + 1);
     if (result == NULL) {
-        //logMessage(CRITICAL, "erreur malloc result parseJSONString");
+        logMessage(CRITICAL, "erreur malloc result parseJSONString");
         exit(1);
     }
 
@@ -62,7 +96,7 @@ int parseJSONInt(char **str) {
     int verif = -1;
     verif = sscanf(*str, "%d", &result);
     if(verif != 1) {
-        //logMessage(CRITICAL, "erreur sscanf parseJSONInt");
+        logMessage(CRITICAL, "erreur sscanf parseJSONInt");
     }
     while(isdigit(**str)) { // déplace le curseur
         (*str)++;
@@ -80,19 +114,19 @@ int parseJSONBool(char **str) {
         *str += 5;
         return 0;
     }
-    //logMessage(CRITICAL, "erreur parse parseJSONBool");
+    logMessage(CRITICAL, "erreur parse parseJSONBool");
     return -1; // Erreur
 }
 
 JSONArray * parseJSONArray(char **str) {
     if (!chrLookup(str, '[')) {
-        //logMessage(CRITICAL, "erreur parseJSONArray, [ manquant");
+        logMessage(CRITICAL, "erreur parseJSONArray, [ manquant");
         exit(1); // Erreur
     }
     JSONArray * array = NULL;
     array = malloc(sizeof(JSONArray));
     if(array == NULL) {
-        //logMessage(CRITICAL, "erreur malloc array parseJSONArray");
+        logMessage(CRITICAL, "erreur malloc array parseJSONArray");
         exit(1);
     }
     array->values = NULL;
@@ -129,7 +163,7 @@ JSONValue parseJSONValue(char **str) {
         v.type = JSON_BOOL;
         v.boolValue = parseJSONBool(str);
     } else {
-        //logMessage(CRITICAL, "erreur parseJSONValue");
+        logMessage(CRITICAL, "erreur parseJSONValue");
         v.type = JSON_NULL; // Erreur
     }
     return v;
@@ -139,13 +173,13 @@ JSONValue parseJSONValue(char **str) {
 
 JSONObject * parseJSONObject(char ** str) {
     if (!chrLookup(str, '{')) {
-        //logMessage(CRITICAL, "erreur parseJSONObject, { manquant");
+        logMessage(CRITICAL, "erreur parseJSONObject, { manquant");
         exit(1); // Erreur
     }
     JSONObject * object = NULL;
     object = malloc(sizeof(JSONObject));
     if(object == NULL) {
-        //logMessage(CRITICAL, "erreur malloc object parseJSONObject");
+        logMessage(CRITICAL, "erreur malloc object parseJSONObject");
         exit(1);
     }
     object->pairs = NULL;
@@ -156,7 +190,7 @@ JSONObject * parseJSONObject(char ** str) {
         pair.key = parseJSONString(str);
         if (!pair.key || !chrLookup(str, ':')) {
             free(object);
-            //logMessage(CRITICAL, "erreur parseJSONObject, : manquant");
+            logMessage(CRITICAL, "erreur parseJSONObject, : manquant");
             exit(1); // Erreur
         }
         pair.value = parseJSONValue(str);
@@ -171,7 +205,7 @@ char * serializeJSONString(JSONValue str) {
     char * result = NULL;
     result = malloc(strlen(str.stringValue) + 3);
     if (result == NULL) {
-        //logMessage(CRITICAL, "erreur malloc result serializeJSONString");
+        logMessage(CRITICAL, "erreur malloc result serializeJSONString");
         exit(1);
     }
     sprintf(result, "\"%s\"", str.stringValue);
@@ -180,9 +214,9 @@ char * serializeJSONString(JSONValue str) {
 
 char * serializeJSONInt(JSONValue i) {
     char * result = NULL;
-    result = malloc(sizeof(char) * );
+    result = malloc(sizeof(char) * intLength(i.numberValue) + 1);
     if (result == NULL) {
-        //logMessage(CRITICAL, "erreur malloc result serializeJSONInt");
+        logMessage(CRITICAL, "erreur malloc result serializeJSONInt");
         exit(1);
     }
     sprintf(result, "%d", i.numberValue);
