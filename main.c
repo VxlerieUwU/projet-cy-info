@@ -117,7 +117,8 @@ int main()
 
     logMessage(INFO, "fin init");
 	while(etatJeu){ // BOUCLE DU JEU
-		//boucle qui parcourt toutes les salles existantes
+        touche = wgetch(mainwin);
+        //boucle qui parcourt toutes les salles existantes
 		for(int j=0;j<salles_existantes;j++){ 
 			//boucle qui parcourt toutes les portes de la salle
 			for(int k=0; k<carte[j]->nportes;k++){
@@ -170,12 +171,11 @@ int main()
 		}
 		interactions(touche, &joueur,carte, salles_existantes, mainwin);
 		//ennemimv(&ennemi,carte[0],&joueur,mainwin);
-		wclear(mainwin);
+		werase(mainwin);
 		dessineSalles(mainwin, carte, salles_existantes);
 		//afficheEnnemi(&ennemi, mainwin);
 		mvwaddch(mainwin,joueur.y,joueur.x, 'o'); //deplace le joueur a la nouvelle position
 		wrefresh(mainwin);
-		touche = wgetch(mainwin);
         if(touche == ESC) {
             pauseBoucle(mainwin, &touche, pause, &etatJeu);
         }
