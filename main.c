@@ -178,7 +178,7 @@ int main()
 		portesNonOuvertes = compteurPortesNonOuvertes(carte, salles_existantes);
 		interactions(touche, &joueur,carte, salles_existantes, mainwin);
 		//ennemimv(&ennemi,carte[0],&joueur,mainwin);
-		wclear(mainwin);
+		werase(mainwin);
 		dessineSalles(mainwin, carte, salles_existantes);
 		//afficheEnnemi(&ennemi, mainwin);
 		mvwaddch(mainwin,joueur.y,joueur.x, 'o'); //deplace le joueur a la nouvelle position
