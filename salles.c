@@ -353,18 +353,18 @@ int entree, int posEntree, WINDOW* win, int* sallesrest, int* objets_speciaux_ap
 
     //ALLOCATION OBJETS
     int objets_existants = 0; //Objets existants dans la salle à sa création soit 0
-    for(int i = 0; i<3;i++){ //Il peut y avoir jusqu'à 3 objets par salle
+    for(int i = 0; i<4;i++){ //Il peut y avoir jusqu'à 4 objets par salle
         
         /* Si le nombre de salles restantes à générer est identique aux nombres d'objets
         à récupérer pour gagner non apparues, on force l'apparition d'un de ces objets dans chacune
         des salles restantes*/
-        if(*sallesrest==0 &&  portesNonOuvertes == 4-(*objets_speciaux_apparus)){
+        if(*sallesrest==1 &&  portesNonOuvertes == 4-(*objets_speciaux_apparus)){
             salle->objets[objets_existants] = apparition_objet(salle, objets_speciaux_apparus,*sallesrest,portesNonOuvertes);
             objets_existants++;
         }
         
         /* Le pourcentage de chance d'apparition d'objets diminue en fonction du nombre
-        d'objets dans la salle (30% si 0, 15% si 1, 7% si 2)*/
+        d'objets dans la salle (30% si 0, 15% si 1, 7% si 2, 3% si 3)*/
         else if(rand()%100 <= (30/(objets_existants+1))){ 
             salle->objets[objets_existants] = apparition_objet(salle, objets_speciaux_apparus,*sallesrest,portesNonOuvertes);
             objets_existants++;

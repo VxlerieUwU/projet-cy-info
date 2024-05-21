@@ -110,7 +110,7 @@ typedef struct {
     int decouvert; //1 si oui 0 si non
     Porte * portes; //Portes de la salle
     int nportes; //Nombre de portes de la salle
-    Objet objets[3];
+    Objet objets[4];
 }Salle;
 
 typedef struct{
