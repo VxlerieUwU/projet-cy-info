@@ -17,16 +17,16 @@ void ennemimv(Ennemi* ennemi,Salle* salle, Joueur* joueur, WINDOW* mainwin){
     ennemi->yGlobal=salle->y+ennemi->yRelatif;
     /*ces conditions permettent a l'ennemi de se deplacer
     compare la position de l'ennemi et du joueur et modifie la position de l'ennemi afin qu'il se rapproche du joueur*/
-    if(ennemi->xGlobal>joueur->x && ennemi->xGlobal-1!=joueur->x){
+    if(ennemi->xGlobal>joueur->x && mvwinch(mainwin, ennemi->yGlobal, ennemi->xGlobal-1)==' '){
         ennemi->xRelatif--;
     }
-    else if(ennemi->xGlobal<joueur->x && ennemi->xGlobal+1!=joueur->x){
+    else if(ennemi->xGlobal<joueur->x && mvwinch(mainwin, ennemi->yGlobal, ennemi->xGlobal+1)==' '){
         ennemi->xRelatif++;
     }
-    if(ennemi->yGlobal>joueur->y && ennemi->yGlobal-1!=joueur->y){
+    if(ennemi->yGlobal>joueur->y && mvwinch(mainwin, ennemi->yGlobal-1, ennemi->xGlobal)==' '){
         ennemi->yRelatif--;
     }
-    else if(ennemi->yGlobal<joueur->y && ennemi->yGlobal+1!=joueur->y){
+    else if(ennemi->yGlobal<joueur->y && mvwinch(mainwin, ennemi->yGlobal+1, ennemi->xGlobal)==' '){
         ennemi->yRelatif++;
     }
 }
