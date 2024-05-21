@@ -3,7 +3,7 @@
 /*Ce fichier contient les fonctions relatives au fonctionnement des salles*/
 
 Salle * creerSalle(int taille_horizontale, int taille_verticale, int x, int y, int nportes, 
-int entree, int posEntree, WINDOW* win, int* sallesrest, int* objets_speciaux_apparus) {
+int entree, int posEntree, WINDOW* win, int* sallesrest, int* objets_speciaux_apparus,int portesNonOuvertes) {
     //verif win
     if(win == NULL){
         exit(1);
@@ -354,10 +354,19 @@ int entree, int posEntree, WINDOW* win, int* sallesrest, int* objets_speciaux_ap
     //ALLOCATION OBJETS
     int objets_existants = 0; //Objets existants dans la salle à sa création soit 0
     for(int i = 0; i<3;i++){ //Il peut y avoir jusqu'à 3 objets par salle
+        
+        /* Si le nombre de salles restantes à générer est identique aux nombres d'objets
+        à récupérer pour gagner non apparues, on force l'apparition d'un de ces objets dans chacune
+        des salles restantes*/
+        if(*sallesrest==0 &&  portesNonOuvertes == 4-(*objets_speciaux_apparus)){
+            salle->objets[objets_existants] = apparition_objet(salle, objets_speciaux_apparus,*sallesrest,portesNonOuvertes);
+            objets_existants++;
+        }
+        
         /* Le pourcentage de chance d'apparition d'objets diminue en fonction du nombre
-        d'objets dans la salle (60% si 0, 30% si 1, 20% si 2)*/
-        if(rand()%100 <= (60/(objets_existants+1))){ 
-            salle->objets[objets_existants] = apparition_objet(salle, objets_speciaux_apparus);
+        d'objets dans la salle (30% si 0, 15% si 1, 7% si 2)*/
+        else if(rand()%100 <= (30/(objets_existants+1))){ 
+            salle->objets[objets_existants] = apparition_objet(salle, objets_speciaux_apparus,*sallesrest,portesNonOuvertes);
             objets_existants++;
         }
     } 
@@ -368,7 +377,7 @@ int entree, int posEntree, WINDOW* win, int* sallesrest, int* objets_speciaux_ap
 }
 
 Salle * creerSalleProced(int x, int y, int nportes, int dir, WINDOW* win, 
-int* sallesrest, int* objets_speciaux_apparus) {
+int* sallesrest, int* objets_speciaux_apparus, int portesNonOuvertes) {
     //init attributs salles
     int v, h;
     v = rand()%(TAILLE_MAX_V-2)+3;
@@ -387,25 +396,25 @@ int* sallesrest, int* objets_speciaux_apparus) {
         case DROITE: 
             //genere la salle a gauche de la salle actuelle
             posEntree = rand()%(v-2)+1; 
-            return creerSalle(h, v, x-h-1, y-posEntree, nportes, dir, posEntree, win, sallesrest, objets_speciaux_apparus); 
+            return creerSalle(h, v, x-h-1, y-posEntree, nportes, dir, posEntree, win, sallesrest, objets_speciaux_apparus, portesNonOuvertes); 
             break;
         case BAS: 
             //genere la salle en haut de la salle actuelle
             posEntree = rand()%(h-2)+1; 
-            return creerSalle(h, v, x-posEntree, y-v-1, nportes, dir,posEntree,win,sallesrest, objets_speciaux_apparus);
+            return creerSalle(h, v, x-posEntree, y-v-1, nportes, dir,posEntree,win,sallesrest, objets_speciaux_apparus, portesNonOuvertes);
             break;
         case GAUCHE: 
             //genere la salle a droite de la salle actuelle
             posEntree = rand()%(v-2)+1; 
-            return creerSalle(h, v, x+2, y-posEntree, nportes, dir, posEntree, win,sallesrest, objets_speciaux_apparus);
+            return creerSalle(h, v, x+2, y-posEntree, nportes, dir, posEntree, win,sallesrest, objets_speciaux_apparus, portesNonOuvertes);
             break;
         case HAUT: 
             //genere la salle en bas de la salle actuelle
             posEntree = rand()%(h-2)+1; 
-            return creerSalle(h, v, x-posEntree, y+2, nportes, dir,posEntree,win,sallesrest,objets_speciaux_apparus);
+            return creerSalle(h, v, x-posEntree, y+2, nportes, dir,posEntree,win,sallesrest,objets_speciaux_apparus, portesNonOuvertes);
             break;
         default: 
-            return creerSalle(h, v, x, y, nportes, dir,posEntree,win,sallesrest,objets_speciaux_apparus);
+            return creerSalle(h, v, x, y, nportes, dir,posEntree,win,sallesrest,objets_speciaux_apparus, portesNonOuvertes);
             break;
     }
 }
@@ -511,4 +520,16 @@ void libereSalle(Salle * salle) {
     }
     free(salle->disp);
     free(salle);
+}
+
+int compteurPortesNonOuvertes(Salle ** carte, int salles_existantes){
+    int compteur = 0;
+    for(int i=0; i<salles_existantes;i++){
+      for(int j=0; j<carte[i]->nportes;j++){
+        if(carte[i]->portes[j].ouvert == 0){
+            compteur += 1;
+            }  
+        }
+    }
+    return compteur;
 }

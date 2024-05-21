@@ -32,8 +32,8 @@
 #define UNICODE_STRING_LONG 10
 #define TAILLE_MAX_V 10
 #define TAILLE_MAX_H 20
-#define MAX_SALLES 10
-#define FRAMES_PER_SECOND 60
+#define MAX_SALLES 5
+#define FRAMES_PER_SECOND 20
 
 //Enumération des différents objets
 
@@ -109,7 +109,7 @@ typedef struct {
     int ** disp; //disposition de la salle en unicode (murs, objets, portes...)
     int decouvert; //1 si oui 0 si non
     Porte * portes; //Portes de la salle
-    int nportes; //Nombres de portes de la salle
+    int nportes; //Nombre de portes de la salle
     Objet objets[3];
 }Salle;
 
@@ -135,10 +135,10 @@ typedef struct{
 
 //Cette fonction permet de creer une salle a partir de dimensions fixees a l'aide de creerSalleProced
 Salle * creerSalle(int taille_horizontale, int taille_verticale, int x, int y, int nportes, 
-int entree, int posEntree, WINDOW* win, int* sallerest, int* objets_speciaux_apparus);
+int entree, int posEntree, WINDOW* win, int* sallerest, int* objets_speciaux_apparus, int portesNonOuvertes);
 //permet de creer des dimensions aleatoires pour generer une salle
 Salle * creerSalleProced(int x, int y, int nportes, int dir, WINDOW* win, 
-int* sallerest, int* objets_speciaux_apparus);
+int* sallerest, int* objets_speciaux_apparus, int portesNonOuvertes);
 //permet d'afficher toutes les salles
 void dessineSalles(WINDOW * win, Salle ** salle, int salles_existantes);
 //affiche une salle passee en parametre
@@ -165,8 +165,8 @@ int creation_graine(EntreeTexte * graineEntree); //Crée la graine de générati
 int maj_niveau(Joueur* joueur); //Gère mise à jour du niveau du joueur en fonction de son expérience
 int perte_vie(Joueur* joueur, Ennemi* ennemi); //Gère la perte de vie du joueur
 
-Objet creation_objet(Salle* salle, int* objets_speciaux_apparus); //Crée un objet
-Objet apparition_objet(Salle* salle, int* objets_speciaux_apparus); //Fait apparaitre l'objet dans une salle
- 
+//Crée et fait apparaitre l'objet dans une salle en fonction des salles restantes
+Objet apparition_objet(Salle* salle, int* objets_speciaux_apparus, int sallesrest, int portesNonOuvertes); 
+int compteurPortesNonOuvertes(Salle ** carte, int salles_existantes); //Compte les portes non ouvertes
 
 #endif

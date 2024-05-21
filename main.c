@@ -23,6 +23,7 @@ int main()
 	int nsalles = MAX_SALLES; //bug constante a regler
 	int salles_existantes = 0; //compteur de salles existantes
 	int objets_speciaux_apparus = 0; //Compteur des objets à récupérer pour gagner apparus
+	int portesNonOuvertes = 0; //Compte les portes non ouvertes sur la carte
 	getmaxyx(stdscr,hauteur,longueur); //recupere la taille du terminal
 
 	WINDOW* mainwin = newwin(hauteur,longueur,0,0); 
@@ -99,7 +100,7 @@ int main()
     }
 
     //creation de la premiere salle
-	carte[0] = creerSalleProced(longueur/2, hauteur/2, 4, -1,mainwin, &nsalles,&objets_speciaux_apparus);
+	carte[0] = creerSalleProced(longueur/2, hauteur/2, 4, -1,mainwin, &nsalles,&objets_speciaux_apparus,portesNonOuvertes);
 	salles_existantes++;
 	
 	//init joueur
@@ -131,46 +132,50 @@ int main()
 						if(carte[salles_existantes] != NULL) {  
 							libereSalle(carte[salles_existantes]);
 						}
-						carte[salles_existantes] = creerSalleProced(joueur.x, joueur.y,4,BAS,mainwin, &nsalles, &objets_speciaux_apparus);
+						carte[salles_existantes] = creerSalleProced(joueur.x, joueur.y,4,BAS,mainwin, &nsalles, &objets_speciaux_apparus, portesNonOuvertes);
 						ouvrirPorte(carte,j,salles_existantes, k, BAS);
 						dessineSalle(mainwin, carte[salles_existantes]);
-						salles_existantes++;			
+						salles_existantes++;
+						portesNonOuvertes--;			
 					}
 					//porte en bas
 					else if(carte[j]->portes[k].x+carte[j]->x==joueur.x && carte[j]->portes[k].y+carte[j]->y==joueur.y+1){ 
 						if(carte[salles_existantes] != NULL) {
 							libereSalle(carte[salles_existantes]);
 						}
-						carte[salles_existantes] = creerSalleProced(joueur.x, joueur.y,4,HAUT,mainwin,&nsalles,&objets_speciaux_apparus);
+						carte[salles_existantes] = creerSalleProced(joueur.x, joueur.y,4,HAUT,mainwin,&nsalles,&objets_speciaux_apparus, portesNonOuvertes);
 						ouvrirPorte(carte,j,salles_existantes, k, HAUT);
 						dessineSalle(mainwin, carte[salles_existantes]);
-						salles_existantes++;	
+						salles_existantes++;
+						portesNonOuvertes--;	
 					}
 					//porte a gauche
 					else if(carte[j]->portes[k].x+carte[j]->x==joueur.x-1 && carte[j]->portes[k].y+carte[j]->y==joueur.y){ 
 						if(carte[salles_existantes] != NULL) {
 							libereSalle(carte[salles_existantes]);
 						}
-						carte[salles_existantes] = creerSalleProced(joueur.x, joueur.y,4,DROITE,mainwin,&nsalles,&objets_speciaux_apparus);
+						carte[salles_existantes] = creerSalleProced(joueur.x, joueur.y,4,DROITE,mainwin,&nsalles,&objets_speciaux_apparus, portesNonOuvertes);
 						ouvrirPorte(carte,j,salles_existantes, k, DROITE);
 						dessineSalle(mainwin, carte[salles_existantes]);
 						salles_existantes++;
+						portesNonOuvertes--;
 					}
 					//porte a droite
 					else if(carte[j]->portes[k].x+carte[j]->x==joueur.x+1 && carte[j]->portes[k].y+carte[j]->y==joueur.y){ 
 						if(carte[salles_existantes] != NULL) {
 							libereSalle(carte[salles_existantes]);
 						}
-						carte[salles_existantes] = creerSalleProced(joueur.x, joueur.y,4,GAUCHE,mainwin,&nsalles,&objets_speciaux_apparus);
+						carte[salles_existantes] = creerSalleProced(joueur.x, joueur.y,4,GAUCHE,mainwin,&nsalles,&objets_speciaux_apparus, portesNonOuvertes);
 						ouvrirPorte(carte,j,salles_existantes, k, GAUCHE);
 						dessineSalle(mainwin, carte[salles_existantes]);	
-						salles_existantes++;	
+						salles_existantes++;
 					}
 
 						
 				}	
 			}
 		}
+		portesNonOuvertes = compteurPortesNonOuvertes(carte, salles_existantes);
 		interactions(touche, &joueur,carte, salles_existantes, mainwin);
 		//ennemimv(&ennemi,carte[0],&joueur,mainwin);
 		wclear(mainwin);
