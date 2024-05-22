@@ -2,10 +2,16 @@
 #include "logger.h"
 
 void interactions(int touche, Joueur* joueur, Salle ** carte, int salles_existantes, WINDOW* mainwin){
+	if (joueur == NULL){
+		exit(1);
+	}
+	if(carte == NULL){
+		exit(2);
+	}
 	int mouv; //Stocke le mouvement voulu par le joueur
+
 	switch(touche){
-		/*change la position du joueur et efface le caractere qui se trouve a sa position actuelle
-		Les conditions verifient que le caractere d a cote est un espace ou une porte, pour les collisions
+		/*Les conditions verifient que le caractere d a cote est un espace ou une porte, pour les collisions
 		si l'espace est libre, l'ensemble des salles est deplace dans la direction opposee a la fleche pressee*/
 		case KEY_UP:
 			mouv = mvwinch(mainwin, joueur->y-1, joueur->x); //Le mouvement est vers le bas

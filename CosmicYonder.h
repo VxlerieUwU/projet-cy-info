@@ -156,6 +156,8 @@ void initJoueur(Joueur* joueur);
 void interactions(int touche, Joueur* joueur, Salle ** carte, int salles_existantes, WINDOW* mainwin); 
 //initialise un ennemi à l'aide d'attributs passés en paramètre
 Ennemi initEnnemi(int x, int y, int pv, int att, int def);
+//calcule la position globale de l'ennemi
+void ennemipos(Ennemi* ennemi,Salle* salle);
 //gere les mouvements de l'ennemi
 void ennemimv(Ennemi* ennemi,Salle* salle,Joueur* joueur, WINDOW* mainwin);
 //affiche un ennemi

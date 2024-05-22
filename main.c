@@ -23,6 +23,7 @@ int main()
 	int nsalles = MAX_SALLES; //bug constante a regler
 	int salles_existantes = 0; //compteur de salles existantes
 	int objets_speciaux_apparus = 0; //Compteur des objets à récupérer pour gagner apparus
+	int mvEnnemic = 0; //var servant a limiter les mouvements des ennemis
 	getmaxyx(stdscr,hauteur,longueur); //recupere la taille du terminal
 
 	WINDOW* mainwin = newwin(hauteur,longueur,0,0); 
@@ -170,7 +171,8 @@ int main()
 		}
 		interactions(touche, &joueur,carte, salles_existantes, mainwin);
 		for(int i=0; i<salles_existantes; i++){
-			if(carte[i]->ennemi!=NULL){
+			ennemipos(carte[i]->ennemi,carte[i]);
+			if(carte[i]->ennemi!=NULL && mvEnnemic>40){
 				ennemimv(carte[i]->ennemi,carte[i],&joueur,mainwin);
 			}
 		}	
@@ -187,6 +189,10 @@ int main()
         if(touche == ESC) {
             pauseBoucle(mainwin, &touche, pause, &etatJeu);
         }
+        if(mvEnnemic>40){
+        	mvEnnemic=0;
+        }
+        mvEnnemic++;
         napms(1000 / FRAMES_PER_SECOND);
     }
 
