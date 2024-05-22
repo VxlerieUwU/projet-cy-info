@@ -5,13 +5,16 @@ EXEC=jeu
 
 all: jeu
 
-jeu: logger.o graphics.o objet.o salles.o joueur.o main.o interactions.o graine.o ennemi.o porte.o ui/menu.o ui/ui.o
+jeu: logger.o graphics.o objet.o salles.o joueur.o main.o interactions.o graine.o ennemi.o porte.o ui/menu.o ui/ui.o ui/hud.o
 	$(CC) -o $@ $^ $(LDFLAGS)
 
 ui/menu.o: ui/menu.c
 	$(CC) -o $@ -c $< $(CFLAGS)
 
 ui/ui.o: ui/ui.c
+	$(CC) -o $@ -c $< $(CFLAGS)
+
+ui/hud.o: ui/hud.c
 	$(CC) -o $@ -c $< $(CFLAGS)
 
 logger.o: logger.c
@@ -41,7 +44,7 @@ ennemi.o: ennemi.c
 porte.o: porte.c
 	$(CC) -o $@ -c $< $(CFLAGS)
 
-main.o: main.c logger.c graphics.c objet.c salles.c joueur.c  interactions.c ennemi.c graine.c porte.c ui/menu.c ui/ui.c
+main.o: main.c logger.c graphics.c objet.c salles.c joueur.c  interactions.c ennemi.c graine.c porte.c ui/menu.c ui/ui.c ui/hud.c
 	$(CC) -o $@ -c $< $(CFLAGS)
 
 clean:

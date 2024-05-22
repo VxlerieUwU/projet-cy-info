@@ -48,6 +48,8 @@ typedef enum{
     REACTEUR_1 = 12, // Objet à récupérer pour gagner
     REACTEUR_2 = 13, // Objet à récupérer pour gagner
     PC = 14, // Objet à récupérer pour gagner
+    BOBBY = 15,
+    CRAMPTES = 16,
 }Id;
 
 //Enumération des élements possibles de la salle
@@ -84,6 +86,7 @@ typedef struct{
 }Inventaire;
 
 typedef struct{
+    char * nom;
 	int pv;
 	int xp;
 	int niv;
@@ -168,5 +171,7 @@ int perte_vie(Joueur* joueur, Ennemi* ennemi); //Gère la perte de vie du joueur
 //Crée et fait apparaitre l'objet dans une salle en fonction des salles restantes
 Objet apparition_objet(Salle* salle, int* objets_speciaux_apparus, int sallesrest, int portesNonOuvertes); 
 int compteurPortesNonOuvertes(Salle ** carte, int salles_existantes); //Compte les portes non ouvertes
+
+HUD * hudJeu(int x, int y, int hauteur, int largeur, Joueur * joueur);
 
 #endif

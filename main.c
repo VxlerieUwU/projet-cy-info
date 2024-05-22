@@ -37,11 +37,12 @@ int main()
     nodelay(mainwin, true);
     //refresh et wrefresh permettent de rafraichir l ecran pour y afficher ce qui est contenu dans la memoire
 	keypad(mainwin, true); // active la possibilite de lire certains caracteres commes les fleches du clavier
-	
+	// initialisation des interfaces graphiques
 	Menu * menu = cosmicMenu(hauteur, longueur); //affiche le menu
     MiniMenu * parametres = options(longueur / 2, hauteur / 2, hauteur / 2, longueur / 2);
     MiniMenu * pause = pauseMenu(longueur / 2, hauteur / 2, hauteur / 2, longueur / 2);
     EntreeTexte * graineEntree = graineMenu(longueur / 2 - longueur/8, hauteur / 2 - hauteur / 8, hauteur / 3, longueur / 3);
+
 	renduFenetreMenu(mainwin, *menu, hauteur, longueur);
 	int touche = -1;
 
@@ -108,6 +109,9 @@ int main()
     initJoueur(&joueur);
     joueur.x = carte[0]->x + carte[0]->longueur/2;
     joueur.y = carte[0]->y + carte[0]->hauteur/2;
+	joueur.nom = "Test";
+	HUD * hud = hudJeu(0, hauteur - hauteur/6, hauteur / 6, longueur, &joueur);
+
 
     //init ennemi
     Ennemi ennemi = initEnnemi(5,5,10,10,10);
@@ -182,6 +186,7 @@ int main()
 		dessineSalles(mainwin, carte, salles_existantes);
 		//afficheEnnemi(&ennemi, mainwin);
 		mvwaddch(mainwin,joueur.y,joueur.x, 'o'); //deplace le joueur a la nouvelle position
+		renduHUD(mainwin, hud);
 		wrefresh(mainwin);
 		touche = wgetch(mainwin);
         if(touche == ESC) {
