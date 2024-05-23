@@ -66,9 +66,9 @@ Ennemi* apparition_ennemi(Salle* salle){
         exit(6);
     }
     do{
-        x = 1 + rand()%((salle->hauteur)-2); //Abscisse objet relative à la salle
-        y = 1 + rand()%((salle->longueur)-2); //Ordonnée objet relative à la salle
-    }while(salle->disp[x][y]!=VIDE); //Condition pour ne pas écraser un objet ou un monstre de la salle
+        x = 1 + rand()%((salle->longueur)-2); //Abscisse objet relative à la salle
+        y = 1 + rand()%((salle->hauteur)-2); //Ordonnée objet relative à la salle
+    }while(salle->disp[y][x]!=VIDE); //Condition pour ne pas écraser un objet ou un monstre de la salle
 
     *ennemi = initEnnemi(x, y, 10, 10, 10); //Type et création de l'ennemi
 
