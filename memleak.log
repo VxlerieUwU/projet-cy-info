@@ -1,0 +1,386 @@
+==55892== Memcheck, a memory error detector
+==55892== Copyright (C) 2002-2024, and GNU GPL'd, by Julian Seward et al.
+==55892== Using Valgrind-3.23.0 and LibVEX; rerun with -h for copyright info
+==55892== Command: ./jeu
+==55892== Parent PID: 55467
+==55892== 
+==55892== Invalid free() / delete / delete[] / realloc()
+==55892==    at 0x48458CF: free (vg_replace_malloc.c:989)
+==55892==    by 0x1155E9: loadGame (sauvegarde.c:499)
+==55892==    by 0x10D8B1: main (main.c:139)
+==55892==  Address 0x4c04efa is 1,402 bytes inside a block of size 1,403 alloc'd
+==55892==    at 0x4842788: malloc (vg_replace_malloc.c:446)
+==55892==    by 0x115524: loadGame (sauvegarde.c:480)
+==55892==    by 0x10D8B1: main (main.c:139)
+==55892== 
+==55892== Conditional jump or move depends on uninitialised value(s)
+==55892==    at 0x114020: inventToJSONArr (sauvegarde.c:168)
+==55892==    by 0x1143F8: joueurToJSONObj (sauvegarde.c:232)
+==55892==    by 0x115087: partieToJSONObj (sauvegarde.c:411)
+==55892==    by 0x1153DE: saveGame (sauvegarde.c:456)
+==55892==    by 0x10E462: main (main.c:214)
+==55892== 
+==55892== Invalid write of size 4
+==55892==    at 0x1140A8: inventToJSONArr (sauvegarde.c:179)
+==55892==    by 0x1143F8: joueurToJSONObj (sauvegarde.c:232)
+==55892==    by 0x115087: partieToJSONObj (sauvegarde.c:411)
+==55892==    by 0x1153DE: saveGame (sauvegarde.c:456)
+==55892==    by 0x10E462: main (main.c:214)
+==55892==  Address 0x4c1e470 is 8 bytes after a block of size 72 alloc'd
+==55892==    at 0x4842788: malloc (vg_replace_malloc.c:446)
+==55892==    by 0x11404A: inventToJSONArr (sauvegarde.c:173)
+==55892==    by 0x1143F8: joueurToJSONObj (sauvegarde.c:232)
+==55892==    by 0x115087: partieToJSONObj (sauvegarde.c:411)
+==55892==    by 0x1153DE: saveGame (sauvegarde.c:456)
+==55892==    by 0x10E462: main (main.c:214)
+==55892== 
+==55892== Invalid write of size 8
+==55892==    at 0x11410E: inventToJSONArr (sauvegarde.c:180)
+==55892==    by 0x1143F8: joueurToJSONObj (sauvegarde.c:232)
+==55892==    by 0x115087: partieToJSONObj (sauvegarde.c:411)
+==55892==    by 0x1153DE: saveGame (sauvegarde.c:456)
+==55892==    by 0x10E462: main (main.c:214)
+==55892==  Address 0x4c1e478 is 16 bytes after a block of size 72 alloc'd
+==55892==    at 0x4842788: malloc (vg_replace_malloc.c:446)
+==55892==    by 0x11404A: inventToJSONArr (sauvegarde.c:173)
+==55892==    by 0x1143F8: joueurToJSONObj (sauvegarde.c:232)
+==55892==    by 0x115087: partieToJSONObj (sauvegarde.c:411)
+==55892==    by 0x1153DE: saveGame (sauvegarde.c:456)
+==55892==    by 0x10E462: main (main.c:214)
+==55892== 
+==55892== Conditional jump or move depends on uninitialised value(s)
+==55892==    at 0x112DC0: serializeJSONArray (json.c:253)
+==55892==    by 0x1131FA: serializeJSONObject (json.c:317)
+==55892==    by 0x1131C4: serializeJSONObject (json.c:314)
+==55892==    by 0x1153FC: saveGame (sauvegarde.c:457)
+==55892==    by 0x10E462: main (main.c:214)
+==55892== 
+==55892== Use of uninitialised value of size 8
+==55892==    at 0x112DD7: serializeJSONArray (json.c:253)
+==55892==    by 0x1131FA: serializeJSONObject (json.c:317)
+==55892==    by 0x1131C4: serializeJSONObject (json.c:314)
+==55892==    by 0x1153FC: saveGame (sauvegarde.c:457)
+==55892==    by 0x10E462: main (main.c:214)
+==55892== 
+==55892== Use of uninitialised value of size 8
+==55892==    at 0x484B9A6: strlen (vg_replace_strmem.c:505)
+==55892==    by 0x112BA8: serializeJSONString (json.c:206)
+==55892==    by 0x112E12: serializeJSONArray (json.c:255)
+==55892==    by 0x1131FA: serializeJSONObject (json.c:317)
+==55892==    by 0x1131C4: serializeJSONObject (json.c:314)
+==55892==    by 0x1153FC: saveGame (sauvegarde.c:457)
+==55892==    by 0x10E462: main (main.c:214)
+==55892== 
+==55892== Invalid read of size 1
+==55892==    at 0x484B9A6: strlen (vg_replace_strmem.c:505)
+==55892==    by 0x112BA8: serializeJSONString (json.c:206)
+==55892==    by 0x112E12: serializeJSONArray (json.c:255)
+==55892==    by 0x1131FA: serializeJSONObject (json.c:317)
+==55892==    by 0x1131C4: serializeJSONObject (json.c:314)
+==55892==    by 0x1153FC: saveGame (sauvegarde.c:457)
+==55892==    by 0x10E462: main (main.c:214)
+==55892==  Address 0x0 is not stack'd, malloc'd or (recently) free'd
+==55892== 
+==55892== 
+==55892== Process terminating with default action of signal 11 (SIGSEGV): dumping core
+==55892==  Access not within mapped region at address 0x0
+==55892==    at 0x484B9A6: strlen (vg_replace_strmem.c:505)
+==55892==    by 0x112BA8: serializeJSONString (json.c:206)
+==55892==    by 0x112E12: serializeJSONArray (json.c:255)
+==55892==    by 0x1131FA: serializeJSONObject (json.c:317)
+==55892==    by 0x1131C4: serializeJSONObject (json.c:314)
+==55892==    by 0x1153FC: saveGame (sauvegarde.c:457)
+==55892==    by 0x10E462: main (main.c:214)
+==55892==  If you believe this happened as a result of a stack
+==55892==  overflow in your program's main thread (unlikely but
+==55892==  possible), you can try to increase the size of the
+==55892==  main thread stack using the --main-stacksize= flag.
+==55892==  The main thread stack size used in this run was 8388608.
+==55892== 
+==55892== HEAP SUMMARY:
+==55892==     in use at exit: 1,036,123 bytes in 938 blocks
+==55892==   total heap usage: 1,356 allocs, 419 frees, 1,123,068 bytes allocated
+==55892== 
+==55892== 5 bytes in 1 blocks are definitely lost in loss record 4 of 231
+==55892==    at 0x4842788: malloc (vg_replace_malloc.c:446)
+==55892==    by 0x112524: parseJSONString (json.c:81)
+==55892==    by 0x1128A9: parseJSONValue (json.c:152)
+==55892==    by 0x112AC7: parseJSONObject (json.c:196)
+==55892==    by 0x1128D3: parseJSONValue (json.c:155)
+==55892==    by 0x112AC7: parseJSONObject (json.c:196)
+==55892==    by 0x11558C: loadGame (sauvegarde.c:490)
+==55892==    by 0x10D8B1: main (main.c:139)
+==55892== 
+==55892== 9 bytes in 1 blocks are possibly lost in loss record 19 of 231
+==55892==    at 0x4842788: malloc (vg_replace_malloc.c:446)
+==55892==    by 0x49B511F: strdup (strdup.c:42)
+==55892==    by 0x48D53A7: tparm_setup.lto_priv.0 (lib_tparm.c:657)
+==55892==    by 0x48DEF2C: _nc_tiparm (lib_tparm.c:1331)
+==55892==    by 0x48BCD56: UnknownInlinedFun (lib_mvcur.c:403)
+==55892==    by 0x48BCD56: UnknownInlinedFun (lib_mvcur.c:465)
+==55892==    by 0x48BCD56: newterm_sp (lib_newterm.c:343)
+==55892==    by 0x48BDC2D: newterm (lib_newterm.c:369)
+==55892==    by 0x48B5DB2: initscr (lib_initscr.c:93)
+==55892==    by 0x10D005: main (main.c:38)
+==55892== 
+==55892== 20 bytes in 1 blocks are definitely lost in loss record 41 of 231
+==55892==    at 0x4842788: malloc (vg_replace_malloc.c:446)
+==55892==    by 0x111D9C: hudJeu (hud.c:115)
+==55892==    by 0x10D790: main (main.c:127)
+==55892== 
+==55892== 20 bytes in 1 blocks are definitely lost in loss record 42 of 231
+==55892==    at 0x4842788: malloc (vg_replace_malloc.c:446)
+==55892==    by 0x111DCF: hudJeu (hud.c:120)
+==55892==    by 0x10D790: main (main.c:127)
+==55892== 
+==55892== 20 bytes in 1 blocks are definitely lost in loss record 43 of 231
+==55892==    at 0x4842788: malloc (vg_replace_malloc.c:446)
+==55892==    by 0x111E02: hudJeu (hud.c:125)
+==55892==    by 0x10D790: main (main.c:127)
+==55892== 
+==55892== 24 bytes in 1 blocks are possibly lost in loss record 78 of 231
+==55892==    at 0x4842788: malloc (vg_replace_malloc.c:446)
+==55892==    by 0x4A1FEC8: __tsearch (tsearch.c:337)
+==55892==    by 0x4A1FEC8: tsearch (tsearch.c:290)
+==55892==    by 0x48D53C3: tparm_setup.lto_priv.0 (lib_tparm.c:658)
+==55892==    by 0x48DEF2C: _nc_tiparm (lib_tparm.c:1331)
+==55892==    by 0x48BCD56: UnknownInlinedFun (lib_mvcur.c:403)
+==55892==    by 0x48BCD56: UnknownInlinedFun (lib_mvcur.c:465)
+==55892==    by 0x48BCD56: newterm_sp (lib_newterm.c:343)
+==55892==    by 0x48BDC2D: newterm (lib_newterm.c:369)
+==55892==    by 0x48B5DB2: initscr (lib_initscr.c:93)
+==55892==    by 0x10D005: main (main.c:38)
+==55892== 
+==55892== 24 bytes in 1 blocks are possibly lost in loss record 79 of 231
+==55892==    at 0x4842788: malloc (vg_replace_malloc.c:446)
+==55892==    by 0x4A1FEC8: __tsearch (tsearch.c:337)
+==55892==    by 0x4A1FEC8: tsearch (tsearch.c:290)
+==55892==    by 0x48B2C6E: UnknownInlinedFun (new_pair.c:217)
+==55892==    by 0x48B2C6E: UnknownInlinedFun (new_pair.c:196)
+==55892==    by 0x48B2C6E: _nc_init_pair (lib_color.c:652)
+==55892==    by 0x1106FA: initCouleur (ui.c:20)
+==55892==    by 0x10D023: main (main.c:42)
+==55892== 
+==55892== 24 bytes in 1 blocks are possibly lost in loss record 80 of 231
+==55892==    at 0x4842788: malloc (vg_replace_malloc.c:446)
+==55892==    by 0x4A1FEC8: __tsearch (tsearch.c:337)
+==55892==    by 0x4A1FEC8: tsearch (tsearch.c:290)
+==55892==    by 0x48D53C3: tparm_setup.lto_priv.0 (lib_tparm.c:658)
+==55892==    by 0x48DEF2C: _nc_tiparm (lib_tparm.c:1331)
+==55892==    by 0x48B200A: set_foreground_color (lib_color.c:215)
+==55892==    by 0x48B350E: _nc_do_color_sp (lib_color.c:1063)
+==55892==    by 0x48CA712: UnknownInlinedFun (tty_update.c:1650)
+==55892==    by 0x48CA712: UnknownInlinedFun (tty_update.c:1140)
+==55892==    by 0x48CA712: doupdate_sp (tty_update.c:998)
+==55892==    by 0x48BDE1A: wrefresh (lib_refresh.c:66)
+==55892==    by 0x10D115: main (main.c:56)
+==55892== 
+==55892== 24 bytes in 1 blocks are possibly lost in loss record 81 of 231
+==55892==    at 0x4842788: malloc (vg_replace_malloc.c:446)
+==55892==    by 0x4A1FEC8: __tsearch (tsearch.c:337)
+==55892==    by 0x4A1FEC8: tsearch (tsearch.c:290)
+==55892==    by 0x48D53C3: tparm_setup.lto_priv.0 (lib_tparm.c:658)
+==55892==    by 0x48DEF2C: _nc_tiparm (lib_tparm.c:1331)
+==55892==    by 0x48B1F8A: set_background_color (lib_color.c:195)
+==55892==    by 0x48CA712: UnknownInlinedFun (tty_update.c:1650)
+==55892==    by 0x48CA712: UnknownInlinedFun (tty_update.c:1140)
+==55892==    by 0x48CA712: doupdate_sp (tty_update.c:998)
+==55892==    by 0x48BDE1A: wrefresh (lib_refresh.c:66)
+==55892==    by 0x10D115: main (main.c:56)
+==55892== 
+==55892== 24 bytes in 1 blocks are definitely lost in loss record 82 of 231
+==55892==    at 0x4842788: malloc (vg_replace_malloc.c:446)
+==55892==    by 0x111E35: hudJeu (hud.c:131)
+==55892==    by 0x10D790: main (main.c:127)
+==55892== 
+==55892== 24 bytes in 1 blocks are definitely lost in loss record 83 of 231
+==55892==    at 0x4842788: malloc (vg_replace_malloc.c:446)
+==55892==    by 0x111E68: hudJeu (hud.c:136)
+==55892==    by 0x10D790: main (main.c:127)
+==55892== 
+==55892== 24 bytes in 1 blocks are definitely lost in loss record 84 of 231
+==55892==    at 0x4842788: malloc (vg_replace_malloc.c:446)
+==55892==    by 0x111E9B: hudJeu (hud.c:141)
+==55892==    by 0x10D790: main (main.c:127)
+==55892== 
+==55892== 24 bytes in 1 blocks are definitely lost in loss record 85 of 231
+==55892==    at 0x4842788: malloc (vg_replace_malloc.c:446)
+==55892==    by 0x111ECE: hudJeu (hud.c:146)
+==55892==    by 0x10D790: main (main.c:127)
+==55892== 
+==55892== 24 bytes in 1 blocks are definitely lost in loss record 86 of 231
+==55892==    at 0x4842788: malloc (vg_replace_malloc.c:446)
+==55892==    by 0x111F01: hudJeu (hud.c:151)
+==55892==    by 0x10D790: main (main.c:127)
+==55892== 
+==55892== 24 bytes in 1 blocks are definitely lost in loss record 87 of 231
+==55892==    at 0x4842788: malloc (vg_replace_malloc.c:446)
+==55892==    by 0x111F34: hudJeu (hud.c:156)
+==55892==    by 0x10D790: main (main.c:127)
+==55892== 
+==55892== 24 bytes in 1 blocks are definitely lost in loss record 88 of 231
+==55892==    at 0x4842788: malloc (vg_replace_malloc.c:446)
+==55892==    by 0x10F29E: respawnTexte (menu.c:70)
+==55892==    by 0x10D803: main (main.c:128)
+==55892== 
+==55892== 37 bytes in 9 blocks are definitely lost in loss record 103 of 231
+==55892==    at 0x4842788: malloc (vg_replace_malloc.c:446)
+==55892==    by 0x112524: parseJSONString (json.c:81)
+==55892==    by 0x112A6F: parseJSONObject (json.c:190)
+==55892==    by 0x1128D3: parseJSONValue (json.c:155)
+==55892==    by 0x112AC7: parseJSONObject (json.c:196)
+==55892==    by 0x11558C: loadGame (sauvegarde.c:490)
+==55892==    by 0x10D8B1: main (main.c:139)
+==55892== 
+==55892== 40 bytes in 1 blocks are definitely lost in loss record 106 of 231
+==55892==    at 0x4842788: malloc (vg_replace_malloc.c:446)
+==55892==    by 0x11559A: loadGame (sauvegarde.c:491)
+==55892==    by 0x10D8B1: main (main.c:139)
+==55892== 
+==55892== 63 bytes in 1 blocks are possibly lost in loss record 118 of 231
+==55892==    at 0x4842788: malloc (vg_replace_malloc.c:446)
+==55892==    by 0x49B511F: strdup (strdup.c:42)
+==55892==    by 0x48D53A7: tparm_setup.lto_priv.0 (lib_tparm.c:657)
+==55892==    by 0x48DEF2C: _nc_tiparm (lib_tparm.c:1331)
+==55892==    by 0x48B200A: set_foreground_color (lib_color.c:215)
+==55892==    by 0x48B350E: _nc_do_color_sp (lib_color.c:1063)
+==55892==    by 0x48CA712: UnknownInlinedFun (tty_update.c:1650)
+==55892==    by 0x48CA712: UnknownInlinedFun (tty_update.c:1140)
+==55892==    by 0x48CA712: doupdate_sp (tty_update.c:998)
+==55892==    by 0x48BDE1A: wrefresh (lib_refresh.c:66)
+==55892==    by 0x10D115: main (main.c:56)
+==55892== 
+==55892== 64 bytes in 1 blocks are possibly lost in loss record 122 of 231
+==55892==    at 0x4842788: malloc (vg_replace_malloc.c:446)
+==55892==    by 0x49B511F: strdup (strdup.c:42)
+==55892==    by 0x48D53A7: tparm_setup.lto_priv.0 (lib_tparm.c:657)
+==55892==    by 0x48DEF2C: _nc_tiparm (lib_tparm.c:1331)
+==55892==    by 0x48B1F8A: set_background_color (lib_color.c:195)
+==55892==    by 0x48CA712: UnknownInlinedFun (tty_update.c:1650)
+==55892==    by 0x48CA712: UnknownInlinedFun (tty_update.c:1140)
+==55892==    by 0x48CA712: doupdate_sp (tty_update.c:998)
+==55892==    by 0x48BDE1A: wrefresh (lib_refresh.c:66)
+==55892==    by 0x10D115: main (main.c:56)
+==55892== 
+==55892== 80 bytes in 6 blocks are definitely lost in loss record 132 of 231
+==55892==    at 0x4842788: malloc (vg_replace_malloc.c:446)
+==55892==    by 0x112524: parseJSONString (json.c:81)
+==55892==    by 0x112A6F: parseJSONObject (json.c:190)
+==55892==    by 0x11558C: loadGame (sauvegarde.c:490)
+==55892==    by 0x10D8B1: main (main.c:139)
+==55892== 
+==55892== 150 bytes in 54 blocks are definitely lost in loss record 142 of 231
+==55892==    at 0x4842788: malloc (vg_replace_malloc.c:446)
+==55892==    by 0x112524: parseJSONString (json.c:81)
+==55892==    by 0x112A6F: parseJSONObject (json.c:190)
+==55892==    by 0x1128D3: parseJSONValue (json.c:155)
+==55892==    by 0x1127B1: parseJSONArray (json.c:137)
+==55892==    by 0x1128FD: parseJSONValue (json.c:158)
+==55892==    by 0x112AC7: parseJSONObject (json.c:196)
+==55892==    by 0x1128D3: parseJSONValue (json.c:155)
+==55892==    by 0x1127B1: parseJSONArray (json.c:137)
+==55892==    by 0x1128FD: parseJSONValue (json.c:158)
+==55892==    by 0x112AC7: parseJSONObject (json.c:196)
+==55892==    by 0x11558C: loadGame (sauvegarde.c:490)
+==55892== 
+==55892== 168 bytes in 1 blocks are possibly lost in loss record 156 of 231
+==55892==    at 0x4849BF3: calloc (vg_replace_malloc.c:1675)
+==55892==    by 0x48D531F: tparm_setup.lto_priv.0 (lib_tparm.c:655)
+==55892==    by 0x48DEF2C: _nc_tiparm (lib_tparm.c:1331)
+==55892==    by 0x48BCD56: UnknownInlinedFun (lib_mvcur.c:403)
+==55892==    by 0x48BCD56: UnknownInlinedFun (lib_mvcur.c:465)
+==55892==    by 0x48BCD56: newterm_sp (lib_newterm.c:343)
+==55892==    by 0x48BDC2D: newterm (lib_newterm.c:369)
+==55892==    by 0x48B5DB2: initscr (lib_initscr.c:93)
+==55892==    by 0x10D005: main (main.c:38)
+==55892== 
+==55892== 168 bytes in 1 blocks are possibly lost in loss record 157 of 231
+==55892==    at 0x4849BF3: calloc (vg_replace_malloc.c:1675)
+==55892==    by 0x48D531F: tparm_setup.lto_priv.0 (lib_tparm.c:655)
+==55892==    by 0x48DEF2C: _nc_tiparm (lib_tparm.c:1331)
+==55892==    by 0x48B200A: set_foreground_color (lib_color.c:215)
+==55892==    by 0x48B350E: _nc_do_color_sp (lib_color.c:1063)
+==55892==    by 0x48CA712: UnknownInlinedFun (tty_update.c:1650)
+==55892==    by 0x48CA712: UnknownInlinedFun (tty_update.c:1140)
+==55892==    by 0x48CA712: doupdate_sp (tty_update.c:998)
+==55892==    by 0x48BDE1A: wrefresh (lib_refresh.c:66)
+==55892==    by 0x10D115: main (main.c:56)
+==55892== 
+==55892== 168 bytes in 1 blocks are possibly lost in loss record 158 of 231
+==55892==    at 0x4849BF3: calloc (vg_replace_malloc.c:1675)
+==55892==    by 0x48D531F: tparm_setup.lto_priv.0 (lib_tparm.c:655)
+==55892==    by 0x48DEF2C: _nc_tiparm (lib_tparm.c:1331)
+==55892==    by 0x48B1F8A: set_background_color (lib_color.c:195)
+==55892==    by 0x48CA712: UnknownInlinedFun (tty_update.c:1650)
+==55892==    by 0x48CA712: UnknownInlinedFun (tty_update.c:1140)
+==55892==    by 0x48CA712: doupdate_sp (tty_update.c:998)
+==55892==    by 0x48BDE1A: wrefresh (lib_refresh.c:66)
+==55892==    by 0x10D115: main (main.c:56)
+==55892== 
+==55892== 174 bytes in 27 blocks are definitely lost in loss record 160 of 231
+==55892==    at 0x4842788: malloc (vg_replace_malloc.c:446)
+==55892==    by 0x112524: parseJSONString (json.c:81)
+==55892==    by 0x112A6F: parseJSONObject (json.c:190)
+==55892==    by 0x1128D3: parseJSONValue (json.c:155)
+==55892==    by 0x1127B1: parseJSONArray (json.c:137)
+==55892==    by 0x1128FD: parseJSONValue (json.c:158)
+==55892==    by 0x112AC7: parseJSONObject (json.c:196)
+==55892==    by 0x11558C: loadGame (sauvegarde.c:490)
+==55892==    by 0x10D8B1: main (main.c:139)
+==55892== 
+==55892== 264 (48 direct, 216 indirect) bytes in 3 blocks are definitely lost in loss record 173 of 231
+==55892==    at 0x4842788: malloc (vg_replace_malloc.c:446)
+==55892==    by 0x1133E9: objetToJSONObj (sauvegarde.c:13)
+==55892==    by 0x114106: inventToJSONArr (sauvegarde.c:180)
+==55892==    by 0x1143F8: joueurToJSONObj (sauvegarde.c:232)
+==55892==    by 0x115087: partieToJSONObj (sauvegarde.c:411)
+==55892==    by 0x1153DE: saveGame (sauvegarde.c:456)
+==55892==    by 0x10E462: main (main.c:214)
+==55892== 
+==55892== 656 bytes in 8 blocks are definitely lost in loss record 188 of 231
+==55892==    at 0x4842788: malloc (vg_replace_malloc.c:446)
+==55892==    by 0x10F34F: respawnTexte (menu.c:84)
+==55892==    by 0x10D803: main (main.c:128)
+==55892== 
+==55892== 1,403 bytes in 1 blocks are definitely lost in loss record 203 of 231
+==55892==    at 0x4842788: malloc (vg_replace_malloc.c:446)
+==55892==    by 0x115524: loadGame (sauvegarde.c:480)
+==55892==    by 0x10D8B1: main (main.c:139)
+==55892== 
+==55892== 2,720 bytes in 1 blocks are definitely lost in loss record 214 of 231
+==55892==    at 0x4842788: malloc (vg_replace_malloc.c:446)
+==55892==    by 0x113EEA: partieFromJSONObj (sauvegarde.c:146)
+==55892==    by 0x1155D9: loadGame (sauvegarde.c:497)
+==55892==    by 0x10D8B1: main (main.c:139)
+==55892== 
+==55892== 5,408 (368 direct, 5,040 indirect) bytes in 23 blocks are definitely lost in loss record 222 of 231
+==55892==    at 0x4842788: malloc (vg_replace_malloc.c:446)
+==55892==    by 0x112761: parseJSONArray (json.c:127)
+==55892==    by 0x1128FD: parseJSONValue (json.c:158)
+==55892==    by 0x1127B1: parseJSONArray (json.c:137)
+==55892==    by 0x1128FD: parseJSONValue (json.c:158)
+==55892==    by 0x112AC7: parseJSONObject (json.c:196)
+==55892==    by 0x1128D3: parseJSONValue (json.c:155)
+==55892==    by 0x1127B1: parseJSONArray (json.c:137)
+==55892==    by 0x1128FD: parseJSONValue (json.c:158)
+==55892==    by 0x112AC7: parseJSONObject (json.c:196)
+==55892==    by 0x11558C: loadGame (sauvegarde.c:490)
+==55892==    by 0x10D8B1: main (main.c:139)
+==55892== 
+==55892== 9,648 (40 direct, 9,608 indirect) bytes in 1 blocks are definitely lost in loss record 227 of 231
+==55892==    at 0x4842788: malloc (vg_replace_malloc.c:446)
+==55892==    by 0x10CEE5: creerPartie (main.c:9)
+==55892==    by 0x10D041: main (main.c:46)
+==55892== 
+==55892== LEAK SUMMARY:
+==55892==    definitely lost: 5,949 bytes in 145 blocks
+==55892==    indirectly lost: 14,864 bytes in 36 blocks
+==55892==      possibly lost: 736 bytes in 10 blocks
+==55892==    still reachable: 1,014,574 bytes in 747 blocks
+==55892==         suppressed: 0 bytes in 0 blocks
+==55892== Reachable blocks (those to which a pointer was found) are not shown.
+==55892== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==55892== 
+==55892== Use --track-origins=yes to see where uninitialised values come from
+==55892== For lists of detected and suppressed errors, rerun with: -s
+==55892== ERROR SUMMARY: 47 errors from 40 contexts (suppressed: 0 from 0)
