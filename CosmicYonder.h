@@ -41,6 +41,7 @@
 avec les valeurs des éléments possibles de la salle ce qui causerait des 
 problèmes lors de l'affichage de la salle*/
 typedef enum{
+    OBJET_VIDE = -1, //
     BOUTEILLE_O2 = 8, //Objet commun
     BANDAGE = 9, //Objet commun
     CLE = 10, //Objet commun
@@ -133,6 +134,15 @@ typedef struct{
     int def;
 }Ennemi;
 
+typedef struct {
+    Joueur * joueur;
+    int graine;
+    int portesNonOuvertes;
+    int objets_speciaux_apparus;
+    int salles_existantes;
+    Salle ** carte;
+    Ennemi ** ennemis;
+}Partie;
 
 //Fonctions
 
@@ -173,5 +183,10 @@ Objet apparition_objet(Salle* salle, int* objets_speciaux_apparus, int sallesres
 int compteurPortesNonOuvertes(Salle ** carte, int salles_existantes); //Compte les portes non ouvertes
 
 HUD * hudJeu(int x, int y, int hauteur, int largeur, Joueur * joueur);
+
+// SAUVEGARDE
+void saveGame(Partie partie);
+Partie * loadGame();
+
 
 #endif
