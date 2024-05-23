@@ -123,12 +123,14 @@ Menu * cosmicMenu(int thauteur, int tlargeur); //ajout des attributs du menu
 void renduFenetreMenu(WINDOW * win, Menu menu, int thauteur, int tlargeur); // rendu menu avec bordures
 void renduFenetreEntree(WINDOW *win, EntreeTexte * entree, int x, int y, int hauteur, int largeur);
 void renduFenetreOptions(WINDOW *win, MiniMenu options); // rendu message avec bordures
+void renderRespawn(WINDOW * win, Texte * respawn);
 void entreeMenu(Menu *menu, int touche); // gestion des touches du menu
 void entreeMessage(MiniMenu *message, int touche);
 void entreeTexte(EntreeTexte *entree, int touche);
 EntreeTexte * graineMenu(int x, int y, int hauteur, int largeur);
 MiniMenu * options(int x, int y, int hauteur, int largeur); //
 MiniMenu *pauseMenu(int x, int y, int hauteur, int largeur);
+Texte * respawnTexte(int x, int y, int largeur);
 void pauseBoucle(WINDOW *mainwin, int *touche, MiniMenu *pause, int *jeuEtat);
 
 // free
