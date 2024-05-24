@@ -2,6 +2,12 @@
 #include "logger.h"
 
 void interactions(int touche, Joueur* joueur, Salle ** carte, int salles_existantes, WINDOW* mainwin){
+	if (joueur == NULL){
+		exit(1);
+	}
+	if(carte == NULL){
+		exit(2);
+	}
 	int mouv; //Stocke le mouvement voulu par le joueur
 	switch(touche){
 		/*change la position du joueur et efface le caractere qui se trouve a sa position actuelle

@@ -199,11 +199,22 @@ int main()
 		}
 		partie->portesNonOuvertes = compteurPortesNonOuvertes(partie->carte, partie->salles_existantes);
 		interactions(touche, partie->joueur,partie->carte, partie->salles_existantes, mainwin);
-		//ennemimv(&ennemi,partie->carte[0],&joueur,mainwin);
+		for(int i=0; i<partie->salles_existantes; i++){
+			if(partie->carte[i]->ennemi!=NULL){
+				ennemipos(partie->carte[i]->ennemi,partie->carte[i]);
+				if(mvEnnemic>40){
+					ennemimv(partie->carte[i]->ennemi,partie->carte[i],partie->joueur,mainwin);
+				}
+			}
+		}	
 		werase(mainwin);
 		dessineSalles(mainwin, partie->carte, partie->salles_existantes);
-		//afficheEnnemi(&ennemi, mainwin);
-		mvwaddch(mainwin,partie->joueur->y,partie->joueur->x, 'o'); //deplace le joueur a la nouvelle position
+		for(int i=0; i<partie->salles_existantes; i++){
+			if(partie->carte[i]->ennemi!=NULL){
+				afficheEnnemi(partie->carte[i]->ennemi, mainwin);
+			}
+		}	
+    mvwaddch(mainwin,partie->joueur->y,partie->joueur->x, 'o'); //deplace le joueur a la nouvelle position
 		renduHUD(mainwin, hud);
 
 		wrefresh(mainwin);
@@ -211,6 +222,10 @@ int main()
         if(touche == ESC) {
             pauseBoucle(mainwin, &touche, pause, &etatJeu);
         }
+       if(mvEnnemic>40){
+        	mvEnnemic=0;
+        }
+        mvEnnemic++;
         napms(1000 / FRAMES_PER_SECOND);
     }
 

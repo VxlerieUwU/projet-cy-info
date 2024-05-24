@@ -32,8 +32,8 @@
 #define UNICODE_STRING_LONG 10
 #define TAILLE_MAX_V 10
 #define TAILLE_MAX_H 20
-#define MAX_SALLES 5
-#define FRAMES_PER_SECOND 20
+#define MAX_SALLES 10
+#define FRAMES_PER_SECOND 60
 
 //Enumération des différents objets
 
@@ -41,7 +41,6 @@
 avec les valeurs des éléments possibles de la salle ce qui causerait des 
 problèmes lors de l'affichage de la salle*/
 typedef enum{
-    OBJET_VIDE = -1, //
     BOUTEILLE_O2 = 8, //Objet commun
     BANDAGE = 9, //Objet commun
     CLE = 10, //Objet commun
@@ -87,7 +86,6 @@ typedef struct{
 }Inventaire;
 
 typedef struct{
-    char * nom;
 	int pv;
 	int xp;
 	int niv;
@@ -104,18 +102,6 @@ typedef struct {
     int y;
     int ouvert;
 }Porte;
-
-typedef struct {
-    int longueur;
-    int hauteur;
-    int x; //abscisse de l'origine de la salle
-    int y; //ordonnée de l'origine de la salle
-    int ** disp; //disposition de la salle en unicode (murs, objets, portes...)
-    int decouvert; //1 si oui 0 si non
-    Porte * portes; //Portes de la salle
-    int nportes; //Nombre de portes de la salle
-    Objet objets[4];
-}Salle;
 
 typedef struct{
 	int x;
@@ -135,6 +121,20 @@ typedef struct{
 }Ennemi;
 
 typedef struct {
+    int longueur;
+    int hauteur;
+    int x; //abscisse de l'origine de la salle
+    int y; //ordonnée de l'origine de la salle
+    int ** disp; //disposition de la salle en unicode (murs, objets, portes...)
+    int decouvert; //1 si oui 0 si non
+    Porte * portes; //Portes de la salle
+    int nportes; //Nombres de portes de la salle
+    Objet objets[3];
+    Ennemi* ennemi;
+}Salle;
+
+
+typedef struct {
     Joueur * joueur;
     int graine;
     int portesNonOuvertes;
@@ -148,10 +148,10 @@ typedef struct {
 
 //Cette fonction permet de creer une salle a partir de dimensions fixees a l'aide de creerSalleProced
 Salle * creerSalle(int taille_horizontale, int taille_verticale, int x, int y, int nportes, 
-int entree, int posEntree, WINDOW* win, int* sallerest, int* objets_speciaux_apparus, int portesNonOuvertes);
+int entree, int posEntree, WINDOW* win, int* sallerest, int* objets_speciaux_apparus);
 //permet de creer des dimensions aleatoires pour generer une salle
 Salle * creerSalleProced(int x, int y, int nportes, int dir, WINDOW* win, 
-int* sallerest, int* objets_speciaux_apparus, int portesNonOuvertes);
+int* sallerest, int* objets_speciaux_apparus);
 //permet d'afficher toutes les salles
 void dessineSalles(WINDOW * win, Salle ** salle, int salles_existantes);
 //affiche une salle passee en parametre
@@ -168,18 +168,23 @@ void initJoueur(Joueur* joueur);
 void interactions(int touche, Joueur* joueur, Salle ** carte, int salles_existantes, WINDOW* mainwin); 
 //initialise un ennemi à l'aide d'attributs passés en paramètre
 Ennemi initEnnemi(int x, int y, int pv, int att, int def);
+//calcule la position globale de l'ennemi
+void ennemipos(Ennemi* ennemi,Salle* salle);
 //gere les mouvements de l'ennemi
 void ennemimv(Ennemi* ennemi,Salle* salle,Joueur* joueur, WINDOW* mainwin);
 //affiche un ennemi
 void afficheEnnemi(Ennemi* ennemi, WINDOW* mainwin);
+//spawn ennemi
+Ennemi* apparition_ennemi(Salle* salle);
 
 int creation_graine(EntreeTexte * graineEntree); //Crée la graine de génération du jeu.
 
 int maj_niveau(Joueur* joueur); //Gère mise à jour du niveau du joueur en fonction de son expérience
 int perte_vie(Joueur* joueur, Ennemi* ennemi); //Gère la perte de vie du joueur
 
-//Crée et fait apparaitre l'objet dans une salle en fonction des salles restantes
-Objet apparition_objet(Salle* salle, int* objets_speciaux_apparus, int sallesrest, int portesNonOuvertes); 
+Objet creation_objet(Salle* salle, int* objets_speciaux_apparus); //Crée un objet
+Objet apparition_objet(Salle* salle, int* objets_speciaux_apparus); //Fait apparaitre l'objet dans une salle
+ 
 int compteurPortesNonOuvertes(Salle ** carte, int salles_existantes); //Compte les portes non ouvertes
 
 HUD * hudJeu(int x, int y, int hauteur, int largeur, Joueur * joueur);
@@ -187,6 +192,5 @@ HUD * hudJeu(int x, int y, int hauteur, int largeur, Joueur * joueur);
 // SAUVEGARDE
 void saveGame(Partie partie);
 Partie * loadGame();
-
 
 #endif
