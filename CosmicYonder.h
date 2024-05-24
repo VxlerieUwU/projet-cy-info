@@ -181,8 +181,8 @@ Ennemi* apparition_ennemi(Salle* salle);
 int creation_graine(EntreeTexte * graineEntree); //Crée la graine de génération du jeu.
 
 int maj_niveau(Joueur* joueur); //Gère mise à jour du niveau du joueur en fonction de son expérience
-int perte_vie(Joueur* joueur, Ennemi* ennemi); //Gère la perte de vie du joueur
-
+void perte_vie_joueur(Joueur* joueur, Ennemi* ennemi); //Gère la perte de vie du joueur
+void perte_vie_ennemi(Ennemi* ennemi, Joueur* joueur); //gere la perte de vie de l'ennemi
 Objet creation_objet(Salle* salle, int* objets_speciaux_apparus); //Crée un objet
 Objet apparition_objet(Salle* salle, int* objets_speciaux_apparus, int sallesrest, int portesNonOuvertes);
 int compteurPortesNonOuvertes(Salle ** carte, int salles_existantes); //Compte les portes non ouvertes

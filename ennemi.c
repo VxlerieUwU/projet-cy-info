@@ -54,6 +54,9 @@ void ennemimv(Ennemi* ennemi,Salle* salle, Joueur* joueur, WINDOW* mainwin){
 			||mouv==*GENERATEUR_CHR || mouv==*REACTEUR_CHR ||mouv==*PC_CHR){
             ennemi->xRelatif--;  
         } 
+        else if(mouv=='o'){
+            perte_vie_joueur(joueur, ennemi);
+        }
     }
     else if(ennemi->xGlobal<joueur->x){
         mouv = mvwinch(mainwin, ennemi->yGlobal, ennemi->xGlobal+1);
@@ -61,19 +64,28 @@ void ennemimv(Ennemi* ennemi,Salle* salle, Joueur* joueur, WINDOW* mainwin){
 			||mouv==*GENERATEUR_CHR || mouv==*REACTEUR_CHR ||mouv==*PC_CHR){
             ennemi->xRelatif++;
         }   
+        else if(mouv=='o'){
+            perte_vie_joueur(joueur, ennemi);
+        }
     }
     else if(ennemi->yGlobal>joueur->y){
         mouv = mvwinch(mainwin, ennemi->yGlobal-1, ennemi->xGlobal);
         if(mouv==' '||mouv==*BOUTEILLE_O2_CHR || mouv==*BANDAGE_CHR ||mouv==*CLE_CHR
 			||mouv==*GENERATEUR_CHR || mouv==*REACTEUR_CHR ||mouv==*PC_CHR){
             ennemi->yRelatif--;
-        }    
+        }  
+        else if(mouv=='o'){
+            perte_vie_joueur(joueur, ennemi);
+        }  
     }
     else if(ennemi->yGlobal<joueur->y){
         mouv = mvwinch(mainwin, ennemi->yGlobal+1, ennemi->xGlobal);
         if(mouv==' '||mouv==*BOUTEILLE_O2_CHR || mouv==*BANDAGE_CHR ||mouv==*CLE_CHR
 			||mouv==*GENERATEUR_CHR || mouv==*REACTEUR_CHR ||mouv==*PC_CHR){
             ennemi->yRelatif++;
+        }
+        else if(mouv=='o'){
+            perte_vie_joueur(joueur, ennemi);
         }
 
     }        
@@ -112,4 +124,15 @@ Ennemi* apparition_ennemi(Salle* salle){
     *ennemi = initEnnemi(x, y, 10, 10, 10); //Type et création de l'ennemi
 
     return ennemi;
+}
+
+void perte_vie_ennemi(Ennemi* ennemi, Joueur* joueur){
+    /* Le joueur perd de la vie quand un ennemi est sur sa case en fonction de la défense du joueur et de l'attaque de l'ennemi) */
+    if(joueur==NULL){
+       exit(11); 
+    }
+    if(ennemi==NULL){
+       exit(12); 
+    }
+    ennemi-> pv -= joueur->att - ennemi->def;
 }

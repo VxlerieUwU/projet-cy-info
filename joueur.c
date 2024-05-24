@@ -20,7 +20,7 @@ int maj_niveau(Joueur* joueur){
     return joueur-> niv = 1 + joueur->xp/100;
 }
 
-int perte_vie(Joueur* joueur, Ennemi* ennemi){
+void perte_vie_joueur(Joueur* joueur, Ennemi* ennemi){
     /* Le joueur perd de la vie quand un ennemi est sur sa case en fonction de la défense du joueur et de l'attaque de l'ennemi) */
     if(joueur==NULL){
        exit(3); 
@@ -28,5 +28,5 @@ int perte_vie(Joueur* joueur, Ennemi* ennemi){
     if(ennemi==NULL){
        exit(4); 
     }
-    return joueur-> pv -= ennemi->att - joueur->def;
+    joueur-> pv -= ennemi->att - joueur->def;
 }
