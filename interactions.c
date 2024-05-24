@@ -24,7 +24,7 @@ void interactions(int touche, Joueur* joueur, Salle ** carte, int salles_existan
 			else{
 				for(int i = 0; i < salles_existantes; i++) {
 					if(carte[i]->ennemi!=NULL && carte[i]->ennemi->xGlobal == joueur->x && carte[i]->ennemi->yGlobal == joueur->y-1){
-						perte_vie_ennemi(carte[i]->ennemi, joueur);
+						perte_vie_ennemi(carte[i]->ennemi, joueur,mainwin);
 					}
 				}
 			}
@@ -41,7 +41,7 @@ void interactions(int touche, Joueur* joueur, Salle ** carte, int salles_existan
 			else{
 				for(int i = 0; i < salles_existantes; i++) {
 					if(carte[i]->ennemi!=NULL && carte[i]->ennemi->xGlobal == joueur->x && carte[i]->ennemi->yGlobal == joueur->y+1){
-						perte_vie_ennemi(carte[i]->ennemi, joueur);
+						perte_vie_ennemi(carte[i]->ennemi, joueur,mainwin);
 					}
 				}
 			}
@@ -57,7 +57,7 @@ void interactions(int touche, Joueur* joueur, Salle ** carte, int salles_existan
 			else{
 				for(int i = 0; i < salles_existantes; i++) {
 					if(carte[i]->ennemi!=NULL && carte[i]->ennemi->xGlobal == joueur->x-1 && carte[i]->ennemi->yGlobal == joueur->y){
-						perte_vie_ennemi(carte[i]->ennemi, joueur);
+						perte_vie_ennemi(carte[i]->ennemi, joueur,mainwin);
 					}
 				}
 			}
@@ -73,7 +73,7 @@ void interactions(int touche, Joueur* joueur, Salle ** carte, int salles_existan
 			else{
 				for(int i = 0; i < salles_existantes; i++) {
 					if(carte[i]->ennemi!=NULL && carte[i]->ennemi->xGlobal == joueur->x+1 && carte[i]->ennemi->yGlobal == joueur->y){
-						perte_vie_ennemi(carte[i]->ennemi, joueur);
+						perte_vie_ennemi(carte[i]->ennemi, joueur,mainwin);
 					}
 				}
 			}

@@ -203,7 +203,7 @@ int main()
 		interactions(touche, partie->joueur,partie->carte, partie->salles_existantes, mainwin);
 		for(int i=0; i<partie->salles_existantes; i++){
 			if(partie->carte[i]->ennemi!=NULL){
-				ennemipos(partie->carte[i]->ennemi,partie->carte[i]);
+				ennemipos(partie->carte[i]->ennemi,partie->carte[i],mainwin);
 				if(partie->mvEnnemic>40){
 					ennemimv(partie->carte[i]->ennemi,partie->carte[i],partie->joueur,mainwin);
 				}
@@ -216,7 +216,7 @@ int main()
 				afficheEnnemi(partie->carte[i]->ennemi, mainwin);
 			}
 		}	
-    mvwaddch(mainwin,partie->joueur->y,partie->joueur->x, 'o'); //deplace le joueur a la nouvelle position
+    	mvwaddch(mainwin,partie->joueur->y,partie->joueur->x, 'o'); //deplace le joueur a la nouvelle position
 		renduHUD(mainwin, hud);
 
 		wrefresh(mainwin);
@@ -224,7 +224,7 @@ int main()
         if(touche == ESC) {
             pauseBoucle(mainwin, &touche, pause, &etatJeu);
         }
-       if(partie->mvEnnemic>40){
+        if(partie->mvEnnemic>40){
         	partie->mvEnnemic=0;
         }
         partie->mvEnnemic++;
