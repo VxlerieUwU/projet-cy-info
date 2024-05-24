@@ -13,8 +13,17 @@ int entree, int posEntree, WINDOW* win, int* sallesrest, int* objets_speciaux_ap
         exit(2);
     }
     //verif taille
-    if(taille_horizontale<3 || taille_verticale<3){
-        exit(3);
+    if(taille_horizontale<3){
+        taille_horizontale=3;
+    }
+    if(taille_verticale<3){
+        taille_verticale=3;
+    }
+    if(nportes<1){
+        nportes=1;
+    }
+    else if(nportes>4){
+        nportes=4;
     }
     //enleve le marquage de caracteres invisibles
     switch(entree){
@@ -367,8 +376,11 @@ int entree, int posEntree, WINDOW* win, int* sallesrest, int* objets_speciaux_ap
     //Il peut y avoir jusqu'à 1 ennemi par salle
     /* Le pourcentage de chance d'apparition d'ennemi diminue en fonction du nombre
     d'objets dans la salle (60% si 0, 30% si 1, 20% si 2)*/
-    if(rand()%100 <= 100){ 
+    if(rand()%100 <= 20){ 
         salle->ennemi = apparition_ennemi(salle);
+    }
+    else{
+        salle->ennemi = NULL;
     }
 
     return salle;
@@ -376,6 +388,16 @@ int entree, int posEntree, WINDOW* win, int* sallesrest, int* objets_speciaux_ap
 
 Salle * creerSalleProced(int x, int y, int nportes, int dir, WINDOW* win, 
 int* sallesrest, int* objets_speciaux_apparus) {
+    //verifs
+    if(win==NULL){
+        exit(5);
+    }
+    if(sallesrest==NULL){
+        exit(6);
+    }
+    if(objets_speciaux_apparus==NULL){
+        exit(7);
+    }
     //init attributs salles
     int v, h;
     v = rand()%(TAILLE_MAX_V-2)+3;
@@ -419,6 +441,12 @@ int* sallesrest, int* objets_speciaux_apparus) {
 
 
 void dessineSalle(WINDOW * win, Salle * salle) {
+    if(win==NULL){
+        exit(8);
+    }
+    if(salle==salle){
+        exit(9);
+    }
     /* affiche la salle sur la fenetre en parcourant la salle*/
     int i, j;
     for(i=0; i < salle->hauteur; i++){
@@ -505,6 +533,15 @@ void dessineSalle(WINDOW * win, Salle * salle) {
 }
 
 void dessineSalles(WINDOW * win, Salle ** carte, int salles_existantes) {
+    if(win==NULL){
+        exit(10);
+    }
+    if(carte==NULL){
+        exit(11);
+    }
+    if(salles_existantes<0){
+        exit(12);
+    }
     /*affiche l'ensemble des salles*/
     for(int i = 0; i<salles_existantes; i++) {
         dessineSalle(win, carte[i]);

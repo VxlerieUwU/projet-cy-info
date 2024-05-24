@@ -171,9 +171,11 @@ int main()
 		}
 		interactions(touche, &joueur,carte, salles_existantes, mainwin);
 		for(int i=0; i<salles_existantes; i++){
-			ennemipos(carte[i]->ennemi,carte[i]);
-			if(carte[i]->ennemi!=NULL && mvEnnemic>40){
-				ennemimv(carte[i]->ennemi,carte[i],&joueur,mainwin);
+			if(carte[i]->ennemi!=NULL){
+				ennemipos(carte[i]->ennemi,carte[i]);
+				if(mvEnnemic>40){
+					ennemimv(carte[i]->ennemi,carte[i],&joueur,mainwin);
+				}
 			}
 		}	
 		wclear(mainwin);
