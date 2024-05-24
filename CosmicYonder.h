@@ -182,9 +182,10 @@ Ennemi* apparition_ennemi(Salle* salle);
 void desapparition_ennemi(Ennemi* ennemi, Salle* salle,Joueur* joueur, WINDOW* win); //fait despawn l'ennemi quand il meurt
 int creation_graine(EntreeTexte * graineEntree); //Crée la graine de génération du jeu.
 
-int maj_niveau(Joueur* joueur); //Gère mise à jour du niveau du joueur en fonction de son expérience
+void maj_niveau(Joueur* joueur); //Gère mise à jour du niveau du joueur en fonction de son expérience
 void perte_vie_joueur(Joueur* joueur, Ennemi* ennemi); //Gère la perte de vie du joueur
-void perte_vie_ennemi(Ennemi* ennemi, Joueur* joueur, WINDOW* win); //gere la perte de vie de l'ennemi
+void perte_vie_ennemi(Ennemi* ennemi, Joueur* joueur); //gere la perte de vie de l'ennemi
+void reapparition_joueur(Joueur* joueur, Salle** carte, int salles_existantes); //fait reapparaitre le joueur en cas de mort
 Objet creation_objet(Salle* salle, int* objets_speciaux_apparus); //Crée un objet
 Objet apparition_objet(Salle* salle, int* objets_speciaux_apparus, int sallesrest, int portesNonOuvertes);
 int compteurPortesNonOuvertes(Salle ** carte, int salles_existantes); //Compte les portes non ouvertes

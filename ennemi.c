@@ -129,7 +129,7 @@ Ennemi* apparition_ennemi(Salle* salle){
     return ennemi;
 }
 
-void perte_vie_ennemi(Ennemi* ennemi, Joueur* joueur, WINDOW* win){
+void perte_vie_ennemi(Ennemi* ennemi, Joueur* joueur){
     /* L'ennemi perd de la vie quand le joueur avance vers lui */
     if(joueur==NULL){
        exit(11); 

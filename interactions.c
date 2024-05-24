@@ -8,6 +8,9 @@ void interactions(int touche, Joueur* joueur, Salle ** carte, int salles_existan
 	if(carte == NULL){
 		exit(2);
 	}
+	if(joueur->pv<=0){
+		reapparition_joueur(joueur, carte,salles_existantes);
+	}
 	int mouv; //Stocke le mouvement voulu par le joueur
 	switch(touche){
 		/*change la position du joueur et efface le caractere qui se trouve a sa position actuelle
@@ -24,7 +27,7 @@ void interactions(int touche, Joueur* joueur, Salle ** carte, int salles_existan
 			else{
 				for(int i = 0; i < salles_existantes; i++) {
 					if(carte[i]->ennemi!=NULL && carte[i]->ennemi->xGlobal == joueur->x && carte[i]->ennemi->yGlobal == joueur->y-1){
-						perte_vie_ennemi(carte[i]->ennemi, joueur,mainwin);
+						perte_vie_ennemi(carte[i]->ennemi, joueur);
 					}
 				}
 			}
@@ -41,7 +44,7 @@ void interactions(int touche, Joueur* joueur, Salle ** carte, int salles_existan
 			else{
 				for(int i = 0; i < salles_existantes; i++) {
 					if(carte[i]->ennemi!=NULL && carte[i]->ennemi->xGlobal == joueur->x && carte[i]->ennemi->yGlobal == joueur->y+1){
-						perte_vie_ennemi(carte[i]->ennemi, joueur,mainwin);
+						perte_vie_ennemi(carte[i]->ennemi, joueur);
 					}
 				}
 			}
@@ -57,7 +60,7 @@ void interactions(int touche, Joueur* joueur, Salle ** carte, int salles_existan
 			else{
 				for(int i = 0; i < salles_existantes; i++) {
 					if(carte[i]->ennemi!=NULL && carte[i]->ennemi->xGlobal == joueur->x-1 && carte[i]->ennemi->yGlobal == joueur->y){
-						perte_vie_ennemi(carte[i]->ennemi, joueur,mainwin);
+						perte_vie_ennemi(carte[i]->ennemi, joueur);
 					}
 				}
 			}
@@ -73,7 +76,7 @@ void interactions(int touche, Joueur* joueur, Salle ** carte, int salles_existan
 			else{
 				for(int i = 0; i < salles_existantes; i++) {
 					if(carte[i]->ennemi!=NULL && carte[i]->ennemi->xGlobal == joueur->x+1 && carte[i]->ennemi->yGlobal == joueur->y){
-						perte_vie_ennemi(carte[i]->ennemi, joueur,mainwin);
+						perte_vie_ennemi(carte[i]->ennemi, joueur);
 					}
 				}
 			}
