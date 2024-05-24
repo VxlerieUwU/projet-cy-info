@@ -177,7 +177,9 @@ int main()
 		//ennemimv(&ennemi,carte[0],&joueur,mainwin);
 		for(int i=0;i<salles_existantes;i++){
 			for(int j=0;j<4;j++){
-				collisions_objet(joeuur,carte[i],carte[i]->objets[j],&nb_obj_inv,&nb_obj_inv);
+				if(carte[i]->objets[j]!=NULL){
+					collisions_objet(&joueur,carte[i],carte[i]->objets[j],&nb_obj_inv,&nb_obj_spe_inv);
+				}	
 			}
 		}
 

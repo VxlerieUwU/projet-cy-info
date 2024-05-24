@@ -87,7 +87,7 @@ typedef struct{
 	int niv;
 	int att;
 	int def;
-	Objet inventaire[INV_TAILLE]; //l'inventaire est un tableau d'objets (a definir) inventaire;
+	Objet* inventaire[INV_TAILLE]; //l'inventaire est un tableau d'objets (a definir) inventaire;
 	int x;
 	int y;
 }Joueur;
@@ -108,7 +108,7 @@ typedef struct {
     int decouvert; //1 si oui 0 si non
     Porte * portes; //Portes de la salle
     int nportes; //Nombres de portes de la salle
-    Objet objets[3];
+    Objet* objets[4];
 }Salle;
 
 typedef struct{
@@ -163,8 +163,8 @@ int creation_graine(EntreeTexte * graineEntree); //Crée la graine de générati
 int maj_niveau(Joueur* joueur); //Gère mise à jour du niveau du joueur en fonction de son expérience
 int perte_vie(Joueur* joueur, Ennemi* ennemi); //Gère la perte de vie du joueur
 
-Objet creation_objet(Salle* salle, int* objets_speciaux_apparus); //Crée un objet
-Objet apparition_objet(Salle* salle, int* objets_speciaux_apparus); //Fait apparaitre l'objet dans une salle
-void collisions_objet(Joueur* joueur, Salle* salle, Objet objet, int* nb_obj_inv, int* nb_obj_spe_inv);
+Objet* creation_objet(Salle* salle, int* objets_speciaux_apparus); //Crée un objet
+Objet* apparition_objet(Salle* salle, int* objets_speciaux_apparus); //Fait apparaitre l'objet dans une salle
+void collisions_objet(Joueur* joueur, Salle* salle, Objet* objet, int* nb_obj_inv, int* nb_obj_spe_inv);
 
 #endif

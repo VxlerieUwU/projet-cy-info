@@ -351,12 +351,15 @@ int entree, int posEntree, WINDOW* win, int* sallesrest, int* objets_speciaux_ap
 
     //ALLOCATION OBJETS
     int objets_existants = 0; //Objets existants dans la salle à sa création soit 0
-    for(int i = 0; i<3;i++){ //Il peut y avoir jusqu'à 3 objets par salle
+    for(int i = 0; i<4;i++){ //Il peut y avoir jusqu'à 3 objets par salle
         /* Le pourcentage de chance d'apparition d'objets diminue en fonction du nombre
         d'objets dans la salle (60% si 0, 30% si 1, 20% si 2)*/
         if(rand()%100 <= (60/(objets_existants+1))){ 
             salle->objets[objets_existants] = apparition_objet(salle, objets_speciaux_apparus);
             objets_existants++;
+        }
+        else{
+            salle->objets[objets_existants]=NULL;
         }
     } 
     
