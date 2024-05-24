@@ -24,15 +24,14 @@ HUD * hudJeu(int x, int y, int hauteur, int largeur, Joueur * joueur) {
     Texte * nameText = NULL;
     Texte * attText = NULL;
     Texte * defText = NULL;
+    Texte * minuteurTexte = NULL;
 
     char ** atkStr = NULL;
     char ** defStr = NULL;
     char ** nivStr = NULL;
     char ** xpStr = NULL;
     char ** pvStr = NULL;
-
-
-
+    char ** minuteurStr = NULL;
 
     char ** nameStr = NULL;
 
@@ -91,10 +90,23 @@ HUD * hudJeu(int x, int y, int hauteur, int largeur, Joueur * joueur) {
         logMessage(ERROR, "Erreur d'allocation de mémoire pour les points de vie du joueur");
         exit(1);
     }
+    
+    minuteurStr = malloc(sizeof(char*));
+    if(minuteurStr == NULL){
+        logMessage(ERROR, "Erreur d'allocation de mémoire pour le minuteur");
+        exit(1);
+    
+    }
+    minuteurStr[0] = malloc(sizeof(char) * 200);
+    if(minuteurStr == NULL){
+        logMessage(ERROR, "Erreur d'allocation de mémoire pour le minuteur");
+        exit(1);
+    }
 
     *nivStr = strcpy(*nivStr, "Niveau : ");
     *xpStr = strcpy(*xpStr, "XP : ");
     *pvStr = strcpy(*pvStr, "PV : ");
+    *minuteurStr = strcpy(*minuteurStr, "Minuteur : ");
 
 
     nameStr = malloc(sizeof(char*));
@@ -111,6 +123,7 @@ HUD * hudJeu(int x, int y, int hauteur, int largeur, Joueur * joueur) {
     sprintf(*nameStr, "Nom : %s", joueur->nom);
     sprintf(*atkStr, "Attaque : %d", joueur->att);
     sprintf(*defStr, "Défense : %d", joueur->def);
+    sprintf(*minuteurStr, "Minuteur : %d", 300);
 
     pv = malloc(sizeof(StatusBar));
     if(pv == NULL){
@@ -158,6 +171,13 @@ HUD * hudJeu(int x, int y, int hauteur, int largeur, Joueur * joueur) {
         logMessage(ERROR, "Erreur d'allocation de mémoire pour le texte de la défense");
         exit(1);
     }
+    minuteurTexte = malloc(sizeof(Texte));
+    if(minuteurTexte == NULL){
+        logMessage(ERROR, "Erreur d'allocation de mémoire pour le texte du minuteur");
+        exit(1);
+        
+    }
+    
 
     pv = creerStatusBar(x + 11, y + hauteur/2, 10, 2, joueur->pv/10);
     xp = creerStatusBar(x + 11, y + hauteur/2 + 1, 10, 3, joueur->xp/10);
@@ -169,8 +189,9 @@ HUD * hudJeu(int x, int y, int hauteur, int largeur, Joueur * joueur) {
     nameText = creerTexte(x + 1, y + hauteur/2 - 2, nameStr, 1, 7);
     attText = creerTexte(x + largeur/3 - 10, y + hauteur/2, atkStr, 1, 7);
     defText = creerTexte(x + largeur/3 - 10, y + hauteur/2 + 1, defStr, 1, 7);
+    minuteurTexte = creerTexte(x + 2*largeur/3 - 10,y+hauteur/2 + 3,minuteurStr,1,7);
 
-    hud = creerHUD(x, y, hauteur, largeur, 1, 6, 3);
+    hud = creerHUD(x, y, hauteur, largeur, 1, 7, 3);
 
     hud->textWidgets[0] = pvText;
     hud->textWidgets[1] = xpText;
@@ -178,6 +199,7 @@ HUD * hudJeu(int x, int y, int hauteur, int largeur, Joueur * joueur) {
     hud->textWidgets[3] = nameText;
     hud->textWidgets[4] = attText;
     hud->textWidgets[5] = defText;
+    hud->textWidgets[6] = minuteurTexte;
 
     hud->statBarWidgets[0] = pv;
     hud->statBarWidgets[1] = xp;

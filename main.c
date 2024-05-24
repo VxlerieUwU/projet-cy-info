@@ -44,7 +44,8 @@ int main()
     int etatJeu = 1; // permet de quitter le jeu si besoin
 	int hauteur, longueur;
 	int nsalles = MAX_SALLES; //bug constante a regler
-	int minuteur = MINUTEUR;
+	int minuteur = MINUTEUR; //minuteur en secondes. Si celui-ci atteint 0 le jeu est perdu
+	int decr_minuteur = 0; //Variable servant à convertir les tours de boucles en une seconde pour décrémenter le minuteur
 	Partie * partie = creerPartie();
 
 	getmaxyx(stdscr,hauteur,longueur); //recupere la taille du terminal
@@ -209,7 +210,7 @@ int main()
 				}
 			}
 		}	
-		werase(mainwin);
+		wclear(mainwin);
 		dessineSalles(mainwin, partie->carte, partie->salles_existantes);
 		for(int i=0; i<partie->salles_existantes; i++){
 			if(partie->carte[i]->ennemi!=NULL){
@@ -229,6 +230,10 @@ int main()
         }
         partie->mvEnnemic++;
         napms(1000 / IMAGES_PAR_SECONDE);
+		decr_minuteur += 1;
+		if(decr_minuteur >= 1000/IMAGES_PAR_SECONDE){
+			minuteur -= 1;
+		}
     }
 
 	saveGame(*partie);
