@@ -34,7 +34,7 @@
 #define TAILLE_MAX_H 20
 #define MAX_SALLES 10
 #define IMAGES_PAR_SECONDE 60
-#define MINUTEUR 300
+#define MINUTEUR 10
 
 //Enumération des différents objets
 

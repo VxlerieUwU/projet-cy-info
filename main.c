@@ -28,6 +28,11 @@ Partie * creerPartie() {
 	return partie;
 }
 
+int decremente_temps(int minuteur){
+	return minuteur - 1;
+}
+
+
 int main()
 {
 	char logBuffer[255];
@@ -230,9 +235,13 @@ int main()
         }
         partie->mvEnnemic++;
         napms(1000 / IMAGES_PAR_SECONDE);
-		decr_minuteur += 1;
+		decr_minuteur++;
 		if(decr_minuteur >= 1000/IMAGES_PAR_SECONDE){
-			minuteur -= 1;
+			decr_minuteur = 0;
+			minuteur = decremente_temps(minuteur);
+		}
+		if(minuteur <= 0){
+			etatJeu = 0;
 		}
     }
 
