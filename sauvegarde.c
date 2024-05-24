@@ -328,7 +328,7 @@ JSONObject * salleToJSONObj(Salle salle) {
         exit(1);
     }
 
-    for(int i = 0; i < 4; i++) {
+    for(int i = 0; i < 3; i++) {
         salleJSON->pairs[5].value.arrayValue->values[i].value.type = JSON_OBJECT;
         salleJSON->pairs[5].value.arrayValue->values[i].value.objectValue = objetToJSONObj(salle.objets[i]);
     }
