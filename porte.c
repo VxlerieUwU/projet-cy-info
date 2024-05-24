@@ -36,9 +36,6 @@ Porte initPorte(int dir,int v,int h){
 }
 
 void ouvrirPorte(Salle ** carte, int indexSalleAct,int indexNouvSalle, int indexPorte, int dir) {
-    if(carte==NULL){
-        exit(1);
-    }
     /*permet de gerer l'ouverture des portes pour la creation de salles*/
 
     //ouvre la porte de la salle ou le joueur se trouve

@@ -53,7 +53,10 @@ int parseJSONInt(char **str);
 char * parseJSONString(char **str);
 int chrLookup(char **str, char chr);
 char * skipSpaces(char *str);
+int intLength(int i);
 
 char * serializeJSONObject(JSONObject o);
-
+char * serializeJSONArray(JSONArray a);
+char * serializeJSONBool(JSONValue b);
+char * serializeJSONInt(JSONValue i);
 #endif // JSON_H

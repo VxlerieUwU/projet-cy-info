@@ -1,23 +1,36 @@
 #include "CosmicYonder.h"
 
-Objet creation_objet(Salle* salle, int* objets_speciaux_apparus){
-    /* Décide quel objet sera l'objet à faire apparaitre en fonction du numéro de la salle*/
+
+Objet apparition_objet(Salle* salle, int* objets_speciaux_apparus, int sallesrest, int portesNonOuvertes){
+    /*Décide quel objet sera l'objet à faire apparaitre en fonction du numéro de la salle
+    et fait apparaitre un objet Objet dans une salle Salle*/
+
+    //Vérification allocation salle
     if(salle == NULL){
         exit(2);
     }
 
+    int x,y; //Coordonnées absolues de l'objet
     Objet objet;
+
     //Initialisation objet
     objet.id = 0;
     objet.x = -1;
     objet.y = -1;
     
+    /* Si le nombre de salles restantes à générer est identique aux nombres d'objets
+    à récupérer pour gagner non apparues, on force l'apparition d'un de ces objets dans chacune
+    des salles restantes*/
+    if(sallesrest == 1 && portesNonOuvertes == 4-(*objets_speciaux_apparus)){
+        objet.id = 11 + (*objets_speciaux_apparus);
+        (*objets_speciaux_apparus)++;
+    }
 
 
     /*Condition pour faire apparaitre les objets à récupérer pour gagner le jeu
     dans les salles sans portes supplémentaires et si tous les objets à récupérer ne sont pas
     encore tous apparus*/
-    if(salle->nportes <= 1 && (*objets_speciaux_apparus) < 4){  
+    else if(salle->nportes <= 1 && (*objets_speciaux_apparus) < 4){  
         /* 4 est le nombre d'objets communs (3) de l'énumération Id + 1 : ce + 1
         sert à faire apparaitre les objets à récupérer pour gagner le jeu.  
         8 est le nombre d'éléments possibles de la salle avant l'apparition des objets (murs, vide
@@ -38,24 +51,7 @@ Objet creation_objet(Salle* salle, int* objets_speciaux_apparus){
         objet.id = 8 + rand()%3;
     }
 
-    return objet;    
 
-}
-
-Objet apparition_objet(Salle* salle, int* objets_speciaux_apparus){
-    /* Fait apparaitre un objet Objet dans une salle Salle*/
-
-    //Vérification allocation salle
-    if(salle == NULL){
-        exit(2);
-    }
-
-    int x,y; //Coordonnées absolues de l'objet
-
-    Objet objet;
-    //Vérification allocation objet
-    
-    objet = creation_objet(salle, objets_speciaux_apparus); //Type et création de l'objet
 	do{
         x = 1 + rand()%((salle->longueur)-2); //Abscisse objet relative à la salle
         y = 1 + rand()%((salle->hauteur)-2); //Ordonnée objet relative à la salle

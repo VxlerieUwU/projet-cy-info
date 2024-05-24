@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "ui.h"
+#include "../logger.h"
 
 Menu *cosmicMenu(int thauteur, int tlargeur) {
     int titreLignes, titreX, titreY; // nombre de lignes et padding vertical du titre
@@ -63,6 +64,76 @@ Menu *cosmicMenu(int thauteur, int tlargeur) {
 
     return menu;
 }
+
+Texte * respawnTexte(int x, int y, int largeur) {
+    Texte * respawnTxt = NULL;
+    respawnTxt = malloc(sizeof(Texte));
+    if(respawnTxt == NULL) {
+        logMessage(CRITICAL, "erreur malloc texte respawn");
+        exit(1);
+    }
+    char **respawnTexte = NULL;
+    if(largeur >= 82) {
+        respawnTexte = malloc(sizeof(char*) * 8);
+        if(respawnTexte == NULL) {
+            logMessage(CRITICAL, "erreur malloc char** texte respawn");
+            exit(1);
+        }
+        for(int i = 0; i < 8; i++) {
+            respawnTexte[i] = NULL;
+            respawnTexte[i] = malloc(sizeof(char) * 82);
+            if(respawnTexte[i] == NULL) {
+                logMessage(CRITICAL, "erreur malloc char* texte respawn");
+                exit(1);
+            }
+        }
+        respawnTexte[0] = " ________  _______   ________  ________  ________  ___       __   ________      ";
+        respawnTexte[1] = R"(|\   __  \|\  ___ \ |\   ____\|\   __  \|\   __  \|\  \     |\  \|\   ___  \    )";
+        respawnTexte[2] = R"(\ \  \|\  \ \   __/|\ \  \___|\ \  \|\  \ \  \|\  \ \  \    \ \  \ \  \\ \  \   )";
+        respawnTexte[3] = R"( \ \   _  _\ \  \_|/_\ \_____  \ \   ____\ \   __  \ \  \  __\ \  \ \  \\ \  \  )";
+        respawnTexte[4] = R"(  \ \  \\  \\ \  \_|\ \|____|\  \ \  \___|\ \  \ \  \ \  \|\__\_\  \ \  \\ \  \ )";
+        respawnTexte[5] = R"(   \ \__\\ _\\ \_______\____\_\  \ \__\    \ \__\ \__\ \____________\ \__\\ \__\)";
+        respawnTexte[6] = R"(    \|__|\|__|\|_______|\_________\|__|     \|__|\|__|\|____________|\|__| \|__|)";
+        respawnTexte[7] = R"(                       \|_________|                                             )";
+        respawnTxt = creerTexte(x, y, respawnTexte, 8, 4);
+    } else {
+        respawnTexte = malloc(sizeof(char*));
+        if(respawnTexte == NULL) {
+            logMessage(CRITICAL, "erreur malloc char** texte respawn");
+            exit(1);
+        }
+        respawnTexte[0] = malloc(sizeof(char) * 8);
+        if(respawnTexte[0] == NULL) {
+            logMessage(CRITICAL, "erreur malloc char* texte respawn");
+            exit(1);
+        }
+        respawnTexte[0] = "RESPAWN";
+        respawnTxt = creerTexte(x, y, respawnTexte, 1, 4);
+
+    }
+    return respawnTxt;
+}
+
+void renderRespawn(WINDOW * win, Texte * respawn) {
+    wattron(win, COLOR_PAIR(5));
+
+    mvwhline(win, respawn->y - 1, respawn->x - 1, ACS_HLINE, 82);
+    mvwhline(win, respawn->y + 9, respawn->x - 1, ACS_HLINE, 82);
+    mvwvline(win, respawn->y - 1, respawn->x - 1, ACS_VLINE, 9);
+    mvwvline(win, respawn->y - 1, respawn->x + 81, ACS_VLINE, 9);
+    mvwaddch(win, respawn->y - 1, respawn->x - 1, ACS_ULCORNER);
+    mvwaddch(win, respawn->y - 1, respawn->x + 81, ACS_URCORNER);
+    mvwaddch(win, respawn->y + 9, respawn->x - 1, ACS_LLCORNER);
+    mvwaddch(win, respawn->y + 9, respawn->x + 81, ACS_LRCORNER);
+    wattroff(win, COLOR_PAIR(5));
+
+    renduTexte(win, *respawn);
+}
+
+
+
+
+
 
 MiniMenu *options(int x, int y, int hauteur, int largeur) {
     MiniMenu *parametres;

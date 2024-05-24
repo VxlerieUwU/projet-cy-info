@@ -48,6 +48,8 @@ typedef enum{
     REACTEUR_1 = 12, // Objet à récupérer pour gagner
     REACTEUR_2 = 13, // Objet à récupérer pour gagner
     PC = 14, // Objet à récupérer pour gagner
+    BOBBY = 15,
+    CRAMPTES = 16,
 }Id;
 
 //Enumération des élements possibles de la salle
@@ -132,6 +134,16 @@ typedef struct {
 }Salle;
 
 
+typedef struct {
+    Joueur * joueur;
+    int graine;
+    int portesNonOuvertes;
+    int objets_speciaux_apparus;
+    int salles_existantes;
+    Salle ** carte;
+    Ennemi ** ennemis;
+}Partie;
+
 //Fonctions
 
 //Cette fonction permet de creer une salle a partir de dimensions fixees a l'aide de creerSalleProced
@@ -173,5 +185,12 @@ int perte_vie(Joueur* joueur, Ennemi* ennemi); //Gère la perte de vie du joueur
 Objet creation_objet(Salle* salle, int* objets_speciaux_apparus); //Crée un objet
 Objet apparition_objet(Salle* salle, int* objets_speciaux_apparus); //Fait apparaitre l'objet dans une salle
  
+int compteurPortesNonOuvertes(Salle ** carte, int salles_existantes); //Compte les portes non ouvertes
+
+HUD * hudJeu(int x, int y, int hauteur, int largeur, Joueur * joueur);
+
+// SAUVEGARDE
+void saveGame(Partie partie);
+Partie * loadGame();
 
 #endif
