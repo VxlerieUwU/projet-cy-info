@@ -12,12 +12,15 @@ void initJoueur(Joueur* joueur){
     joueur->def = 5;
 } 
 
-int maj_niveau(Joueur* joueur){
+void maj_niveau(Joueur* joueur){
     /* Gère le gain de niveau du joueur en fonction de son expérience */
     if (joueur == NULL){
         exit(2);
     }
-    return joueur-> niv = 1 + joueur->xp/100;
+    joueur-> niv = 1 + joueur->xp/100;
+    joueur-> att = 10 + joueur->niv*5;
+    joueur-> def = 5 + joueur->niv;
+    
 }
 
 void perte_vie_joueur(Joueur* joueur, Ennemi* ennemi){
