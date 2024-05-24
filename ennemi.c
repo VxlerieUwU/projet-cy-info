@@ -44,19 +44,38 @@ void ennemimv(Ennemi* ennemi,Salle* salle, Joueur* joueur, WINDOW* mainwin){
     if(mainwin==NULL){
         exit(6);
     }
+    int mouv = 0;
     /*ces conditions permettent a l'ennemi de se deplacer
     compare la position de l'ennemi et du joueur et modifie la position de l'ennemi afin qu'il se rapproche du joueur*/
-    if(ennemi->xGlobal>joueur->x && mvwinch(mainwin, ennemi->yGlobal, ennemi->xGlobal-1)==' '){
-        ennemi->xRelatif--;
+    
+    if(ennemi->xGlobal>joueur->x){
+        mouv = mvwinch(mainwin, ennemi->yGlobal, ennemi->xGlobal-1);
+        if(mouv==' '||mouv==*BOUTEILLE_O2_CHR || mouv==*BANDAGE_CHR ||mouv==*CLE_CHR
+			||mouv==*GENERATEUR_CHR || mouv==*REACTEUR_CHR ||mouv==*PC_CHR){
+            ennemi->xRelatif--;  
+        } 
     }
-    else if(ennemi->xGlobal<joueur->x && mvwinch(mainwin, ennemi->yGlobal, ennemi->xGlobal+1)==' '){
-        ennemi->xRelatif++;
+    else if(ennemi->xGlobal<joueur->x){
+        mouv = mvwinch(mainwin, ennemi->yGlobal, ennemi->xGlobal+1);
+        if(mouv==' '||mouv==*BOUTEILLE_O2_CHR || mouv==*BANDAGE_CHR ||mouv==*CLE_CHR
+			||mouv==*GENERATEUR_CHR || mouv==*REACTEUR_CHR ||mouv==*PC_CHR){
+            ennemi->xRelatif++;
+        }   
     }
-    else if(ennemi->yGlobal>joueur->y && mvwinch(mainwin, ennemi->yGlobal-1, ennemi->xGlobal)==' '){
-        ennemi->yRelatif--;
+    else if(ennemi->yGlobal>joueur->y){
+        mouv = mvwinch(mainwin, ennemi->yGlobal-1, ennemi->xGlobal);
+        if(mouv==' '||mouv==*BOUTEILLE_O2_CHR || mouv==*BANDAGE_CHR ||mouv==*CLE_CHR
+			||mouv==*GENERATEUR_CHR || mouv==*REACTEUR_CHR ||mouv==*PC_CHR){
+            ennemi->yRelatif--;
+        }    
     }
-    else if(ennemi->yGlobal<joueur->y && mvwinch(mainwin, ennemi->yGlobal+1, ennemi->xGlobal)==' '){
-        ennemi->yRelatif++;
+    else if(ennemi->yGlobal<joueur->y){
+        mouv = mvwinch(mainwin, ennemi->yGlobal+1, ennemi->xGlobal);
+        if(mouv==' '||mouv==*BOUTEILLE_O2_CHR || mouv==*BANDAGE_CHR ||mouv==*CLE_CHR
+			||mouv==*GENERATEUR_CHR || mouv==*REACTEUR_CHR ||mouv==*PC_CHR){
+            ennemi->yRelatif++;
+        }
+
     }        
 }  
 
