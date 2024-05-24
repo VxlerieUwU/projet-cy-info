@@ -143,7 +143,6 @@ typedef struct {
     int objets_speciaux_apparus;
     int salles_existantes;
     Salle ** carte;
-    Ennemi ** ennemis;
 }Partie;
 
 //Fonctions

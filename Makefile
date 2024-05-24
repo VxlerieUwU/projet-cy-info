@@ -1,6 +1,6 @@
 CC=gcc
 CFLAGS=-W -Wall -ggdb -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -std=gnu11
-LDFLAGS=-lncursesw
+LDFLAGS=-lncursesw -fsanitize=address
 EXEC=jeu
 
 all: jeu

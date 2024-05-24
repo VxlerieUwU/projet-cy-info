@@ -81,6 +81,71 @@ Porte porteFromJSONObj(JSONObject porteJSON) {
     return porte;
 }
 
+Ennemi * ennemiFromJSONObj(JSONObject ennemiJSON) {
+    Ennemi * ennemi = NULL;
+    ennemi = malloc(sizeof(Ennemi));
+    if(ennemi == NULL){
+        logMessage(ERROR, "erreur malloc ennemiFromJSONObj ennemi");
+        exit(1);
+    }
+    ennemi->xGlobal = ennemiJSON.pairs[0].value.numberValue;
+    ennemi->yGlobal = ennemiJSON.pairs[1].value.numberValue;
+    ennemi->xRelatif = ennemiJSON.pairs[2].value.numberValue;
+    ennemi->yRelatif = ennemiJSON.pairs[3].value.numberValue;
+    ennemi->pv = ennemiJSON.pairs[4].value.numberValue;
+    ennemi->att = ennemiJSON.pairs[5].value.numberValue;
+    ennemi->def = ennemiJSON.pairs[6].value.numberValue;
+    return ennemi;
+
+}
+
+JSONObject * ennemiToJSONObj(Ennemi * ennemi) {
+    JSONObject * ennemiJSON = NULL;
+    ennemiJSON = malloc(sizeof(JSONObject));
+    // allocation de l'objet JSON
+    if(ennemiJSON == NULL){
+        logMessage(ERROR, "erreur malloc ennemiToJSONObj ennemiJSON");
+        exit(1);
+    }
+    // Allocation des attributs de l'objet json
+    ennemiJSON->length = 7;
+    ennemiJSON->pairs = malloc(sizeof(JSONKeyValuePair) * ennemiJSON->length);
+    if(ennemiJSON->pairs == NULL){
+        logMessage(ERROR, "erreur malloc ennemiToJSONObj ennemiJSON->pairs");
+        exit(1);
+    }
+    ennemiJSON->pairs[0].key = "xGlobal";
+    ennemiJSON->pairs[0].value.type = JSON_NUMBER;
+    ennemiJSON->pairs[0].value.numberValue = ennemi->xGlobal;
+
+    ennemiJSON->pairs[1].key = "yGlobal";
+    ennemiJSON->pairs[1].value.type = JSON_NUMBER;
+    ennemiJSON->pairs[1].value.numberValue = ennemi->yGlobal;
+
+    ennemiJSON->pairs[2].key = "xRelatif";
+    ennemiJSON->pairs[2].value.type = JSON_NUMBER;
+    ennemiJSON->pairs[2].value.numberValue = ennemi->xRelatif;
+
+    ennemiJSON->pairs[3].key = "yRelatif";
+    ennemiJSON->pairs[3].value.type = JSON_NUMBER;
+    ennemiJSON->pairs[3].value.numberValue = ennemi->yRelatif;
+
+    ennemiJSON->pairs[4].key = "pv";
+    ennemiJSON->pairs[4].value.type = JSON_NUMBER;
+    ennemiJSON->pairs[4].value.numberValue = ennemi->pv;
+
+    ennemiJSON->pairs[5].key = "att";
+    ennemiJSON->pairs[5].value.type = JSON_NUMBER;
+    ennemiJSON->pairs[5].value.numberValue = ennemi->att;
+
+    ennemiJSON->pairs[6].key = "def";
+    ennemiJSON->pairs[6].value.type = JSON_NUMBER;
+    ennemiJSON->pairs[6].value.numberValue = ennemi->def;
+
+    return ennemiJSON;
+}
+
+
 Salle * salleFromJSONObj(JSONObject salleJSON) {
     Salle * salle = NULL;
     salle = malloc(sizeof(Salle));
@@ -119,6 +184,11 @@ Salle * salleFromJSONObj(JSONObject salleJSON) {
         for(int j = 0; j < salle->longueur; j++) {
             salle->disp[i][j] = salleJSON.pairs[6].value.arrayValue->values[i].value.arrayValue->values[j].value.numberValue;
         }
+    }
+    if(salleJSON.pairs[9].value.objectValue->length == 0) {
+        salle->ennemi = NULL;
+    } else {
+        salle->ennemi = ennemiFromJSONObj(*salleJSON.pairs[9].value.objectValue);
     }
     return salle;
 }
@@ -274,7 +344,7 @@ JSONObject * salleToJSONObj(Salle salle) {
         logMessage(ERROR, "erreur malloc salleToJSONObj salleJSON");
         exit(1);
     }
-    salleJSON->length = 9;
+    salleJSON->length = 10;
     salleJSON->pairs = malloc(sizeof(JSONKeyValuePair) * salleJSON->length);
     if(salleJSON->pairs == NULL){
         logMessage(ERROR, "erreur malloc salleToJSONObj salleJSON->pairs");
@@ -373,6 +443,21 @@ JSONObject * salleToJSONObj(Salle salle) {
     salleJSON->pairs[8].key = "decouvert";
     salleJSON->pairs[8].value.type = JSON_BOOL;
     salleJSON->pairs[8].value.boolValue = salle.decouvert;
+
+    salleJSON->pairs[9].key = "ennemi";
+    salleJSON->pairs[9].value.type = JSON_OBJECT;
+
+    if(salle.ennemi == NULL) {
+        salleJSON->pairs[9].value.objectValue = malloc(sizeof(JSONObject));
+        if(salleJSON->pairs[9].value.objectValue == NULL){
+            logMessage(ERROR, "erreur malloc salleToJSONObj salleJSON->pairs[9].value.objectValue");
+            exit(1);
+        }
+        salleJSON->pairs[9].value.objectValue->length = 0;
+        salleJSON->pairs[9].value.objectValue->pairs = NULL;
+    } else {
+        salleJSON->pairs[9].value.objectValue = ennemiToJSONObj(salle.ennemi);
+    }
 
     return salleJSON;
 
@@ -487,6 +572,9 @@ Partie * loadGame() {
     fseek(save, 0, SEEK_SET);
     // définiton buffer
     char * buffer = malloc(fsize + 1);
+    // sauvegarde du pointeur
+    char * bufferPtr = buffer;
+
     if(buffer == NULL) {
         logMessage(ERROR, "erreur malloc buffer loadGame");
         exit(1);
@@ -505,7 +593,7 @@ Partie * loadGame() {
 
     partie = partieFromJSONObj(*partieJSON);
     // libération de la mémoire
-    //free(buffer);
+    free(bufferPtr);
     freeJSONObject(partieJSON);
     return partie;
 }
