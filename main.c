@@ -202,8 +202,8 @@ int main()
 		partie->portesNonOuvertes = compteurPortesNonOuvertes(partie->carte, partie->salles_existantes);
 		interactions(touche, partie->joueur,partie->carte, partie->salles_existantes, mainwin);
 		for(int i=0; i<partie->salles_existantes; i++){
-			if(partie->carte[i]->ennemi!=NULL){
-				ennemipos(partie->carte[i]->ennemi,partie->carte[i]);
+			if(partie->carte[i]->ennemi_existant==1){
+				ennemietat(partie->carte[i]->ennemi,partie->carte[i],partie->joueur,mainwin);
 				if(partie->mvEnnemic>40){
 					ennemimv(partie->carte[i]->ennemi,partie->carte[i],partie->joueur,mainwin);
 				}
@@ -212,11 +212,11 @@ int main()
 		werase(mainwin);
 		dessineSalles(mainwin, partie->carte, partie->salles_existantes);
 		for(int i=0; i<partie->salles_existantes; i++){
-			if(partie->carte[i]->ennemi!=NULL){
+			if(partie->carte[i]->ennemi_existant==1){
 				afficheEnnemi(partie->carte[i]->ennemi, mainwin);
 			}
 		}	
-    mvwaddch(mainwin,partie->joueur->y,partie->joueur->x, 'o'); //deplace le joueur a la nouvelle position
+    	mvwaddch(mainwin,partie->joueur->y,partie->joueur->x, 'o'); //deplace le joueur a la nouvelle position
 		renduHUD(mainwin, hud);
 
 		wrefresh(mainwin);
@@ -224,7 +224,7 @@ int main()
         if(touche == ESC) {
             pauseBoucle(mainwin, &touche, pause, &etatJeu);
         }
-       if(partie->mvEnnemic>40){
+        if(partie->mvEnnemic>40){
         	partie->mvEnnemic=0;
         }
         partie->mvEnnemic++;

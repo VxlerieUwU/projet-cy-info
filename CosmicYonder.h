@@ -133,6 +133,7 @@ typedef struct {
     int nportes; //Nombres de portes de la salle
     Objet objets[3];
     Ennemi* ennemi;
+    int ennemi_existant;
 }Salle;
 
 
@@ -171,19 +172,19 @@ void interactions(int touche, Joueur* joueur, Salle ** carte, int salles_existan
 //initialise un ennemi à l'aide d'attributs passés en paramètre
 Ennemi initEnnemi(int x, int y, int pv, int att, int def);
 //calcule la position globale de l'ennemi
-void ennemipos(Ennemi* ennemi,Salle* salle);
+void ennemietat(Ennemi* ennemi,Salle* salle,Joueur* joueur, WINDOW* mainwin);
 //gere les mouvements de l'ennemi
 void ennemimv(Ennemi* ennemi,Salle* salle,Joueur* joueur, WINDOW* mainwin);
 //affiche un ennemi
 void afficheEnnemi(Ennemi* ennemi, WINDOW* mainwin);
 //spawn ennemi
 Ennemi* apparition_ennemi(Salle* salle);
-
+void desapparition_ennemi(Ennemi* ennemi, Salle* salle,Joueur* joueur, WINDOW* win); //fait despawn l'ennemi quand il meurt
 int creation_graine(EntreeTexte * graineEntree); //Crée la graine de génération du jeu.
 
 int maj_niveau(Joueur* joueur); //Gère mise à jour du niveau du joueur en fonction de son expérience
 void perte_vie_joueur(Joueur* joueur, Ennemi* ennemi); //Gère la perte de vie du joueur
-void perte_vie_ennemi(Ennemi* ennemi, Joueur* joueur); //gere la perte de vie de l'ennemi
+void perte_vie_ennemi(Ennemi* ennemi, Joueur* joueur, WINDOW* win); //gere la perte de vie de l'ennemi
 Objet creation_objet(Salle* salle, int* objets_speciaux_apparus); //Crée un objet
 Objet apparition_objet(Salle* salle, int* objets_speciaux_apparus, int sallesrest, int portesNonOuvertes);
 int compteurPortesNonOuvertes(Salle ** carte, int salles_existantes); //Compte les portes non ouvertes

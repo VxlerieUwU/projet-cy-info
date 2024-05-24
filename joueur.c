@@ -21,12 +21,12 @@ int maj_niveau(Joueur* joueur){
 }
 
 void perte_vie_joueur(Joueur* joueur, Ennemi* ennemi){
-    /* Le joueur perd de la vie quand un ennemi est sur sa case en fonction de la défense du joueur et de l'attaque de l'ennemi) */
+    /* Le joueur perd de la vie quand un ennemi est sur sa case en fonction de la défense du joueur et de l'attaque de l'ennemi */
     if(joueur==NULL){
        exit(3); 
     }
     if(ennemi==NULL){
        exit(4); 
     }
-    joueur-> pv -= ennemi->att - joueur->def;
+    joueur-> pv -= ennemi->att;
 }
