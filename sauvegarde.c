@@ -102,7 +102,7 @@ Salle * salleFromJSONObj(JSONObject salleJSON) {
     for(int i = 0; i < salle->nportes; i++) {
         salle->portes[i] = porteFromJSONObj(*salleJSON.pairs[4].value.arrayValue->values[i].value.objectValue);
     }
-    for(int i = 0; i < 4; i++) {
+    for(int i = 0; i < 3; i++) {
         salle->objets[i] = objetFromJSONObj(*salleJSON.pairs[5].value.arrayValue->values[i].value.objectValue);
     }
     salle->disp = malloc(sizeof(int *) * salle->hauteur);
@@ -158,6 +158,7 @@ Partie * partieFromJSONObj(JSONObject partieJSON) {
     partie->portesNonOuvertes = partieJSON.pairs[3].value.numberValue;
     partie->objets_speciaux_apparus = partieJSON.pairs[4].value.numberValue;
     partie->salles_existantes = partieJSON.pairs[5].value.numberValue;
+    partie->mvEnnemic = partieJSON.pairs[6].value.numberValue;
     return partie;
 }
 
@@ -320,7 +321,7 @@ JSONObject * salleToJSONObj(Salle salle) {
         logMessage(ERROR, "erreur malloc salleToJSONObj salleJSON->pairs[5].value.arrayValue");
         exit(1);
     }
-    salleJSON->pairs[5].value.arrayValue->length = 4; // 4 objets max par salle
+    salleJSON->pairs[5].value.arrayValue->length = 3; // 3 objets max par salle
     salleJSON->pairs[5].value.arrayValue->values = malloc(sizeof(JSONKeyValuePair) * salleJSON->pairs[5].value.arrayValue->length);
     if(salleJSON->pairs[5].value.arrayValue->values == NULL){
         logMessage(ERROR, "erreur malloc salleToJSONObj salleJSON->pairs[5].value.arrayValue->values");
@@ -404,7 +405,7 @@ JSONObject * partieToJSONObj(Partie partie) {
         logMessage(ERROR, "erreur malloc partieToJSONObj partieJSON");
         exit(1);
     }
-    partieJSON->length = 6;
+    partieJSON->length = 7;
     partieJSON->pairs = malloc(sizeof(JSONKeyValuePair) * partieJSON->length);
     if(partieJSON->pairs == NULL){
         logMessage(ERROR, "erreur malloc partieToJSONObj partieJSON->pairs");
@@ -433,6 +434,10 @@ JSONObject * partieToJSONObj(Partie partie) {
     partieJSON->pairs[5].key = "salles_existantes";
     partieJSON->pairs[5].value.type = JSON_NUMBER;
     partieJSON->pairs[5].value.numberValue = partie.salles_existantes;
+
+    partieJSON->pairs[6].key = "mvEnnemic";
+    partieJSON->pairs[6].value.type = JSON_NUMBER;
+    partieJSON->pairs[6].value.numberValue = partie.mvEnnemic;
 
     return partieJSON;
 }

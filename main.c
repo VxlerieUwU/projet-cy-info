@@ -24,6 +24,7 @@ Partie * creerPartie() {
 	partie->salles_existantes = 0; 	//compteur de salles existantes
 	partie->objets_speciaux_apparus = 0;  //Compteur des objets à récupérer pour gagner apparus
 	partie->portesNonOuvertes = 0;//Compte les portes non ouvertes sur la carte
+	partie->mvEnnemic = 0;
 	return partie;
 }
 
@@ -202,7 +203,7 @@ int main()
 		for(int i=0; i<partie->salles_existantes; i++){
 			if(partie->carte[i]->ennemi!=NULL){
 				ennemipos(partie->carte[i]->ennemi,partie->carte[i]);
-				if(mvEnnemic>40){
+				if(partie->mvEnnemic>40){
 					ennemimv(partie->carte[i]->ennemi,partie->carte[i],partie->joueur,mainwin);
 				}
 			}
@@ -222,10 +223,10 @@ int main()
         if(touche == ESC) {
             pauseBoucle(mainwin, &touche, pause, &etatJeu);
         }
-       if(mvEnnemic>40){
-        	mvEnnemic=0;
+       if(partie->mvEnnemic>40){
+        	partie->mvEnnemic=0;
         }
-        mvEnnemic++;
+        partie->mvEnnemic++;
         napms(1000 / FRAMES_PER_SECOND);
     }
 

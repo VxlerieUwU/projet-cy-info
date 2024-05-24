@@ -86,6 +86,7 @@ typedef struct{
 }Inventaire;
 
 typedef struct{
+    char * nom;
 	int pv;
 	int xp;
 	int niv;
@@ -138,6 +139,7 @@ typedef struct {
     Joueur * joueur;
     int graine;
     int portesNonOuvertes;
+    int mvEnnemic;
     int objets_speciaux_apparus;
     int salles_existantes;
     Salle ** carte;
@@ -148,10 +150,10 @@ typedef struct {
 
 //Cette fonction permet de creer une salle a partir de dimensions fixees a l'aide de creerSalleProced
 Salle * creerSalle(int taille_horizontale, int taille_verticale, int x, int y, int nportes, 
-int entree, int posEntree, WINDOW* win, int* sallerest, int* objets_speciaux_apparus);
+int entree, int posEntree, WINDOW* win, int* sallesrest, int* objets_speciaux_apparus,int portesNonOuvertes);
 //permet de creer des dimensions aleatoires pour generer une salle
 Salle * creerSalleProced(int x, int y, int nportes, int dir, WINDOW* win, 
-int* sallerest, int* objets_speciaux_apparus);
+int* sallesrest, int* objets_speciaux_apparus, int portesNonOuvertes);
 //permet d'afficher toutes les salles
 void dessineSalles(WINDOW * win, Salle ** salle, int salles_existantes);
 //affiche une salle passee en parametre
@@ -183,8 +185,7 @@ int maj_niveau(Joueur* joueur); //Gère mise à jour du niveau du joueur en fonc
 int perte_vie(Joueur* joueur, Ennemi* ennemi); //Gère la perte de vie du joueur
 
 Objet creation_objet(Salle* salle, int* objets_speciaux_apparus); //Crée un objet
-Objet apparition_objet(Salle* salle, int* objets_speciaux_apparus); //Fait apparaitre l'objet dans une salle
- 
+Objet apparition_objet(Salle* salle, int* objets_speciaux_apparus, int sallesrest, int portesNonOuvertes);
 int compteurPortesNonOuvertes(Salle ** carte, int salles_existantes); //Compte les portes non ouvertes
 
 HUD * hudJeu(int x, int y, int hauteur, int largeur, Joueur * joueur);
