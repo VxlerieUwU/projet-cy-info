@@ -79,9 +79,7 @@ typedef struct {
     Id id;
 }Objet;
 
-typedef struct{
-	Objet obTab[INV_TAILLE]; //l'inventaire est un tableau d'objets (a definir)
-}Inventaire;
+
 
 typedef struct{
 	int pv;
@@ -89,7 +87,7 @@ typedef struct{
 	int niv;
 	int att;
 	int def;
-	Inventaire inventaire;
+	Objet inventaire[INV_TAILLE]; //l'inventaire est un tableau d'objets (a definir) inventaire;
 	int x;
 	int y;
 }Joueur;
@@ -167,6 +165,6 @@ int perte_vie(Joueur* joueur, Ennemi* ennemi); //Gère la perte de vie du joueur
 
 Objet creation_objet(Salle* salle, int* objets_speciaux_apparus); //Crée un objet
 Objet apparition_objet(Salle* salle, int* objets_speciaux_apparus); //Fait apparaitre l'objet dans une salle
- 
+void collisions_objet(Joueur* joueur, Salle* salle, Objet objet, int* nb_obj_inv, int* nb_obj_spe_inv);
 
 #endif

@@ -23,6 +23,8 @@ int main()
 	int nsalles = MAX_SALLES;
 	int salles_existantes = 0; //compteur de salles existantes
 	int objets_speciaux_apparus = 0; //Compteur des objets à récupérer pour gagner apparus
+	int nb_obj_inv = 0;
+	int nb_obj_spe_inv = 0;
 	getmaxyx(stdscr,hauteur,longueur); //recupere la taille du terminal
 
 	WINDOW* mainwin = newwin(hauteur,longueur,0,0); 
@@ -173,6 +175,12 @@ int main()
 		}
 		interactions(touche, &joueur,carte, salles_existantes, mainwin);
 		//ennemimv(&ennemi,carte[0],&joueur,mainwin);
+		for(int i=0;i<salles_existantes;i++){
+			for(int j=0;j<4;j++){
+				collisions_objet(joeuur,carte[i],carte[i]->objets[j],&nb_obj_inv,&nb_obj_inv);
+			}
+		}
+
 		wclear(mainwin);
 		dessineSalles(mainwin, carte, salles_existantes);
 		//afficheEnnemi(&ennemi, mainwin);
