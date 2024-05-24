@@ -11,7 +11,7 @@
 #include "../json/json.h"
 
 
-HUD * hudJeu(int x, int y, int hauteur, int largeur, Joueur * joueur) {
+HUD * hudJeu(int x, int y, int hauteur, int largeur, Joueur * joueur, int minuteur) {
     HUD * hud = NULL;
 
     StatusBar * pv = NULL;
@@ -97,8 +97,8 @@ HUD * hudJeu(int x, int y, int hauteur, int largeur, Joueur * joueur) {
         exit(1);
     
     }
-    minuteurStr[0] = malloc(sizeof(char) * 200);
-    if(minuteurStr == NULL){
+    minuteurStr[0] = malloc(sizeof(char) * 10);
+    if(minuteurStr[0] == NULL){
         logMessage(ERROR, "Erreur d'allocation de mémoire pour le minuteur");
         exit(1);
     }
@@ -106,8 +106,6 @@ HUD * hudJeu(int x, int y, int hauteur, int largeur, Joueur * joueur) {
     *nivStr = strcpy(*nivStr, "Niveau : ");
     *xpStr = strcpy(*xpStr, "XP : ");
     *pvStr = strcpy(*pvStr, "PV : ");
-    *minuteurStr = strcpy(*minuteurStr, "Minuteur : ");
-
 
     nameStr = malloc(sizeof(char*));
     if(nameStr == NULL){
@@ -123,7 +121,7 @@ HUD * hudJeu(int x, int y, int hauteur, int largeur, Joueur * joueur) {
     sprintf(*nameStr, "Nom : %s", joueur->nom);
     sprintf(*atkStr, "Attaque : %d", joueur->att);
     sprintf(*defStr, "Défense : %d", joueur->def);
-    sprintf(*minuteurStr, "Minuteur : %d", 300);
+    sprintf(*minuteurStr, "Minuteur : %d", minuteur);
 
     pv = malloc(sizeof(StatusBar));
     if(pv == NULL){
@@ -189,7 +187,7 @@ HUD * hudJeu(int x, int y, int hauteur, int largeur, Joueur * joueur) {
     nameText = creerTexte(x + 1, y + hauteur/2 - 2, nameStr, 1, 7);
     attText = creerTexte(x + largeur/3 - 10, y + hauteur/2, atkStr, 1, 7);
     defText = creerTexte(x + largeur/3 - 10, y + hauteur/2 + 1, defStr, 1, 7);
-    minuteurTexte = creerTexte(x + 2*largeur/3 - 10,y+hauteur/2 + 3,minuteurStr,1,7);
+    minuteurTexte = creerTexte(x + largeur/3 - 10,y+hauteur/2 + 2,minuteurStr,1,7);
 
     hud = creerHUD(x, y, hauteur, largeur, 1, 7, 3);
 

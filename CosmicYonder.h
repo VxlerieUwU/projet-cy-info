@@ -188,7 +188,7 @@ Objet creation_objet(Salle* salle, int* objets_speciaux_apparus); //Crée un obj
 Objet apparition_objet(Salle* salle, int* objets_speciaux_apparus, int sallesrest, int portesNonOuvertes);
 int compteurPortesNonOuvertes(Salle ** carte, int salles_existantes); //Compte les portes non ouvertes
 
-HUD * hudJeu(int x, int y, int hauteur, int largeur, Joueur * joueur);
+HUD * hudJeu(int x, int y, int hauteur, int largeur, Joueur * joueur, int minuteur);
 
 // SAUVEGARDE
 void saveGame(Partie partie);

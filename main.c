@@ -136,7 +136,7 @@ int main()
             break;
 	}
 
-	HUD * hud = hudJeu(0, hauteur - hauteur/6, hauteur / 6, longueur, partie->joueur);
+	HUD * hud = hudJeu(0, hauteur - hauteur/6, hauteur / 6, longueur, partie->joueur, minuteur);
 	Texte * resTxt = respawnTexte(longueur/2 - longueur/5, hauteur/2 - hauteur/5, longueur);
 
     //init ennemi
@@ -222,8 +222,8 @@ int main()
 				afficheEnnemi(partie->carte[i]->ennemi, mainwin);
 			}
 		}	
-    mvwaddch(mainwin,partie->joueur->y,partie->joueur->x, 'o'); //deplace le joueur a la nouvelle position
-		renduHUD(mainwin, hud);
+        mvwaddch(mainwin,partie->joueur->y,partie->joueur->x, 'o'); //deplace le joueur a la nouvelle position
+		renduHUD(mainwin, hud, minuteur);
 
 		wrefresh(mainwin);
 		touche = wgetch(mainwin);
@@ -238,7 +238,7 @@ int main()
 		decr_minuteur++;
 		if(decr_minuteur >= 1000/IMAGES_PAR_SECONDE){
 			decr_minuteur = 0;
-			minuteur = decremente_temps(minuteur);
+			minuteur--;
 		}
 		if(minuteur <= 0){
 			etatJeu = 0;
