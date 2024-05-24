@@ -44,6 +44,7 @@ int main()
     int etatJeu = 1; // permet de quitter le jeu si besoin
 	int hauteur, longueur;
 	int nsalles = MAX_SALLES; //bug constante a regler
+	int minuteur = MINUTEUR;
 	Partie * partie = creerPartie();
 
 	getmaxyx(stdscr,hauteur,longueur); //recupere la taille du terminal
@@ -85,7 +86,7 @@ int main()
                 renduFenetreEntree(mainwin, graineEntree, longueur / 2 - longueur/8, hauteur / 2 - hauteur / 8, hauteur / 3, longueur / 3);
                 entreeTexte(graineEntree, touche);
                 wrefresh(mainwin);
-                napms(1000 / FRAMES_PER_SECOND);
+                napms(1000 / IMAGES_PAR_SECONDE);
             }
             wclear(mainwin);
 			// init graine
@@ -116,7 +117,7 @@ int main()
                 touche = wgetch(mainwin);
                 entreeMessage(parametres, touche);
                 wrefresh(mainwin);
-                napms(1000 / FRAMES_PER_SECOND);
+                napms(1000 / IMAGES_PAR_SECONDE);
 
             }
             break;
@@ -152,9 +153,9 @@ int main()
 				if(partie->carte[j]->portes[k].ouvert==0){
 					//porte en haut
 					if(partie->carte[j]->portes[k].x+partie->carte[j]->x==partie->joueur->x && partie->carte[j]->portes[k].y+partie->carte[j]->y==partie->joueur->y-1){
-						if(partie->carte[partie->salles_existantes] != NULL) {
+						/*if(partie->carte[partie->salles_existantes] != NULL) {
 							libereSalle(partie->carte[partie->salles_existantes]);
-						}
+						}*/
 						partie->carte[partie->salles_existantes] = creerSalleProced(partie->joueur->x, partie->joueur->y,4,BAS,mainwin, &nsalles, &partie->objets_speciaux_apparus, partie->portesNonOuvertes);
 						ouvrirPorte(partie->carte,j,partie->salles_existantes, k, BAS);
 						dessineSalle(mainwin, partie->carte[partie->salles_existantes]);
@@ -163,9 +164,9 @@ int main()
 					}
 					//porte en bas
 					else if(partie->carte[j]->portes[k].x+partie->carte[j]->x==partie->joueur->x && partie->carte[j]->portes[k].y+partie->carte[j]->y==partie->joueur->y+1){
-						if(partie->carte[partie->salles_existantes] != NULL) {
+						/*if(partie->carte[partie->salles_existantes] != NULL) {
 							libereSalle(partie->carte[partie->salles_existantes]);
-						}
+						}*/
 						partie->carte[partie->salles_existantes] = creerSalleProced(partie->joueur->x, partie->joueur->y,4,HAUT,mainwin,&nsalles,&partie->objets_speciaux_apparus, partie->portesNonOuvertes);
 						ouvrirPorte(partie->carte,j,partie->salles_existantes, k, HAUT);
 						dessineSalle(mainwin, partie->carte[partie->salles_existantes]);
@@ -174,9 +175,9 @@ int main()
 					}
 					//porte a gauche
 					else if(partie->carte[j]->portes[k].x+partie->carte[j]->x==partie->joueur->x-1 && partie->carte[j]->portes[k].y+partie->carte[j]->y==partie->joueur->y){
-						if(partie->carte[partie->salles_existantes] != NULL) {
+						/*if(partie->carte[partie->salles_existantes] != NULL) {
 							libereSalle(partie->carte[partie->salles_existantes]);
-						}
+						}*/
 						partie->carte[partie->salles_existantes] = creerSalleProced(partie->joueur->x, partie->joueur->y,4,DROITE,mainwin,&nsalles,&partie->objets_speciaux_apparus, partie->portesNonOuvertes);
 						ouvrirPorte(partie->carte,j,partie->salles_existantes, k, DROITE);
 						dessineSalle(mainwin, partie->carte[partie->salles_existantes]);
@@ -185,9 +186,9 @@ int main()
 					}
 					//porte a droite
 					else if(partie->carte[j]->portes[k].x+partie->carte[j]->x==partie->joueur->x+1 && partie->carte[j]->portes[k].y+partie->carte[j]->y==partie->joueur->y){
-						if(partie->carte[partie->salles_existantes] != NULL) {
+						/*if(partie->carte[partie->salles_existantes] != NULL) {
 							libereSalle(partie->carte[partie->salles_existantes]);
-						}
+						}*/
 						partie->carte[partie->salles_existantes] = creerSalleProced(partie->joueur->x, partie->joueur->y,4,GAUCHE,mainwin,&nsalles,&partie->objets_speciaux_apparus, partie->portesNonOuvertes);
 						ouvrirPorte(partie->carte,j,partie->salles_existantes, k, GAUCHE);
 						dessineSalle(mainwin, partie->carte[partie->salles_existantes]);
@@ -227,7 +228,7 @@ int main()
         	partie->mvEnnemic=0;
         }
         partie->mvEnnemic++;
-        napms(1000 / FRAMES_PER_SECOND);
+        napms(1000 / IMAGES_PAR_SECONDE);
     }
 
 	saveGame(*partie);
