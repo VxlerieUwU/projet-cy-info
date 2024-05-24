@@ -21,6 +21,13 @@ void interactions(int touche, Joueur* joueur, Salle ** carte, int salles_existan
 					carte[i]->y++;
 				}
 			}
+			else{
+				for(int i = 0; i < salles_existantes; i++) {
+					if(carte[i]->ennemi!=NULL && carte[i]->ennemi->xGlobal == joueur->x && carte[i]->ennemi->yGlobal == joueur->y-1){
+						perte_vie_ennemi(carte[i]->ennemi, joueur);
+					}
+				}
+			}
 			break;
 		case KEY_DOWN:
 			mouv = mvwinch(mainwin, joueur->y+1, joueur->x); //Le mouvement est vers le haut
@@ -29,6 +36,13 @@ void interactions(int touche, Joueur* joueur, Salle ** carte, int salles_existan
 				for(int i = 0; i < salles_existantes; i++) {
 					carte[i]->y--;
 
+				}
+			}
+			else{
+				for(int i = 0; i < salles_existantes; i++) {
+					if(carte[i]->ennemi!=NULL && carte[i]->ennemi->xGlobal == joueur->x && carte[i]->ennemi->yGlobal == joueur->y+1){
+						perte_vie_ennemi(carte[i]->ennemi, joueur);
+					}
 				}
 			}
 			break;
@@ -40,6 +54,13 @@ void interactions(int touche, Joueur* joueur, Salle ** carte, int salles_existan
 					carte[i]->x++;
 				}
 			}
+			else{
+				for(int i = 0; i < salles_existantes; i++) {
+					if(carte[i]->ennemi!=NULL && carte[i]->ennemi->xGlobal == joueur->x-1 && carte[i]->ennemi->yGlobal == joueur->y){
+						perte_vie_ennemi(carte[i]->ennemi, joueur);
+					}
+				}
+			}
 			break;
 		case KEY_RIGHT:
 			mouv = mvwinch(mainwin, joueur->y, joueur->x+1); //Le mouvement est à droite
@@ -47,6 +68,13 @@ void interactions(int touche, Joueur* joueur, Salle ** carte, int salles_existan
 			||mouv==*GENERATEUR_CHR || mouv==*REACTEUR_CHR ||mouv==*PC_CHR){
 				for(int i = 0; i < salles_existantes; i++) {
 					carte[i]->x--;
+				}
+			}
+			else{
+				for(int i = 0; i < salles_existantes; i++) {
+					if(carte[i]->ennemi!=NULL && carte[i]->ennemi->xGlobal == joueur->x+1 && carte[i]->ennemi->yGlobal == joueur->y){
+						perte_vie_ennemi(carte[i]->ennemi, joueur);
+					}
 				}
 			}
 			break;
