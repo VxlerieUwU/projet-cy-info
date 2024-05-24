@@ -33,7 +33,7 @@
 #define TAILLE_MAX_V 10
 #define TAILLE_MAX_H 20
 #define MAX_SALLES 5
-#define FRAMES_PER_SECOND 20
+#define FRAMES_PER_SECOND 60
 
 //Enumération des différents objets
 
@@ -98,29 +98,16 @@ typedef struct{
 	int y;
 }Joueur;
 
+typedef struct{
+	int x;
+	int y;
+}Tuile;
 
 typedef struct {
     int x;
     int y;
     int ouvert;
 }Porte;
-
-typedef struct {
-    int longueur;
-    int hauteur;
-    int x; //abscisse de l'origine de la salle
-    int y; //ordonnée de l'origine de la salle
-    int ** disp; //disposition de la salle en unicode (murs, objets, portes...)
-    int decouvert; //1 si oui 0 si non
-    Porte * portes; //Portes de la salle
-    int nportes; //Nombre de portes de la salle
-    Objet objets[4];
-}Salle;
-
-typedef struct{
-	int x;
-	int y;
-}Tuile;
 
 typedef struct{
     int pv;
@@ -133,6 +120,19 @@ typedef struct{
     int att;
     int def;
 }Ennemi;
+
+typedef struct {
+    int longueur;
+    int hauteur;
+    int x; //abscisse de l'origine de la salle
+    int y; //ordonnée de l'origine de la salle
+    int ** disp; //disposition de la salle en unicode (murs, objets, portes...)
+    int decouvert; //1 si oui 0 si non
+    Porte * portes; //Portes de la salle
+    int nportes; //Nombre de portes de la salle
+    Objet objets[4];
+	Ennemi* ennemi;
+}Salle;
 
 typedef struct {
     Joueur * joueur;
@@ -168,10 +168,14 @@ void initJoueur(Joueur* joueur);
 void interactions(int touche, Joueur* joueur, Salle ** carte, int salles_existantes, WINDOW* mainwin); 
 //initialise un ennemi à l'aide d'attributs passés en paramètre
 Ennemi initEnnemi(int x, int y, int pv, int att, int def);
+//calcule la position globale de l'ennemi
+void ennemipos(Ennemi* ennemi,Salle* salle);
 //gere les mouvements de l'ennemi
 void ennemimv(Ennemi* ennemi,Salle* salle,Joueur* joueur, WINDOW* mainwin);
 //affiche un ennemi
 void afficheEnnemi(Ennemi* ennemi, WINDOW* mainwin);
+//spawn ennemi
+Ennemi* apparition_ennemi(Salle* salle);
 
 int creation_graine(EntreeTexte * graineEntree); //Crée la graine de génération du jeu.
 
