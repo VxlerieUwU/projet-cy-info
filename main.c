@@ -204,9 +204,10 @@ int main()
 		//affiche joueur
     	mvwaddch(mainwin,partie->joueur->y,partie->joueur->x, 'o');
     	//affiche hud
-		renduHUD(mainwin, hud, minuteur);
+		renduHUD(mainwin, hud, minuteur, partie->joueur, partie->nb_obj_inv, partie->nb_obj_spe_inv);
 		//rafraichit l'ecran
 		wrefresh(mainwin);
+        etatJeu = condition_victoire(partie);
 
 		/*on recupere la touche pressee
 		si le joueur appuie sur echap, le jeu est mis en pause*/
@@ -224,7 +225,6 @@ int main()
         
         napms(1000 / IMAGES_PAR_SECONDE);
 		chronos(&minuteur,&decr_minuteur);
-		etatJeu = condition_victoire(partie);
 		if(minuteur <= 0){
 			etatJeu = 0;
 		}

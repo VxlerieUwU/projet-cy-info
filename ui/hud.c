@@ -219,3 +219,157 @@ HUD * hudJeu(int x, int y, int hauteur, int largeur, Joueur * joueur, int minute
     hud->largeur = largeur;
     return hud;
 }
+
+void renderInventaire(WINDOW * win, int y, int x, Inventaire inventaire, int nb_obj_inv, int nb_obj_spe_inv) {
+    int xTmp; // calcul des coordonnees
+    mvwhline(win, y, x, ACS_HLINE, INV_TAILLE);
+    mvwhline(win, y + 4, x, ACS_HLINE, INV_TAILLE);
+    mvwhline(win, y + 2, x + 1, ACS_HLINE, INV_TAILLE - 1);
+    for(int i = 0; i < INV_TAILLE/2; i++) {
+        mvwvline(win, y, x + 2*i, ACS_VLINE, 4);
+    }
+    for(int i = 0; i < INV_TAILLE/2; i++) {
+        mvwaddch(win, y + 2, x + 2*i, ACS_PLUS);
+        mvwaddch(win, y + 4, x + 2*i, ACS_BTEE);
+        mvwaddch(win, y, x + 2*i, ACS_TTEE);
+    }
+    mvwvline(win, y, x, ACS_VLINE, 4);
+    mvwvline(win, y, x + INV_TAILLE, ACS_VLINE, 4);
+    mvwaddch(win, y, x, ACS_ULCORNER);
+    mvwaddch(win, y, x + INV_TAILLE, ACS_URCORNER);
+    mvwaddch(win, y + 4, x, ACS_LLCORNER);
+    mvwaddch(win, y + 4, x + INV_TAILLE, ACS_LRCORNER);
+    mvwaddch(win, y + 2, x, ACS_LTEE);
+    mvwaddch(win, y + 2, x + INV_TAILLE, ACS_RTEE);
+
+
+    for(int i = 0; i < 4; i++) { // OBJETS SPECIAUX
+        if(i % 2 != 0) {
+            xTmp = x + i + 1;
+        } else {
+            xTmp = x + i;
+        }
+        switch(inventaire.obTab[i].id) {
+            case BOUTEILLE_O2:
+                mvwaddstr(win,  y + 1, xTmp, BOUTEILLE_O2_CHR);
+                break;
+            case BANDAGE:
+                mvwaddstr(win, y + 1, xTmp, BANDAGE_CHR);
+                break;
+            case CLE:
+                mvwaddstr(win, y + 1,xTmp, CLE_CHR);
+                break;
+            case GENERATEUR:
+                mvwaddstr(win, y + 1, xTmp, GENERATEUR_CHR);
+                break;
+            case REACTEUR_1:
+                mvwaddstr(win, y + 1,xTmp, REACTEUR_CHR);
+                break;
+            case REACTEUR_2:
+                mvwaddstr(win, y + 1, xTmp, REACTEUR_CHR);
+                break;
+            case PC:
+                mvwaddstr(win, y + 1, xTmp, PC_CHR);
+                break;
+            default:
+                break;
+        }
+    }
+
+    switch(inventaire.obTab[4].id) {
+        case BOUTEILLE_O2:
+            mvwaddstr(win,  y + 1, x + 9, BOUTEILLE_O2_CHR);
+            break;
+        case BANDAGE:
+            mvwaddstr(win, y + 1, x + 9, BANDAGE_CHR);
+            break;
+        case CLE:
+            mvwaddstr(win, y + 1, x + 9, CLE_CHR);
+            break;
+        case GENERATEUR:
+            mvwaddstr(win, y + 1, x + 9, GENERATEUR_CHR);
+            break;
+        case REACTEUR_1:
+            mvwaddstr(win, y + 1, x + 9, REACTEUR_CHR);
+            break;
+        case REACTEUR_2:
+            mvwaddstr(win, y + 1, x + 9, REACTEUR_CHR);
+            break;
+        case PC:
+            mvwaddstr(win, y + 1, x + 9, PC_CHR);
+            break;
+        default:
+            break;
+    }
+
+    for(int i = 5; i < INV_TAILLE; i++) {
+        if(i % 2 != 0) {
+            xTmp = x + i - INV_TAILLE/2 + 1;
+        } else {
+            xTmp = x + i - INV_TAILLE/2 + 2;
+        }
+        switch(inventaire.obTab[i].id) {
+            case BOUTEILLE_O2:
+                mvwaddstr(win,  y + 3, xTmp,  BOUTEILLE_O2_CHR);
+                break;
+            case BANDAGE:
+                mvwaddstr(win, y + 3, xTmp, BANDAGE_CHR);
+                break;
+            case CLE:
+                mvwaddstr(win, y + 3, xTmp, CLE_CHR);
+                break;
+            case GENERATEUR:
+                mvwaddstr(win, y + 3, xTmp, GENERATEUR_CHR);
+                break;
+            case REACTEUR_1:
+                mvwaddstr(win, y + 3, xTmp, REACTEUR_CHR);
+                break;
+            case REACTEUR_2:
+                mvwaddstr(win, y + 3, xTmp, REACTEUR_CHR);
+                break;
+            case PC:
+                mvwaddstr(win, y + 3, xTmp, PC_CHR);
+                break;
+            default:
+                break;
+        }
+    }
+}
+
+void renduHUD(WINDOW * win, HUD * hud, int minuteur, Joueur * jou, int nb_obj_inv, int nb_obj_spe_inv) {
+    // mise à jour des donnees de la hud
+    hud->statBarWidgets[0]->cursor = jou->pv/10;
+    hud->statBarWidgets[1]->cursor = jou->xp/10;
+    hud->statBarWidgets[2]->cursor = jou->niv;
+
+
+    // nettoyage de la zone
+    for(int i = 0; i < hud->hauteur; i++) {
+        for(int j = 0; j < hud->largeur; j++) {
+            mvwprintw(win, hud->y + i, hud->x + j, " ");
+        }
+    }
+
+    // bordures
+    wattron(win, COLOR_PAIR(hud->outlineColor));
+    mvwhline(win, hud->y, hud->x, ACS_HLINE, hud->largeur);
+    mvwhline(win, hud->y + hud->hauteur - 1, hud->x, ACS_HLINE, hud->largeur);
+    mvwvline(win, hud->y, hud->x, ACS_VLINE, hud->hauteur);
+    mvwvline(win, hud->y, hud->x + hud->largeur - 1, ACS_VLINE, hud->hauteur);
+    mvwaddch(win, hud->y, hud->x, ACS_ULCORNER);
+    mvwaddch(win, hud->y, hud->x + hud->largeur - 1, ACS_URCORNER);
+    mvwaddch(win, hud->y + hud->hauteur - 1, hud->x, ACS_LLCORNER);
+    mvwaddch(win, hud->y + hud->hauteur - 1, hud->x + hud->largeur - 1, ACS_LRCORNER);
+    wattroff(win, COLOR_PAIR(hud->outlineColor));
+
+    sprintf(hud->textWidgets[6]->texte[0], "Minuteur : %d", minuteur);
+
+
+    for(int i = 0; i < hud->nbText; i++) {
+        renduTexte(win, *hud->textWidgets[i]);
+    }
+    for(int i = 0; i < hud->nbStatBar; i++) {
+        renduStatusBar(win, hud->statBarWidgets[i]);
+    }
+    renderInventaire(win,hud->y + hud->hauteur/2 - 5,hud->x + hud->largeur/3 - 10, jou->inventaire, nb_obj_inv, nb_obj_spe_inv);
+}

@@ -74,7 +74,6 @@ enum{
 //Structures
 
 typedef struct {
-    char nom[255];
     int x;
     int y;
     Id id;
@@ -221,6 +220,9 @@ void disparition_objet(Objet* objet, Salle* salle, WINDOW* win);
     //HUD
 //Fait apparaitre l'interface graphique pour les informations du joueur et de la partie
 HUD * hudJeu(int x, int y, int hauteur, int largeur, Joueur * joueur,int minuteur);
+void renduHUD(WINDOW * win, HUD * hud, int minuteur, Joueur * jou, int nb_obj_inv, int nb_obj_spe_inv); //affichage de la hud
+
+void renderInventaire(WINDOW * win, int y, int x, Inventaire inventaire, int nb_obj_inv, int nb_obj_spe_inv);
 
     // SAUVEGARDE
 void saveGame(Partie * partie);

@@ -282,37 +282,6 @@ HUD * creerHUD(int x, int y, int hauteur, int largeur, int outlineColor, int nbT
     return hud;
 }
 
-void renduHUD(WINDOW * win, HUD * hud, int minuteur) {
-    // nettoyage de la zone
-    for(int i = 0; i < hud->hauteur; i++) {
-        for(int j = 0; j < hud->largeur; j++) {
-            mvwprintw(win, hud->y + i, hud->x + j, " ");
-        }
-    }
-
-    // bordures
-    wattron(win, COLOR_PAIR(hud->outlineColor));
-    mvwhline(win, hud->y, hud->x, ACS_HLINE, hud->largeur);
-    mvwhline(win, hud->y + hud->hauteur - 1, hud->x, ACS_HLINE, hud->largeur);
-    mvwvline(win, hud->y, hud->x, ACS_VLINE, hud->hauteur);
-    mvwvline(win, hud->y, hud->x + hud->largeur - 1, ACS_VLINE, hud->hauteur);
-    mvwaddch(win, hud->y, hud->x, ACS_ULCORNER);
-    mvwaddch(win, hud->y, hud->x + hud->largeur - 1, ACS_URCORNER);
-    mvwaddch(win, hud->y + hud->hauteur - 1, hud->x, ACS_LLCORNER);
-    mvwaddch(win, hud->y + hud->hauteur - 1, hud->x + hud->largeur - 1, ACS_LRCORNER);
-    wattroff(win, COLOR_PAIR(hud->outlineColor));
-
-    sprintf(hud->textWidgets[6]->texte[0], "Minuteur : %d", minuteur);
-
-
-    for(int i = 0; i < hud->nbText; i++) {
-        renduTexte(win, *hud->textWidgets[i]);
-    }
-    for(int i = 0; i < hud->nbStatBar; i++) {
-        renduStatusBar(win, hud->statBarWidgets[i]);
-    }
-}
-
 void freeEntreeTexte(EntreeTexte * entree) {
     free(entree->buffer);
     free(entree->affichage);
