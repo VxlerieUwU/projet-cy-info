@@ -167,6 +167,10 @@ void dessineSalles(WINDOW * win, Salle ** salle, int salles_existantes);
 void dessineSalle(WINDOW * win, Salle * salle);
 //libere l'emplacement memoire de la salle
 void libereSalle(Salle * salle);
+//enleve le marquage afin de ne pas gener la creation de salle
+void enleve_marquage(int entree, int x, int y, int taille_horizontale, int taille_verticale, int posEntree, WINDOW* win);
+//empeche les superpositions lors de la creation de salle
+void verif_superposition(int entree, int* posEntree, int* x, int* y, int* taille_horizontale, int* taille_verticale, WINDOW* win);
 
     //PORTES
 //fonction constructeur de la porte

@@ -19,115 +19,12 @@ int entree, int posEntree, WINDOW* win, int* sallesrest, int* objets_speciaux_ap
     if(taille_horizontale<3 || taille_verticale<3){
         exit(4);
     }
+
     //enleve le marquage de caracteres invisibles
-    switch(entree){
-        case GAUCHE:
-            for(int i=0;i<3;i++){
-                for(int j=-1;j<=1;j++){
-                    mvwaddch(win, y+posEntree+j, x+i, ' ');
-                }
-            }
-            break;
-        case DROITE:
-            for(int i=0;i<3;i++){
-                for(int j=-1;j<=1;j++){
-                    mvwaddch(win, y+posEntree+j, x+taille_horizontale-1-i, ' ');
-                }
-            }
-            break;
-        case HAUT:
-            for(int i=0;i<3;i++){
-                for(int j=-1;j<=1;j++){
-                    mvwaddch(win, y+i, x+posEntree+j, ' ');
-                }
-            }
-            break;
-        case BAS:
-            for(int i=0;i<3;i++){
-                for(int j=-1;j<=1;j++){
-                    mvwaddch(win, y+taille_verticale-1-i, x+posEntree+j, ' ');
-                }
-            }
-            break; 
-        default:
-            break;
-    }
+    enleve_marquage(entree, x, y, taille_horizontale, taille_verticale, posEntree, win);
 
-    //boucle qui verifie que la salle ne se superpose pas avec une autre salle
-    int i; //compteur
-    int se_superpose; //variable qui determine si la salle se superpose
-
-    /*boucle verifie que la salle ne se superpose pas, et reduit les dims de la salle si c'est le cas
-    se finit quand la salle ne se superpose plus avec une autre salle*/
-    do{
-        //on initialise le compteur et la var de verif a 0
-        i=0;
-        se_superpose=0;
-        if(entree==GAUCHE || entree==DROITE){
-            while(i<taille_horizontale || i<taille_verticale){
-                if(i<taille_horizontale && taille_horizontale>3){
-                    /*on verifie que les murs horizontaux ne rencontrent pas d'autres salles
-                    si c'est le cas on reduit la taille horizontale*/
-                    if(mvwinch(win,y,x+i)!=' '||mvwinch(win,y+taille_verticale-1,x+i)!=' '){
-                        if(entree==DROITE){ //si l'entree est a droite, on change l'origine pour que la salle soit toujours collee a la salle precedente
-                            x++;
-                        }
-                        taille_horizontale--;
-                        se_superpose=1;
-                    }
-                }
-                if(i<taille_verticale && taille_verticale>3){
-                    /*on verifie que les murs verticaux ne rencontrent pas d'autres salles
-                    si c'est le cas on reduit la taille verticale*/
-                    if(mvwinch(win,y+i,x)!=' '||mvwinch(win,y+i,x+taille_horizontale-1)!=' '){
-                        //si la superposition est en haut de la porte on change l'origine et on replace la position de l'entree
-                        if(i<posEntree-1){
-                            y++;
-                            posEntree--;
-                        }
-                        //sinon on reduit la taille verticale
-                        else if(i>posEntree+1){
-                            taille_verticale--;
-                        }
-                        se_superpose=1;
-                    }
-                }
-                i++;
-            }
-        }
-        if(entree==HAUT || entree==BAS){
-            while(i<taille_horizontale || i<taille_verticale){
-                if(i<taille_horizontale && taille_horizontale>3){
-                    /*on verifie que les murs horizontaux ne rencontrent pas d'autres salles
-                    si c'est le cas on reduit la taille horizontale*/
-                    if(mvwinch(win,y,x+i)!=' '||mvwinch(win,y+taille_verticale-1,x+i)!=' '){
-                        //si la superposition est a gauche de la porte on change l'origine et on replace la position de l'entree
-                        if(i<posEntree-1){
-                            x++;
-                            posEntree--;
-                        }
-                        //sinon on reduit la taille horizontale
-                        else if(i>posEntree+1){
-                            taille_horizontale--;
-                        }
-                        se_superpose=1;
-                    }
-                }
-                if(i<taille_verticale && taille_verticale>3){
-                    /*on verifie que les murs verticaux ne rencontrent pas d'autres salles
-                    si c'est le cas on reduit la taille verticale*/
-                    if(mvwinch(win,y+i,x)!=' '||mvwinch(win,y+i,x+taille_horizontale-1)!=' '){
-                        if(entree==BAS){ //si l'entree est en bas, on change l'origine pour que la salle soit toujours collee a la salle precedente
-                            y++;
-                        }
-                        taille_verticale--;
-                        se_superpose=1;
-                    }
-                }
-                i++;
-            }
-        }
-    }while(se_superpose==1);
+    //verif superposition
+    verif_superposition(entree, &posEntree, &x, &y, &taille_horizontale, &taille_verticale, win);
 
     //allocation salle
     Salle * salle = NULL;
@@ -579,4 +476,133 @@ int compteurPortesNonOuvertes(Salle ** carte, int salles_existantes){
         }
     }
     return compteur;
+}
+
+void enleve_marquage(int entree, int x, int y, int taille_horizontale, int taille_verticale, int posEntree, WINDOW* win){
+    /*enleve le marquage de caracteres invisibles afin que la salle puisse etre cree sans problemes*/
+    if(win==NULL){
+        exit(14);
+    }
+    switch(entree){
+        case GAUCHE:
+            for(int i=0;i<3;i++){
+                for(int j=-1;j<=1;j++){
+                    mvwaddch(win, y+posEntree+j, x+i, ' ');
+                }
+            }
+            break;
+        case DROITE:
+            for(int i=0;i<3;i++){
+                for(int j=-1;j<=1;j++){
+                    mvwaddch(win, y+posEntree+j, x+taille_horizontale-1-i, ' ');
+                }
+            }
+            break;
+        case HAUT:
+            for(int i=0;i<3;i++){
+                for(int j=-1;j<=1;j++){
+                    mvwaddch(win, y+i, x+posEntree+j, ' ');
+                }
+            }
+            break;
+        case BAS:
+            for(int i=0;i<3;i++){
+                for(int j=-1;j<=1;j++){
+                    mvwaddch(win, y+taille_verticale-1-i, x+posEntree+j, ' ');
+                }
+            }
+            break; 
+        default:
+            break;
+    }
+}
+
+void verif_superposition(int entree, int* posEntree, int* x, int* y, int* taille_horizontale, int* taille_verticale, WINDOW* win){
+    /*Cette fonction permet de verifier qu'il n'y a pas de superposition lors de la generation de salle*/
+    if(posEntree==NULL){
+        exit(15);
+    }
+    if(x==NULL || y==NULL){
+        exit(16);
+    }
+    if(taille_horizontale==NULL || taille_verticale==NULL){
+        exit(17);
+    }
+    if(win==NULL){
+        exit(18);
+    }
+    int i; //compteur
+    int se_superpose; //variable qui determine si la salle se superpose
+
+    /*boucle verifie que la salle ne se superpose pas, et reduit les dims de la salle si c'est le cas
+    se finit quand la salle ne se superpose plus avec une autre salle*/
+    do{
+        //on initialise le compteur et la var de verif a 0
+        i=0;
+        se_superpose=0;
+        if(entree==GAUCHE || entree==DROITE){
+            while(i<*taille_horizontale || i<*taille_verticale){
+                if(i<*taille_horizontale && *taille_horizontale>3){
+                    /*on verifie que les murs horizontaux ne rencontrent pas d'autres salles
+                    si c'est le cas on reduit la taille horizontale*/
+                    if(mvwinch(win,*y,*x+i)!=' '||mvwinch(win,*y+*taille_verticale-1,*x+i)!=' '){
+                        if(entree==DROITE){ //si l'entree est a droite, on change l'origine pour que la salle soit toujours collee a la salle precedente
+                            (*x)++;
+                        }
+                        (*taille_horizontale)--;
+                        se_superpose=1;
+                    }
+                }
+                if(i<*taille_verticale && *taille_verticale>3){
+                    /*on verifie que les murs verticaux ne rencontrent pas d'autres salles
+                    si c'est le cas on reduit la taille verticale*/
+                    if(mvwinch(win,*y+i,*x)!=' '||mvwinch(win,*y+i,*x+*taille_horizontale-1)!=' '){
+                        //si la superposition est en haut de la porte on change l'origine et on replace la position de l'entree
+                        if(i<*posEntree-1){
+                            (*y)++;
+                            (*posEntree)--;
+                        }
+                        //sinon on reduit la taille verticale
+                        else if(i>*posEntree+1){
+                            (*taille_verticale)--;
+                        }
+                        se_superpose=1;
+                    }
+                }
+                i++;
+            }
+        }
+        if(entree==HAUT || entree==BAS){
+            while(i<*taille_horizontale || i<*taille_verticale){
+                if(i<*taille_horizontale && *taille_horizontale>3){
+                    /*on verifie que les murs horizontaux ne rencontrent pas d'autres salles
+                    si c'est le cas on reduit la taille horizontale*/
+                    if(mvwinch(win,*y,*x+i)!=' '||mvwinch(win,*y+*taille_verticale-1,*x+i)!=' '){
+                        //si la superposition est a gauche de la porte on change l'origine et on replace la position de l'entree
+                        if(i<*posEntree-1){
+                            (*x)++;
+                            (*posEntree)--;
+                        }
+                        //sinon on reduit la taille horizontale
+                        else if(i>*posEntree+1){
+                            (*taille_horizontale)--;
+                        }
+                        se_superpose=1;
+                    }
+                }
+                if(i<*taille_verticale && *taille_verticale>3){
+                    /*on verifie que les murs verticaux ne rencontrent pas d'autres salles
+                    si c'est le cas on reduit la taille verticale*/
+                    if(mvwinch(win,*y+i,*x)!=' '||mvwinch(win,*y+i,*x+*taille_horizontale-1)!=' '){
+                        if(entree==BAS){ //si l'entree est en bas, on change l'origine pour que la salle soit toujours collee a la salle precedente
+                            (*y)++;
+                        }
+                        (*taille_verticale)--;
+                        se_superpose=1;
+                    }
+                }
+                i++;
+            }
+        }
+    }while(se_superpose==1);
 }
