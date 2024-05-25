@@ -101,11 +101,11 @@ void interactions(int touche, Joueur* joueur, Salle ** carte, int salles_existan
 							carte[i]->objets[j].x--;					
 						}	
 					}
-				}
+        }
 			}
 			else{
 				//Sinon si la case à l'arrivée du mouv est un ennemi : l'ennemi perd des pvs et le joueur reste à sa place
-				for(int i = 0; i < salles_existantes; i++) {
+				for(int i = 0; i < salles_existantes; i++) {  
 					if(carte[i]->ennemi!=NULL && carte[i]->ennemi->xGlobal == joueur->x+1 && carte[i]->ennemi->yGlobal == joueur->y){
 						perte_vie_ennemi(carte[i]->ennemi, joueur);
 					}

@@ -32,6 +32,7 @@ Partie * creerPartie() {
 	return partie;
 }
 
+
 int main()
 {
 	char logBuffer[255];
@@ -224,7 +225,7 @@ int main()
 				afficheEnnemi(partie->carte[i]->ennemi, mainwin);
 			}
 		}	
-    	mvwaddch(mainwin,partie->joueur->y,partie->joueur->x, 'o'); //deplace le joueur a la nouvelle position
+    mvwaddch(mainwin,partie->joueur->y,partie->joueur->x, 'o'); //deplace le joueur a la nouvelle position
 		renduHUD(mainwin, hud, minuteur);
 
 		wrefresh(mainwin);

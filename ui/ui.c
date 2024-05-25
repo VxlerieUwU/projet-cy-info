@@ -304,6 +304,7 @@ void renduHUD(WINDOW * win, HUD * hud, int minuteur) {
 
     sprintf(hud->textWidgets[6]->texte[0], "Minuteur : %d", minuteur);
 
+
     for(int i = 0; i < hud->nbText; i++) {
         renduTexte(win, *hud->textWidgets[i]);
     }

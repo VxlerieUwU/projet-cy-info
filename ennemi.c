@@ -61,7 +61,7 @@ void ennemimv(Ennemi* ennemi,Salle* salle, Joueur* joueur, WINDOW* mainwin){
 			||mouv==*GENERATEUR_CHR || mouv==*REACTEUR_CHR ||mouv==*PC_CHR){
             ennemi->xRelatif--;  
         } 
-        else if(mouv=='o'){
+        else if(mouv=='o'){ 
             //Sinon si la case d'arrivée est le joueur, le joueur perd des pvs et le monstre reste à sa place.
             perte_vie_joueur(joueur, ennemi);
         }
@@ -84,8 +84,7 @@ void ennemimv(Ennemi* ennemi,Salle* salle, Joueur* joueur, WINDOW* mainwin){
         if(mouv==' '||mouv==*BOUTEILLE_O2_CHR || mouv==*BANDAGE_CHR ||mouv==*CLE_CHR
 			||mouv==*GENERATEUR_CHR || mouv==*REACTEUR_CHR ||mouv==*PC_CHR){
             ennemi->yRelatif--;
-        }  
-        else if(mouv=='o'){
+        } else if(mouv=='o'){ 
             //Sinon si la case d'arrivée est le joueur, le joueur perd des pvs et le monstre reste à sa place.
             perte_vie_joueur(joueur, ennemi);
         }  
@@ -96,8 +95,7 @@ void ennemimv(Ennemi* ennemi,Salle* salle, Joueur* joueur, WINDOW* mainwin){
         if(mouv==' '||mouv==*BOUTEILLE_O2_CHR || mouv==*BANDAGE_CHR ||mouv==*CLE_CHR
 			||mouv==*GENERATEUR_CHR || mouv==*REACTEUR_CHR ||mouv==*PC_CHR){
             ennemi->yRelatif++;
-        }
-        else if(mouv=='o'){
+        } else if(mouv=='o'){ 
             //Sinon si la case d'arrivée est le joueur, le joueur perd des pvs et le monstre reste à sa place.
             perte_vie_joueur(joueur, ennemi);
         }

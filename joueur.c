@@ -17,7 +17,7 @@ void maj_niveau(Joueur* joueur){
     if (joueur == NULL){
         exit(2);
     }
-    joueur-> niv = 1 + joueur->xp/100;
+    joueur->niv = 1 + joueur->xp/100;
     joueur->pv = 100 + joueur->niv*20;
     joueur->att = 10 + joueur->niv*5;
     joueur->def = 5 + joueur->niv;
