@@ -114,7 +114,9 @@ void afficheEnnemi(Ennemi* ennemi, WINDOW* mainwin){
     if(mainwin==NULL){
         exit(8);
     }
+    wattron(mainwin, COLOR_PAIR(6));
     mvwaddstr(mainwin, ennemi->yGlobal, ennemi->xGlobal, "M");
+    wattroff(mainwin, COLOR_PAIR(6));
 }
 
 Ennemi* apparition_ennemi(Salle* salle){
