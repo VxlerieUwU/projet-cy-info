@@ -5,6 +5,8 @@
 #include <ncurses.h>
 
 Partie * creerPartie() {
+	/* Fonction servant à créer la sauvegarde de la partie en allouant les différents
+	éléments nécessaires pour la restaurer*/
 	Partie * partie = NULL;
 	partie = malloc(sizeof(Partie));
 	if(partie == NULL) {
@@ -26,10 +28,6 @@ Partie * creerPartie() {
 	partie->portesNonOuvertes = 0;//Compte les portes non ouvertes sur la carte
 	partie->mvEnnemic = 0;
 	return partie;
-}
-
-int decremente_temps(int minuteur){
-	return minuteur - 1;
 }
 
 
@@ -235,6 +233,8 @@ int main()
         }
         partie->mvEnnemic++;
         napms(1000 / IMAGES_PAR_SECONDE);
+		/*decr_ minuteur ajuste le minuteur pour
+		qu'il retire bien 1 seconde par seconde en jeu en comptant les images par secondes*/
 		decr_minuteur++;
 		if(decr_minuteur >= IMAGES_PAR_SECONDE){
 			decr_minuteur = 0;

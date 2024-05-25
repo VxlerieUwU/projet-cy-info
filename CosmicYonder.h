@@ -184,10 +184,11 @@ int creation_graine(EntreeTexte * graineEntree); //Crée la graine de générati
 void maj_niveau(Joueur* joueur); //Gère mise à jour du niveau du joueur en fonction de son expérience
 void perte_vie_joueur(Joueur* joueur, Ennemi* ennemi); //Gère la perte de vie du joueur
 void perte_vie_ennemi(Ennemi* ennemi, Joueur* joueur); //gere la perte de vie de l'ennemi
-Objet creation_objet(Salle* salle, int* objets_speciaux_apparus); //Crée un objet
+//Crée et fait apparaitre un objet dans une salle en fonction des objets spéciaux apparus,des salles restantes et des portes non ouvertes
 Objet apparition_objet(Salle* salle, int* objets_speciaux_apparus, int sallesrest, int portesNonOuvertes);
 int compteurPortesNonOuvertes(Salle ** carte, int salles_existantes); //Compte les portes non ouvertes
 
+//Fait apparaitre l'interface graphique pour les informations du joueur et de la partie
 HUD * hudJeu(int x, int y, int hauteur, int largeur, Joueur * joueur, int minuteur);
 
 // SAUVEGARDE
