@@ -24,6 +24,8 @@ Partie * creerPartie() {
 	partie->salles_existantes = 0; 	//compteur de salles existantes
 	partie->objets_speciaux_apparus = 0;  //Compteur des objets à récupérer pour gagner apparus
 	partie->portesNonOuvertes = 0;//Compte les portes non ouvertes sur la carte
+	partie->nb_obj_inv = 0;
+	partie->nb_obj_spe_inv = 0;
 	partie->mvEnnemic = 0;
 	return partie;
 }
@@ -43,7 +45,7 @@ int main()
 	initCouleur();
     int etatJeu = 1; // permet de quitter le jeu si besoin
 	int hauteur, longueur;
-	int nsalles = MAX_SALLES; //bug constante a regler
+	int nsalles = MAX_SALLES;
 	int minuteur = MINUTEUR;
 	Partie * partie = creerPartie();
 
@@ -200,15 +202,18 @@ int main()
 			}
 		}
 		partie->portesNonOuvertes = compteurPortesNonOuvertes(partie->carte, partie->salles_existantes);
-		interactions(touche, partie->joueur,partie->carte, partie->salles_existantes, mainwin);
-		for(int i=0; i<partie->salles_existantes; i++){
-			if(partie->carte[i]->ennemi_existant==1){
+		interactions(touche, partie->joueur,partie->carte, partie->salles_existantes, mainwin,&(partie->nb_obj_inv), &(partie->nb_obj_spe_inv));
+
+		for(int i=0; i<partie->salles_existantes; i++){ //boucle qui parcourt toutes les salles existantes
+			//condition verifie si l ennemi associe a la salle existe puis actualise son etat et le deplace en fonction du compteur
+			if(partie->carte[i]->ennemi_existant==1){ 
 				ennemietat(partie->carte[i]->ennemi,partie->carte[i],partie->joueur,mainwin);
 				if(partie->mvEnnemic>40){
 					ennemimv(partie->carte[i]->ennemi,partie->carte[i],partie->joueur,mainwin);
 				}
 			}
 		}	
+			
 		werase(mainwin);
 		dessineSalles(mainwin, partie->carte, partie->salles_existantes);
 		for(int i=0; i<partie->salles_existantes; i++){

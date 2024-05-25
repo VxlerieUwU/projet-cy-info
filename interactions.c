@@ -1,7 +1,7 @@
 #include "CosmicYonder.h"
 #include "logger.h"
 
-void interactions(int touche, Joueur* joueur, Salle ** carte, int salles_existantes, WINDOW* mainwin){
+void interactions(int touche, Joueur* joueur, Salle ** carte, int salles_existantes, WINDOW* mainwin, int* nb_obj_inv, int* nb_obj_spe_inv){
 	if (joueur == NULL){
 		exit(1);
 	}
@@ -22,6 +22,12 @@ void interactions(int touche, Joueur* joueur, Salle ** carte, int salles_existan
 			||mouv==*GENERATEUR_CHR || mouv==*REACTEUR_CHR ||mouv==*PC_CHR){ 
 				for(int i = 0; i < salles_existantes; i++) {
 					carte[i]->y++;
+					//modifie la position des objets de la salle
+					for(int j=0;j<3;j++){
+						if(&(carte[i]->objets[j])!=NULL){
+							carte[i]->objets[j].y++;					
+						}	
+					}
 				}
 			}
 			else{
@@ -38,7 +44,12 @@ void interactions(int touche, Joueur* joueur, Salle ** carte, int salles_existan
 			||mouv==*GENERATEUR_CHR || mouv==*REACTEUR_CHR ||mouv==*PC_CHR){
 				for(int i = 0; i < salles_existantes; i++) {
 					carte[i]->y--;
-
+					//modifie la position des objets de la salle
+					for(int j=0;j<3;j++){
+						if(&(carte[i]->objets[j])!=NULL){
+							carte[i]->objets[j].y--;					
+						}	
+					}
 				}
 			}
 			else{
@@ -55,6 +66,12 @@ void interactions(int touche, Joueur* joueur, Salle ** carte, int salles_existan
 			||mouv==*GENERATEUR_CHR || mouv==*REACTEUR_CHR ||mouv==*PC_CHR){
 				for(int i = 0; i < salles_existantes; i++) {
 					carte[i]->x++;
+					//modifie la position des objets de la salle
+					for(int j=0;j<3;j++){
+						if(&(carte[i]->objets[j])!=NULL){
+							carte[i]->objets[j].x++;					
+						}	
+					}
 				}
 			}
 			else{
@@ -70,7 +87,13 @@ void interactions(int touche, Joueur* joueur, Salle ** carte, int salles_existan
 			if(mouv==' '||mouv==*BOUTEILLE_O2_CHR || mouv==*BANDAGE_CHR ||mouv==*CLE_CHR
 			||mouv==*GENERATEUR_CHR || mouv==*REACTEUR_CHR ||mouv==*PC_CHR){
 				for(int i = 0; i < salles_existantes; i++) {
-					carte[i]->x--;
+					carte[i]->x--;				
+					//modifie la position des objets de la salle
+					for(int j=0;j<3;j++){
+						if(&(carte[i]->objets[j])!=NULL){
+							carte[i]->objets[j].x--;					
+						}	
+					}
 				}
 			}
 			else{
@@ -78,6 +101,19 @@ void interactions(int touche, Joueur* joueur, Salle ** carte, int salles_existan
 					if(carte[i]->ennemi!=NULL && carte[i]->ennemi->xGlobal == joueur->x+1 && carte[i]->ennemi->yGlobal == joueur->y){
 						perte_vie_ennemi(carte[i]->ennemi, joueur);
 					}
+				}
+			}
+			break;
+		case 'e':
+			//parcours chaque objet de la carte et appelle la fonction recup_objet si l objet existe
+			for(int i=0;i < salles_existantes; i++){
+				for(int j=0;j<3;j++){
+					if(&(carte[i]->objets[j])!=NULL){
+						if(carte[i]->objets[j].x == joueur->x && carte[i]->objets[j].y == joueur->y){
+							recup_objet(joueur,carte[i],&(carte[i]->objets[j]),nb_obj_inv,nb_obj_spe_inv);
+							desapparition_objet(&(carte[i]->objets[j]), carte[i], joueur, mainwin);
+						}						
+					}	
 				}
 			}
 			break;
