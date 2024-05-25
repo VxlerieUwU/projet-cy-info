@@ -13,6 +13,8 @@ Objet apparition_objet(Salle* salle, int* objets_speciaux_apparus, int sallesres
     }
 
     int x,y; //Coordonnées relatives de l'objet
+    //Sert à compter le nombre de fois qu'un objet est replacé à cause d'un objet déjà présent sur la case allouée
+    int compteur = 0;
     Objet objet;
 
     //Initialisation objet
@@ -57,7 +59,12 @@ Objet apparition_objet(Salle* salle, int* objets_speciaux_apparus, int sallesres
 	do{
         x = 1 + rand()%((salle->longueur)-2); //Abscisse objet relative à la salle
         y = 1 + rand()%((salle->hauteur)-2); //Ordonnée objet relative à la salle
-    }while(salle->disp[y][x]!=VIDE); //Condition pour ne pas écraser un objet ou un monstre de la salle
+        compteur++;
+    }while(salle->disp[y][x]!=VIDE && compteur < 3); //Condition pour ne pas écraser un objet ou un monstre de la salle
+
+    if(compteur >= 3){
+        return objet; //L'objet est dans le tableau de la salle mais on ne peut pas interagir avec
+    }
 
     salle->disp[y][x] = objet.id;
 
@@ -85,7 +92,7 @@ void recup_objet(Joueur* joueur, Salle* salle, Objet objet, int* nb_obj_inv, int
     }
 }
 
-void desapparition_objet(Objet* objet, Salle* salle, WINDOW* win){
+void disparition_objet(Objet* objet, Salle* salle, WINDOW* win){
     /*libere le pointeur sur l'ennemi et assigne l'attribut ennemi_existant a 0*/
     if(objet==NULL){
         exit(4);

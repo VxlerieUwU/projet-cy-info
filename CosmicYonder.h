@@ -32,7 +32,7 @@
 #define UNICODE_STRING_LONG 10
 #define TAILLE_MAX_V 10
 #define TAILLE_MAX_H 20
-#define MAX_SALLES 10
+#define MAX_SALLES 80
 #define IMAGES_PAR_SECONDE 60
 #define MINUTEUR 300
 
@@ -210,7 +210,7 @@ Objet apparition_objet(Salle* salle, int* objets_speciaux_apparus, int sallesres
 //permet de recuperer un objet
 void recup_objet(Joueur* joueur, Salle* salle, Objet objet, int* nb_obj_inv, int* nb_obj_spe_inv);
 //fait disparaitre un objet quand le joueur le ramasse
-void desapparition_objet(Objet* objet, Salle* salle, WINDOW* win);
+void disparition_objet(Objet* objet, Salle* salle, WINDOW* win);
 
     //HUD
 //Fait apparaitre l'interface graphique pour les informations du joueur et de la partie

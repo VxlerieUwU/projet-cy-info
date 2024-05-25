@@ -135,7 +135,7 @@ void interactions(int touche, Joueur* joueur, Salle ** carte, int salles_existan
 					if(&(carte[i]->objets[j])!=NULL){
 						if(carte[i]->objets[j].x == joueur->x && carte[i]->objets[j].y == joueur->y){
 							recup_objet(joueur,carte[i],carte[i]->objets[j],nb_obj_inv,nb_obj_spe_inv);
-							desapparition_objet(&(carte[i]->objets[j]), carte[i], mainwin);
+							disparition_objet(&(carte[i]->objets[j]), carte[i], mainwin);
 						}						
 					}	
 				}
