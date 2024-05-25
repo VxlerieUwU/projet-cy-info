@@ -142,7 +142,7 @@ int entree, int posEntree, WINDOW* win, int* sallesrest, int* objets_speciaux_ap
     salle->y = y;
 
     if(*sallesrest >= nportes){
-       salle->nportes = nportes; 
+        salle->nportes = nportes; 
     }
     else{
         salle->nportes = *sallesrest; 
@@ -290,6 +290,12 @@ int entree, int posEntree, WINDOW* win, int* sallesrest, int* objets_speciaux_ap
         }
     }
     //affichage des portes
+
+    //pour la premiere salle, on affiche manuellement la premiere porte
+    if(entree==-1){
+        salle->disp[salle->portes[0].y][salle->portes[0].x] = PORTE;
+    }
+
     for(int i=1; i<salle->nportes; i++) {
         salle->disp[salle->portes[i].y][salle->portes[i].x] = PORTE;
 
