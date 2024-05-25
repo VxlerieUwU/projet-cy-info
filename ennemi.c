@@ -125,7 +125,7 @@ Ennemi* apparition_ennemi(Salle* salle){
         exit(9);
     }
 
-    int x,y; //Coordonnées absolues de l'ennemi
+    int x,y; //Coordonnées relatives de l'ennemi
 
     Ennemi* ennemi;
     //Vérification allocation ennemi
@@ -133,10 +133,10 @@ Ennemi* apparition_ennemi(Salle* salle){
     if(ennemi==NULL){
         exit(10);
     }
-    do{
-        x = 1 + rand()%((salle->longueur)-2); //Abscisse objet relative à la salle
-        y = 1 + rand()%((salle->hauteur)-2); //Ordonnée objet relative à la salle
-    }while(salle->disp[y][x]!=VIDE); //Condition pour ne pas écraser un objet ou un monstre de la salle
+
+    x = 1 + rand()%((salle->longueur)-2); //Abscisse ennemi relative à la salle
+    y = 1 + rand()%((salle->hauteur)-2); //Ordonnée ennemi relative à la salle
+    
     *ennemi = initEnnemi(x, y, 20, 10, 10); //Type et création de l'ennemi
     salle->ennemi_existant = 1;
     return ennemi;

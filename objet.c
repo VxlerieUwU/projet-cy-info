@@ -25,11 +25,10 @@ Objet apparition_objet(Salle* salle, int* objets_speciaux_apparus, int sallesres
     /* Si le nombre de salles restantes à générer est identique aux nombres d'objets
     à récupérer pour gagner non apparues, on force l'apparition d'un de ces objets dans chacune
     des salles restantes*/
-    if(sallesrest == 1 && portesNonOuvertes == 4-(*objets_speciaux_apparus)){
+    if(sallesrest <= 1 && portesNonOuvertes == 4-(*objets_speciaux_apparus)){
         objet.id = 11 + (*objets_speciaux_apparus);
         (*objets_speciaux_apparus)++;
     }
-
 
     /*Condition pour faire apparaitre les objets à récupérer pour gagner le jeu
     dans les salles sans portes supplémentaires et si tous les objets à récupérer ne sont pas
@@ -54,7 +53,6 @@ Objet apparition_objet(Salle* salle, int* objets_speciaux_apparus, int sallesres
     else{ //Sinon ne fait apparaitre que les objets communs (3)
         objet.id = 8 + rand()%3;
     }
-
 
 	do{
         x = 1 + rand()%((salle->longueur)-2); //Abscisse objet relative à la salle
