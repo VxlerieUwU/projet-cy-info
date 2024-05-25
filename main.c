@@ -5,6 +5,8 @@
 #include <ncurses.h>
 
 Partie * creerPartie() {
+	/* Fonction servant à créer la sauvegarde de la partie en allouant les différents
+	éléments nécessaires pour la restaurer*/
 	Partie * partie = NULL;
 	partie = malloc(sizeof(Partie));
 	if(partie == NULL) {
@@ -46,7 +48,8 @@ int main()
     int etatJeu = 1; // permet de quitter le jeu si besoin
 	int hauteur, longueur;
 	int nsalles = MAX_SALLES;
-	int minuteur = MINUTEUR;
+	int minuteur = MINUTEUR; //minuteur en secondes. Si celui-ci atteint 0 le jeu est perdu
+	int decr_minuteur = 0; //Variable servant à convertir les tours de boucles en une seconde pour décrémenter le minuteur
 	Partie * partie = creerPartie();
 
 	getmaxyx(stdscr,hauteur,longueur); //recupere la taille du terminal
@@ -132,7 +135,7 @@ int main()
             break;
 	}
 
-	HUD * hud = hudJeu(0, hauteur - hauteur/6, hauteur / 6, longueur, partie->joueur);
+	HUD * hud = hudJeu(0, hauteur - hauteur/6, hauteur / 6, longueur, partie->joueur, minuteur);
 	Texte * resTxt = respawnTexte(longueur/2 - longueur/5, hauteur/2 - hauteur/5, longueur);
 
     //init ennemi
@@ -222,7 +225,7 @@ int main()
 			}
 		}	
     	mvwaddch(mainwin,partie->joueur->y,partie->joueur->x, 'o'); //deplace le joueur a la nouvelle position
-		renduHUD(mainwin, hud);
+		renduHUD(mainwin, hud, minuteur);
 
 		wrefresh(mainwin);
 		touche = wgetch(mainwin);
@@ -234,6 +237,16 @@ int main()
         }
         partie->mvEnnemic++;
         napms(1000 / IMAGES_PAR_SECONDE);
+		/*decr_ minuteur ajuste le minuteur pour
+		qu'il retire bien 1 seconde par seconde en jeu en comptant les images par secondes*/
+		decr_minuteur++;
+		if(decr_minuteur >= IMAGES_PAR_SECONDE){
+			decr_minuteur = 0;
+			minuteur--;
+		}
+		if(minuteur <= 0){
+			etatJeu = 0;
+		}
     }
 
 	saveGame(*partie);

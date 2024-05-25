@@ -282,7 +282,7 @@ HUD * creerHUD(int x, int y, int hauteur, int largeur, int outlineColor, int nbT
     return hud;
 }
 
-void renduHUD(WINDOW * win, HUD * hud) {
+void renduHUD(WINDOW * win, HUD * hud, int minuteur) {
     // nettoyage de la zone
     for(int i = 0; i < hud->hauteur; i++) {
         for(int j = 0; j < hud->largeur; j++) {
@@ -302,7 +302,7 @@ void renduHUD(WINDOW * win, HUD * hud) {
     mvwaddch(win, hud->y + hud->hauteur - 1, hud->x + hud->largeur - 1, ACS_LRCORNER);
     wattroff(win, COLOR_PAIR(hud->outlineColor));
 
-
+    sprintf(hud->textWidgets[6]->texte[0], "Minuteur : %d", minuteur);
 
     for(int i = 0; i < hud->nbText; i++) {
         renduTexte(win, *hud->textWidgets[i]);

@@ -531,6 +531,8 @@ void libereSalle(Salle * salle) {
 }
 
 int compteurPortesNonOuvertes(Salle ** carte, int salles_existantes){
+    /* Compte le nombre de portes non ouvertes sur la carte (sert à
+    forcer l'apparition des objets à récupérer s'ils ne sont pas apparus)*/
     int compteur = 0;
     for(int i=0; i<salles_existantes;i++){
       for(int j=0; j<carte[i]->nportes;j++){

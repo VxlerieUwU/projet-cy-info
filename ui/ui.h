@@ -108,7 +108,7 @@ void renduMessage(WINDOW * win, MiniMenu message); //affichage du message
 void renduEntreeTexte(WINDOW * win, EntreeTexte * entree); //affichage de l'entree texte
 void renduMenu(WINDOW * win, Menu menu); //affichage du menu
 void renduStatusBar(WINDOW * win, StatusBar * sb); //affichage de la barre de statut
-void renduHUD(WINDOW * win, HUD * hud); //affichage de la hud
+void renduHUD(WINDOW * win, HUD * hud, int minuteur); //affichage de la hud
 Menu * creerMenu(int hauteur, int largeur, Texte * titre, int nbBoutons, int espace, int couleurFond); //constructeur struct menu
 Bouton * creerBouton(int x, int y, int couleur, int couleurSel, char * texte); // constructeur struct bouton
 MiniMenu * creerMessage(int x, int y, int hauteur, int largeur, int couleur, Texte * titre, int nbBoutons, Texte * texte); // constructeur struct message
