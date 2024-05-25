@@ -95,68 +95,8 @@ int entree, int posEntree, WINDOW* win, int* sallesrest, int* objets_speciaux_ap
                     salle->portes[0].ouvert = 0;
                     break;
             }
-            //les conditions suivantes creent les autres portes
-            switch(salle->nportes){
-                case 4: //4 portes
-                    if(entree!=DROITE){
-                        salle->portes[1] = initPorte(DROITE,taille_verticale,taille_horizontale);
-                        (*sallesrest)--;
-                    } 
-                    else{
-                        salle->portes[1] = initPorte(GAUCHE,taille_verticale,taille_horizontale);
-                        (*sallesrest)--;  
-                    }
-                    if(entree!=BAS){
-                        salle->portes[2] = initPorte(BAS,taille_verticale,taille_horizontale);
-                        (*sallesrest)--;
-                    } 
-                    else{
-                        salle->portes[2] = initPorte(HAUT,taille_verticale,taille_horizontale);
-                        (*sallesrest)--;
-                    } 
-                    if((entree==DROITE||entree==GAUCHE)){
-                        salle->portes[3] = initPorte(HAUT,taille_verticale,taille_horizontale);
-                        (*sallesrest)--;
-                    } 
-                    else if((entree==BAS||entree==HAUT)){
-                        salle->portes[3] = initPorte(GAUCHE,taille_verticale,taille_horizontale);
-                        (*sallesrest)--;  
-                    } 
-                    break;
-                case 3: //3 portes
-                    if(entree!=DROITE){
-                        salle->portes[1] = initPorte(DROITE,taille_verticale,taille_horizontale);
-                        (*sallesrest)--;
-                    } 
-                    else{
-                        salle->portes[1] = initPorte(GAUCHE,taille_verticale,taille_horizontale);
-                        (*sallesrest)--;  
-                    }
-                    if(entree!=BAS){
-                        salle->portes[2] = initPorte(BAS,taille_verticale,taille_horizontale);
-                        (*sallesrest)--;
-                    } 
-                    else{
-                        salle->portes[2] = initPorte(HAUT,taille_verticale,taille_horizontale);
-                        (*sallesrest)--;
-                    }  
-                    break;
-                case 2: //2 portes
-                    if(entree!=DROITE){
-                        salle->portes[1] = initPorte(DROITE,taille_verticale,taille_horizontale);
-                        (*sallesrest)--;
-                    } 
-                    else{
-                        salle->portes[1] = initPorte(GAUCHE,taille_verticale,taille_horizontale);
-                        (*sallesrest)--;  
-                    }
-                    break;
-                case 1: //1 porte
-                    break;
-                default: //si nombre de portes invalide, exit
-                    exit(4);
-            }
-            
+            //cree les autres portes
+            creationPortes(salle, entree, sallesrest);   
         }
     }
 
