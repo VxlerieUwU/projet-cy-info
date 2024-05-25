@@ -49,8 +49,6 @@ typedef enum{
     REACTEUR_1 = 12, // Objet à récupérer pour gagner
     REACTEUR_2 = 13, // Objet à récupérer pour gagner
     PC = 14, // Objet à récupérer pour gagner
-    BOBBY = 15,
-    CRAMPTES = 16,
 }Id;
 
 //Enumération des élements possibles de la salle
@@ -206,7 +204,7 @@ void afficheEnnemi(Ennemi* ennemi, WINDOW* mainwin);
 //spawn ennemi
 Ennemi* apparition_ennemi(Salle* salle);
 //fait despawn l'ennemi quand il meurt
-void desapparition_ennemi(Ennemi* ennemi, Salle* salle,Joueur* joueur, WINDOW* win); 
+void disparition_ennemi(Ennemi* ennemi, Salle* salle,Joueur* joueur, WINDOW* win); 
 //gere la perte de vie de l'ennemi
 void perte_vie_ennemi(Ennemi* ennemi, Joueur* joueur); 
 

@@ -65,7 +65,7 @@ Objet apparition_objet(Salle* salle, int* objets_speciaux_apparus, int sallesres
     if(compteur >= 3){
         return objet; //L'objet est dans le tableau de la salle mais on ne peut pas interagir avec
     }
-
+    else{
     salle->disp[y][x] = objet.id;
 
     //Coordonnées absolues de l'objet pour collision joueur-objets
@@ -73,6 +73,8 @@ Objet apparition_objet(Salle* salle, int* objets_speciaux_apparus, int sallesres
     objet.y = salle->y + y;
 
     return objet;
+    }
+    
 }
 
 void recup_objet(Joueur* joueur, Salle* salle, Objet objet, int* nb_obj_inv, int* nb_obj_spe_inv){ 

@@ -34,7 +34,7 @@ void ennemietat(Ennemi* ennemi,Salle* salle, Joueur* joueur, WINDOW* win){
     ennemi->yGlobal=salle->y+ennemi->yRelatif; //ordonnée du point d'apparition du monstre
 
     if(ennemi->pv<=0){
-        desapparition_ennemi(ennemi,salle,joueur, win);
+        disparition_ennemi(ennemi,salle,joueur, win);
     }  
 }
 
@@ -153,7 +153,7 @@ void perte_vie_ennemi(Ennemi* ennemi, Joueur* joueur){
     ennemi->pv -= joueur->att;
 }
 
-void desapparition_ennemi(Ennemi* ennemi, Salle* salle, Joueur* joueur, WINDOW* win){
+void disparition_ennemi(Ennemi* ennemi, Salle* salle, Joueur* joueur, WINDOW* win){
     /*libere le pointeur sur l'ennemi et assigne l'attribut ennemi_existant a 0
     puis augmente l'xp du joueur*/
     if(ennemi==NULL){
