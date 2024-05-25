@@ -5,8 +5,10 @@ Objet apparition_objet(Salle* salle, int* objets_speciaux_apparus, int sallesres
     /*Décide quel objet sera l'objet à faire apparaitre en fonction du numéro de la salle
     et fait apparaitre un objet Objet dans une salle Salle*/
 
-    //Vérification allocation salle
     if(salle == NULL){
+        exit(1);
+    }
+    if(objets_speciaux_apparus==NULL){
         exit(2);
     }
 
@@ -67,9 +69,9 @@ Objet apparition_objet(Salle* salle, int* objets_speciaux_apparus, int sallesres
 }
 
 void recup_objet(Joueur* joueur, Salle* salle, Objet objet, int* nb_obj_inv, int* nb_obj_spe_inv){ 
-    //place l'objet dans l'inventaire du joueur
+    /*place l'objet dans l'inventaire du joueur et augmente son xp*/
     if(joueur == NULL || salle == NULL || nb_obj_inv == NULL || nb_obj_spe_inv == NULL){
-        exit(1);
+        exit(3);
     }
     if(objet.id>=11 && *nb_obj_spe_inv<4){ //objets speciaux
         joueur->xp += 20;
@@ -86,14 +88,20 @@ void recup_objet(Joueur* joueur, Salle* salle, Objet objet, int* nb_obj_inv, int
 void desapparition_objet(Objet* objet, Salle* salle, WINDOW* win){
     /*libere le pointeur sur l'ennemi et assigne l'attribut ennemi_existant a 0*/
     if(objet==NULL){
-        exit(13);
+        exit(4);
+    }
+    if(salle==NULL){
+        exit(5);
     }
     if(win==NULL){
-        exit(14);
+        exit(6);
     }
+    //calcule la position relative de l'objet
     int x = objet->x-salle->x;
     int y = objet->y-salle->y;
+    //enleve l'objet de la salle
     salle->disp[y][x] = VIDE;
+    //met ses coordonnees a -1 et son id a 0
     objet->x=-1;
     objet->y=-1;
     objet->id=0;

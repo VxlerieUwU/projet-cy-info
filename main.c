@@ -56,6 +56,7 @@ int main()
 
 	switch(menu->selecteur) {
         case 0:
+        	//NOUVELLE PARTIE
             wclear(mainwin);
             touche = -1;
             while(graineEntree->valide == 0) {
@@ -82,6 +83,7 @@ int main()
 			partie->joueur->nom = "Test";
             break;
         case 1:
+        	//CHARGER PARTIE
         	partie = loadGame();
             wclear(mainwin);
 
@@ -113,8 +115,8 @@ int main()
     //init ennemi
     Ennemi ennemi = initEnnemi(5,5,10,10,10);
 
-	mvwaddch(mainwin,partie->joueur->y, partie->joueur->x, 'o'); // positionne le curseur au centre de l ecran
-	//pour l instant, j ai represente le joueur avec le caractere 'o' pour tester le programme
+ 	//positionne le joueur au centre de l ecran
+	mvwaddch(mainwin,partie->joueur->y, partie->joueur->x, 'o');
 
 	touche = wgetch(mainwin);//recupere touche pressee
 
@@ -130,9 +132,9 @@ int main()
 				if(partie->carte[j]->portes[k].ouvert==0){
 					//porte en haut
 					if(partie->carte[j]->portes[k].x+partie->carte[j]->x==partie->joueur->x && partie->carte[j]->portes[k].y+partie->carte[j]->y==partie->joueur->y-1){
-						/*if(partie->carte[partie->salles_existantes] != NULL) {
+						if(partie->carte[partie->salles_existantes] != NULL) {
 							libereSalle(partie->carte[partie->salles_existantes]);
-						}*/
+						}
 						partie->carte[partie->salles_existantes] = creerSalleProced(partie->joueur->x, partie->joueur->y,4,BAS,mainwin, &nsalles, &partie->objets_speciaux_apparus, partie->portesNonOuvertes);
 						ouvrirPorte(partie->carte,j,partie->salles_existantes, k, BAS);
 						dessineSalle(mainwin, partie->carte[partie->salles_existantes]);
@@ -141,9 +143,9 @@ int main()
 					}
 					//porte en bas
 					else if(partie->carte[j]->portes[k].x+partie->carte[j]->x==partie->joueur->x && partie->carte[j]->portes[k].y+partie->carte[j]->y==partie->joueur->y+1){
-						/*if(partie->carte[partie->salles_existantes] != NULL) {
+						if(partie->carte[partie->salles_existantes] != NULL) {
 							libereSalle(partie->carte[partie->salles_existantes]);
-						}*/
+						}
 						partie->carte[partie->salles_existantes] = creerSalleProced(partie->joueur->x, partie->joueur->y,4,HAUT,mainwin,&nsalles,&partie->objets_speciaux_apparus, partie->portesNonOuvertes);
 						ouvrirPorte(partie->carte,j,partie->salles_existantes, k, HAUT);
 						dessineSalle(mainwin, partie->carte[partie->salles_existantes]);
@@ -152,9 +154,9 @@ int main()
 					}
 					//porte a gauche
 					else if(partie->carte[j]->portes[k].x+partie->carte[j]->x==partie->joueur->x-1 && partie->carte[j]->portes[k].y+partie->carte[j]->y==partie->joueur->y){
-						/*if(partie->carte[partie->salles_existantes] != NULL) {
+						if(partie->carte[partie->salles_existantes] != NULL) {
 							libereSalle(partie->carte[partie->salles_existantes]);
-						}*/
+						}
 						partie->carte[partie->salles_existantes] = creerSalleProced(partie->joueur->x, partie->joueur->y,4,DROITE,mainwin,&nsalles,&partie->objets_speciaux_apparus, partie->portesNonOuvertes);
 						ouvrirPorte(partie->carte,j,partie->salles_existantes, k, DROITE);
 						dessineSalle(mainwin, partie->carte[partie->salles_existantes]);
@@ -163,23 +165,24 @@ int main()
 					}
 					//porte a droite
 					else if(partie->carte[j]->portes[k].x+partie->carte[j]->x==partie->joueur->x+1 && partie->carte[j]->portes[k].y+partie->carte[j]->y==partie->joueur->y){
-						/*if(partie->carte[partie->salles_existantes] != NULL) {
+						if(partie->carte[partie->salles_existantes] != NULL) {
 							libereSalle(partie->carte[partie->salles_existantes]);
-						}*/
+						}
 						partie->carte[partie->salles_existantes] = creerSalleProced(partie->joueur->x, partie->joueur->y,4,GAUCHE,mainwin,&nsalles,&partie->objets_speciaux_apparus, partie->portesNonOuvertes);
 						ouvrirPorte(partie->carte,j,partie->salles_existantes, k, GAUCHE);
 						dessineSalle(mainwin, partie->carte[partie->salles_existantes]);
 						partie->salles_existantes++;
 					}
-
-
 				}
 			}
 		}
 		partie->portesNonOuvertes = compteurPortesNonOuvertes(partie->carte, partie->salles_existantes);
+
+		//interactions du joueur avec le jeu
 		interactions(touche, partie->joueur,partie->carte, partie->salles_existantes, mainwin,&(partie->nb_obj_inv), &(partie->nb_obj_spe_inv));
 
-		for(int i=0; i<partie->salles_existantes; i++){ //boucle qui parcourt toutes les salles existantes
+		//boucle qui parcourt toutes les salles existantes
+		for(int i=0; i<partie->salles_existantes; i++){ 
 			//condition verifie si l ennemi associe a la salle existe puis actualise son etat et le deplace en fonction du compteur
 			if(partie->carte[i]->ennemi_existant==1){ 
 				ennemietat(partie->carte[i]->ennemi,partie->carte[i],partie->joueur,mainwin);
@@ -188,26 +191,37 @@ int main()
 				}
 			}
 		}	
-			
+		//efface l'ecran	
 		werase(mainwin);
+		//affiche carte
 		dessineSalles(mainwin, partie->carte, partie->salles_existantes);
+		//affiche ennemis
 		for(int i=0; i<partie->salles_existantes; i++){
 			if(partie->carte[i]->ennemi_existant==1){
 				afficheEnnemi(partie->carte[i]->ennemi, mainwin);
 			}
 		}	
-    	mvwaddch(mainwin,partie->joueur->y,partie->joueur->x, 'o'); //deplace le joueur a la nouvelle position
+		//affiche joueur
+    	mvwaddch(mainwin,partie->joueur->y,partie->joueur->x, 'o');
+    	//affiche hud
 		renduHUD(mainwin, hud, minuteur);
-
+		//rafraichit l'ecran
 		wrefresh(mainwin);
+
+		/*on recupere la touche pressee
+		si le joueur appuie sur echap, le jeu est mis en pause*/
 		touche = wgetch(mainwin);
         if(touche == ESC) {
             pauseBoucle(mainwin, &touche, pause, &etatJeu);
         }
+
+        /*remet le compteur du mouvement des ennemis a 0 s'il depasse 40
+        puis l'incremente*/
         if(partie->mvEnnemic>40){
         	partie->mvEnnemic=0;
         }
         partie->mvEnnemic++;
+        
         napms(1000 / IMAGES_PAR_SECONDE);
 		chronos(&minuteur,&decr_minuteur);
 		etatJeu = condition_victoire(partie);

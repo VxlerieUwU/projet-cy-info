@@ -2,16 +2,31 @@
 #include "logger.h"
 
 void interactions(int touche, Joueur* joueur, Salle ** carte, int salles_existantes, WINDOW* mainwin, int* nb_obj_inv, int* nb_obj_spe_inv){
+	/*gere les interactions du joueur avec le jeu*/
+
 	if (joueur == NULL){
 		exit(1);
 	}
 	if(carte == NULL){
 		exit(2);
 	}
+	if(mainwin==NULL){
+		exit(3);
+	}
+	if(nb_obj_inv==NULL){
+		exit(4);
+	}
+	if(nb_obj_spe_inv==NULL){
+		exit(5);
+	}
+
+	//si les pv du joueur sont inferieurs ou egaux a 0, le joueur reapparait
 	if(joueur->pv<=0){
 		reapparition_joueur(joueur, carte,salles_existantes);
 	}
+
 	int mouv; //Stocke le mouvement voulu par le joueur
+
 	switch(touche){
 		/*change la position du joueur et efface le caractere qui se trouve a sa position actuelle
 		Les conditions verifient que le caractere d a cote est un espace ou une porte, pour les collisions
@@ -113,7 +128,8 @@ void interactions(int touche, Joueur* joueur, Salle ** carte, int salles_existan
 			}
 			break;
 		case 'e':
-			//parcours chaque objet de la carte et appelle la fonction recup_objet si l objet existe
+			/*parcours chaque objet de la carte
+			si l'objet existe, il est place dans l'inventaire du joueur puis il disparait*/
 			for(int i=0;i < salles_existantes; i++){
 				for(int j=0;j<3;j++){
 					if(&(carte[i]->objets[j])!=NULL){

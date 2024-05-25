@@ -3,6 +3,7 @@
 
 Ennemi initEnnemi(int x, int y, int pv, int att, int def){
     /* Initialise les stats et la position de l'ennemi à sa création*/
+    //verifs stats
     if(pv<1){
         pv=1;
     }
@@ -21,7 +22,8 @@ Ennemi initEnnemi(int x, int y, int pv, int att, int def){
     return ennemi;
 } 
 void ennemietat(Ennemi* ennemi,Salle* salle, Joueur* joueur, WINDOW* win){
-    //calcule la position de l'ennemi sur l'ecran en fonction de sa position dans la salle
+    /*calcule la position de l'ennemi sur l'ecran en fonction de sa position dans la salle
+    si ses pv sont inferieurs ou egaux a 0, le fait disparaitre*/
     if(ennemi==NULL){
         exit(1);
     }
@@ -30,6 +32,7 @@ void ennemietat(Ennemi* ennemi,Salle* salle, Joueur* joueur, WINDOW* win){
     }
     ennemi->xGlobal=salle->x+ennemi->xRelatif; //abscisse du point d'apparition du monstre
     ennemi->yGlobal=salle->y+ennemi->yRelatif; //ordonnée du point d'apparition du monstre
+
     if(ennemi->pv<=0){
         desapparition_ennemi(ennemi,salle,joueur, win);
     }  
@@ -151,12 +154,19 @@ void perte_vie_ennemi(Ennemi* ennemi, Joueur* joueur){
 }
 
 void desapparition_ennemi(Ennemi* ennemi, Salle* salle, Joueur* joueur, WINDOW* win){
-    /*libere le pointeur sur l'ennemi et assigne l'attribut ennemi_existant a 0*/
+    /*libere le pointeur sur l'ennemi et assigne l'attribut ennemi_existant a 0
+    puis augmente l'xp du joueur*/
     if(ennemi==NULL){
         exit(13);
     }
-    if(win==NULL){
+    if(salle==NULL){
         exit(14);
+    }
+    if(joueur==NULL){
+        exit(15);
+    }
+    if(win==NULL){
+        exit(16);
     }
     mvwaddch(win, ennemi->yGlobal, ennemi->xGlobal, ' ');
     free(ennemi);

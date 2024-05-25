@@ -31,6 +31,11 @@ Partie * creerPartie() {
 }
 
 int condition_victoire(Partie* partie){
+	/*verifie si le joueur remplit la condition de victoire
+	(qui est d'obtenir tous les objets speciaux)*/
+	if(partie==NULL){
+		exit(1);
+	}
     int compteur = 0;
 		for(int i = 0;i<partie->nb_obj_inv + partie->nb_obj_spe_inv;i++){
 			if(partie->joueur->inventaire.obTab[i].id >= 11){
@@ -49,6 +54,12 @@ int condition_victoire(Partie* partie){
 void chronos(int* minuteur,int*decr_minuteur){
 /*decr_ minuteur ajuste le minuteur pour
 qu'il retire bien 1 seconde par seconde en jeu en comptant les images par secondes*/
+	if(minuteur==NULL){
+		exit(2);
+	}
+	if(decr_minuteur==NULL){
+		exit(3);
+	}
 	(*decr_minuteur)++;
 	if((*decr_minuteur) >= IMAGES_PAR_SECONDE){
 	    (*decr_minuteur) = 0;

@@ -3,7 +3,7 @@
 /*Ce fichier contient les fonctions relatives au fonctionnement des portes*/
 
 Porte initPorte(int dir,int v,int h){
-    //initialise la porte en prenant en parametres sa direction et les dimensions de la salle
+    /*initialise la porte en prenant en parametres sa direction et les dimensions de la salle*/
     Porte porte;
     switch(dir){
         case GAUCHE:
@@ -37,7 +37,9 @@ Porte initPorte(int dir,int v,int h){
 
 void ouvrirPorte(Salle ** carte, int indexSalleAct,int indexNouvSalle, int indexPorte, int dir) {
     /*permet de gerer l'ouverture des portes pour la creation de salles*/
-
+    if(carte==NULL){
+        exit(1);
+    }
     //ouvre la porte de la salle ou le joueur se trouve
     carte[indexSalleAct]->portes[indexPorte].ouvert = 1;
     carte[indexSalleAct]->disp[carte[indexSalleAct]->portes[indexPorte].y][carte[indexSalleAct]->portes[indexPorte].x] = VIDE; // TODO: caractère porte ouverte

@@ -12,9 +12,12 @@ int entree, int posEntree, WINDOW* win, int* sallesrest, int* objets_speciaux_ap
     if(sallesrest == NULL){
         exit(2);
     }
+    if(objets_speciaux_apparus==NULL){
+        exit(3);
+    }
     //verif taille
     if(taille_horizontale<3 || taille_verticale<3){
-        exit(3);
+        exit(4);
     }
     //enleve le marquage de caracteres invisibles
     switch(entree){
@@ -392,6 +395,15 @@ int entree, int posEntree, WINDOW* win, int* sallesrest, int* objets_speciaux_ap
 
 Salle * creerSalleProced(int x, int y, int nportes, int dir, WINDOW* win, 
 int* sallesrest, int* objets_speciaux_apparus, int portesNonOuvertes) {
+    if(win==NULL){
+        exit(5);
+    }
+    if(sallesrest==NULL){
+        exit(6);
+    }
+    if(objets_speciaux_apparus==NULL){
+        exit(7);
+    }
     //init attributs salles
     int v, h;
     v = rand()%(TAILLE_MAX_V-2)+3;
@@ -428,6 +440,7 @@ int* sallesrest, int* objets_speciaux_apparus, int portesNonOuvertes) {
             return creerSalle(h, v, x-posEntree, y+2, nportes, dir,posEntree,win,sallesrest,objets_speciaux_apparus, portesNonOuvertes);
             break;
         default: 
+            //permet de creer la salle de depart
             return creerSalle(h, v, x, y, nportes, dir,posEntree,win,sallesrest,objets_speciaux_apparus, portesNonOuvertes);
             break;
     }
@@ -436,6 +449,12 @@ int* sallesrest, int* objets_speciaux_apparus, int portesNonOuvertes) {
 
 void dessineSalle(WINDOW * win, Salle * salle) {
     /* affiche la salle sur la fenetre en parcourant la salle*/
+    if(win==NULL){
+        exit(8);
+    }
+    if(salle==NULL){
+        exit(9);
+    }
     int i, j;
     for(i=0; i < salle->hauteur; i++){
         for(j=0; j < salle->longueur; j++){
@@ -490,10 +509,8 @@ void dessineSalle(WINDOW * win, Salle * salle) {
                         }
                     }
                     break;
-                case VIDE:
-                    //mvwaddstr(win, salle->y+i, salle->x+j, " ");
-                    break;
 
+                //affiche les objets
                 case BOUTEILLE_O2:
                     mvwaddstr(win, salle->y+i, salle->x+j, BOUTEILLE_O2_CHR);
                     break;
@@ -515,6 +532,8 @@ void dessineSalle(WINDOW * win, Salle * salle) {
                 case PC:
                     mvwaddstr(win, salle->y+i, salle->x+j, PC_CHR);
                     break;
+                default:
+                    break;
             }
         }
     }
@@ -522,6 +541,12 @@ void dessineSalle(WINDOW * win, Salle * salle) {
 
 void dessineSalles(WINDOW * win, Salle ** carte, int salles_existantes) {
     /*affiche l'ensemble des salles*/
+    if(win==NULL){
+        exit(10);
+    }
+    if(carte==NULL){
+        exit(11);
+    }
     for(int i = 0; i<salles_existantes; i++) {
         dessineSalle(win, carte[i]);
     }
@@ -529,6 +554,9 @@ void dessineSalles(WINDOW * win, Salle ** carte, int salles_existantes) {
 
 void libereSalle(Salle * salle) {
     /*libere l'emplacement memoire de la salle*/
+    if(salle==NULL){
+        exit(12);
+    }
     for(int i=0;i<salle->hauteur;i++){
         free(salle->disp[i]);
     }
@@ -539,6 +567,9 @@ void libereSalle(Salle * salle) {
 int compteurPortesNonOuvertes(Salle ** carte, int salles_existantes){
     /* Compte le nombre de portes non ouvertes sur la carte (sert à
     forcer l'apparition des objets à récupérer s'ils ne sont pas apparus)*/
+    if(carte==NULL){
+        exit(13);
+    }
     int compteur = 0;
     for(int i=0; i<salles_existantes;i++){
       for(int j=0; j<carte[i]->nportes;j++){
