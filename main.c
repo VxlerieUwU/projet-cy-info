@@ -236,7 +236,7 @@ int main()
         partie->mvEnnemic++;
         napms(1000 / IMAGES_PAR_SECONDE);
 		decr_minuteur++;
-		if(decr_minuteur >= 1000/IMAGES_PAR_SECONDE){
+		if(decr_minuteur >= IMAGES_PAR_SECONDE){
 			decr_minuteur = 0;
 			minuteur--;
 		}
