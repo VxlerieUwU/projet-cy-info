@@ -90,7 +90,7 @@ char * parseJSONString(char **str) {
     return result;
 }
 
-int parseJSONInt(char **str) {
+int parseJSONInt(char **str, int sign) {
     *str = skipSpaces(*str);
     int result;
     int verif = -1;
@@ -101,7 +101,9 @@ int parseJSONInt(char **str) {
     while(isdigit(**str)) { // déplace le curseur
         (*str)++;
     }
-
+    if (!sign) { // passage au négatif si présence d'un - avant le nombre
+        result = -result;
+    }
     return result;
 }
 
@@ -156,9 +158,13 @@ JSONValue parseJSONValue(char **str) {
     } else if (**str == '[') {
         v.type = JSON_ARRAY;
         v.arrayValue = parseJSONArray(str);
+    } else if (**str == '-') {
+        (*str)++;
+        v.type = JSON_NUMBER;
+        v.numberValue = parseJSONInt(str, 0);
     } else if (isdigit(**str)) {
         v.type = JSON_NUMBER;
-        v.numberValue = parseJSONInt(str);
+        v.numberValue = parseJSONInt(str, 1);
     } else if (strncmp(*str, "true", 4) == 0 || strncmp(*str, "false", 5) == 0) {
         v.type = JSON_BOOL;
         v.boolValue = parseJSONBool(str);

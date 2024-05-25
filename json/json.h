@@ -49,7 +49,7 @@ JSONObject * parseJSONObject(char **str);
 JSONValue parseJSONValue(char **str);
 JSONArray * parseJSONArray(char **str);
 int parseJSONBool(char **str);
-int parseJSONInt(char **str);
+int parseJSONInt(char **str, int sign);
 char * parseJSONString(char **str);
 int chrLookup(char **str, char chr);
 char * skipSpaces(char *str);

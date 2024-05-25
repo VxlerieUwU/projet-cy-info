@@ -217,7 +217,7 @@ void desapparition_objet(Objet* objet, Salle* salle, WINDOW* win);
 HUD * hudJeu(int x, int y, int hauteur, int largeur, Joueur * joueur,int minuteur);
 
     // SAUVEGARDE
-void saveGame(Partie partie);
+void saveGame(Partie * partie);
 Partie * loadGame();
     
     //JEU

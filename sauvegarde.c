@@ -257,7 +257,7 @@ JSONArray * inventToJSONArr(Inventaire inv) {
     return invJSON;
 }
 
-JSONObject * joueurToJSONObj(Joueur joueur) {
+JSONObject * joueurToJSONObj(Joueur * joueur) {
     JSONObject * joueurJSON = NULL;
     joueurJSON = malloc(sizeof(JSONObject));
     if(joueurJSON == NULL){
@@ -272,39 +272,44 @@ JSONObject * joueurToJSONObj(Joueur joueur) {
     }
     joueurJSON->pairs[0].key = "nom";
     joueurJSON->pairs[0].value.type = JSON_STRING;
-    joueurJSON->pairs[0].value.stringValue = joueur.nom;
+    joueurJSON->pairs[0].value.stringValue = malloc(sizeof(char) * strlen(joueur->nom) + 1);
+    if(joueurJSON->pairs[0].value.stringValue == NULL){
+        logMessage(ERROR, "erreur malloc joueurToJSONObj joueurJSON->pairs[0].value.stringValue");
+        exit(1);
+    }
+    joueurJSON->pairs[0].value.stringValue = strcpy(joueurJSON->pairs[0].value.stringValue, joueur->nom);
 
     joueurJSON->pairs[1].key = "x";
     joueurJSON->pairs[1].value.type = JSON_NUMBER;
-    joueurJSON->pairs[1].value.numberValue = joueur.x;
+    joueurJSON->pairs[1].value.numberValue = joueur->x;
 
     joueurJSON->pairs[2].key = "y";
     joueurJSON->pairs[2].value.type = JSON_NUMBER;
-    joueurJSON->pairs[2].value.numberValue = joueur.y;
+    joueurJSON->pairs[2].value.numberValue = joueur->y;
 
     joueurJSON->pairs[3].key = "pv";
     joueurJSON->pairs[3].value.type = JSON_NUMBER;
-    joueurJSON->pairs[3].value.numberValue = joueur.pv;
+    joueurJSON->pairs[3].value.numberValue = joueur->pv;
 
     joueurJSON->pairs[4].key = "att";
     joueurJSON->pairs[4].value.type = JSON_NUMBER;
-    joueurJSON->pairs[4].value.numberValue = joueur.att;
+    joueurJSON->pairs[4].value.numberValue = joueur->att;
 
     joueurJSON->pairs[5].key = "def";
     joueurJSON->pairs[5].value.type = JSON_NUMBER;
-    joueurJSON->pairs[5].value.numberValue = joueur.def;
+    joueurJSON->pairs[5].value.numberValue = joueur->def;
 
     joueurJSON->pairs[6].key = "niv";
     joueurJSON->pairs[6].value.type = JSON_NUMBER;
-    joueurJSON->pairs[6].value.numberValue = joueur.niv;
+    joueurJSON->pairs[6].value.numberValue = joueur->niv;
 
     joueurJSON->pairs[7].key = "xp";
     joueurJSON->pairs[7].value.type = JSON_NUMBER;
-    joueurJSON->pairs[7].value.numberValue = joueur.xp;
+    joueurJSON->pairs[7].value.numberValue = joueur->xp;
 
     joueurJSON->pairs[8].key = "inventaire";
     joueurJSON->pairs[8].value.type = JSON_ARRAY;
-    joueurJSON->pairs[8].value.arrayValue = inventToJSONArr(joueur.inventaire);
+    joueurJSON->pairs[8].value.arrayValue = inventToJSONArr(joueur->inventaire);
 
     return joueurJSON;
 }
@@ -483,14 +488,14 @@ JSONArray * carteToJSONArr(Salle ** carte, int nsalles) {
     return carteJSON;
 }
 
-JSONObject * partieToJSONObj(Partie partie) {
+JSONObject * partieToJSONObj(Partie * partie) {
     JSONObject * partieJSON = NULL;
     partieJSON = malloc(sizeof(JSONObject));
     if(partieJSON == NULL){
         logMessage(ERROR, "erreur malloc partieToJSONObj partieJSON");
         exit(1);
     }
-    partieJSON->length = 7;
+    partieJSON->length = 9;
     partieJSON->pairs = malloc(sizeof(JSONKeyValuePair) * partieJSON->length);
     if(partieJSON->pairs == NULL){
         logMessage(ERROR, "erreur malloc partieToJSONObj partieJSON->pairs");
@@ -498,31 +503,41 @@ JSONObject * partieToJSONObj(Partie partie) {
     }
     partieJSON->pairs[0].key = "joueur";
     partieJSON->pairs[0].value.type = JSON_OBJECT;
-    partieJSON->pairs[0].value.objectValue = joueurToJSONObj(*partie.joueur);
+    partieJSON->pairs[0].value.objectValue = joueurToJSONObj(partie->joueur);
 
     partieJSON->pairs[1].key = "carte";
     partieJSON->pairs[1].value.type = JSON_ARRAY;
-    partieJSON->pairs[1].value.arrayValue = carteToJSONArr(partie.carte, partie.salles_existantes);
+    partieJSON->pairs[1].value.arrayValue = carteToJSONArr(partie->carte, partie->salles_existantes);
 
     partieJSON->pairs[2].key = "graine";
     partieJSON->pairs[2].value.type = JSON_NUMBER;
-    partieJSON->pairs[2].value.numberValue = partie.graine;
+    partieJSON->pairs[2].value.numberValue = partie->graine;
 
     partieJSON->pairs[3].key = "portesNonOuvertes";
     partieJSON->pairs[3].value.type = JSON_NUMBER;
-    partieJSON->pairs[3].value.numberValue = partie.portesNonOuvertes;
+    partieJSON->pairs[3].value.numberValue = partie->portesNonOuvertes;
 
     partieJSON->pairs[4].key = "objets_speciaux_apparus";
     partieJSON->pairs[4].value.type = JSON_NUMBER;
-    partieJSON->pairs[4].value.numberValue = partie.objets_speciaux_apparus;
+    partieJSON->pairs[4].value.numberValue = partie->objets_speciaux_apparus;
 
     partieJSON->pairs[5].key = "salles_existantes";
     partieJSON->pairs[5].value.type = JSON_NUMBER;
-    partieJSON->pairs[5].value.numberValue = partie.salles_existantes;
+    partieJSON->pairs[5].value.numberValue = partie->salles_existantes;
 
     partieJSON->pairs[6].key = "mvEnnemic";
     partieJSON->pairs[6].value.type = JSON_NUMBER;
-    partieJSON->pairs[6].value.numberValue = partie.mvEnnemic;
+    partieJSON->pairs[6].value.numberValue = partie->mvEnnemic;
+
+    partieJSON->pairs[7].key = "nb_obj_inv";
+    partieJSON->pairs[7].value.type = JSON_NUMBER;
+    partieJSON->pairs[7].value.numberValue = partie->nb_obj_inv;
+
+    partieJSON->pairs[8].key = "nb_obj_spe_inv";
+    partieJSON->pairs[8].value.type = JSON_NUMBER;
+    partieJSON->pairs[8].value.numberValue = partie->nb_obj_spe_inv;
+
+
 
     return partieJSON;
 }
@@ -546,7 +561,7 @@ void freeJSONObject(JSONObject * obj) { // fonction récursive pour se débarass
     free(obj);
 }
 
-void saveGame(Partie partie) {
+void saveGame(Partie * partie) {
     JSONObject * partieJSON = partieToJSONObj(partie);
     char * serialized = serializeJSONObject(*partieJSON);
     FILE * save = fopen("save.json", "w");

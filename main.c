@@ -83,7 +83,7 @@ int main()
             break;
         case 1:
         	partie = loadGame();
-			wclear(mainwin);
+            wclear(mainwin);
 
 
             break;
@@ -216,8 +216,7 @@ int main()
 		}
     }
 
-
-	saveGame(*partie);
+	saveGame(partie);
     logMessage(INFO, "fin du programme");
     free(partie->carte);
     freeMenu(menu);
