@@ -66,46 +66,24 @@ Objet apparition_objet(Salle* salle, int* objets_speciaux_apparus, int sallesres
     return objet;
 }
 
-void recup_objet(Joueur* joueur, Salle* salle, Objet* objet, int* nb_obj_inv, int* nb_obj_spe_inv){
-    
-    if(joueur == NULL || salle == NULL || nb_obj_inv == NULL || nb_obj_spe_inv == NULL || objet==NULL){
+void recup_objet(Joueur* joueur, Salle* salle, Objet objet, int* nb_obj_inv, int* nb_obj_spe_inv){ 
+    //place l'objet dans l'inventaire du joueur
+    if(joueur == NULL || salle == NULL || nb_obj_inv == NULL || nb_obj_spe_inv == NULL){
         exit(1);
     }
-
-    /*if (*nb_obj_inv + *nb_obj_spe_inv >= 10) {
-        return;
-    }
-
-
-    if (objet->id >= 11) {
-        
-        if (*nb_obj_spe_inv >= 3) {
-            return;
-        } 
-
-        joueur->xp += 20; 
-    } else {
-        if (*nb_obj_inv+4 >= INV_TAILLE) {
-            return;
-        } 
-
-        joueur->xp += 20; 
-    }
-
-    if(objet->id<11 && *nb_obj_inv+4 < INV_TAILLE ){
+    if(objet.id>=11 && *nb_obj_spe_inv<4){ //objets speciaux
         joueur->xp += 20;
-        joueur->inventaire[*nb_obj_inv+4] = objet;
-        salle->disp[objet->y-salle->y][objet->x-salle->x] = VIDE;
-        (*nb_obj_inv)++;
-    } else if(*nb_obj_spe_inv<4){
-        joueur->xp += 20;
-        //joueur->inventaire[*nb_obj_spe_inv] = objet;
-        //salle->disp[objet->y-salle->y][objet->x-salle->x] = VIDE;
+        joueur->inventaire.obTab[*nb_obj_spe_inv] = objet;
         (*nb_obj_spe_inv)++;
-    } */
+    }
+    else if(*nb_obj_inv+4 < INV_TAILLE){ //objets communs
+        joueur->xp += 20;
+        joueur->inventaire.obTab[*nb_obj_inv+4] = objet;
+        (*nb_obj_inv)++;
+    }
 }
 
-void desapparition_objet(Objet* objet, Salle* salle, Joueur* joueur, WINDOW* win){
+void desapparition_objet(Objet* objet, Salle* salle, WINDOW* win){
     /*libere le pointeur sur l'ennemi et assigne l'attribut ennemi_existant a 0*/
     if(objet==NULL){
         exit(13);

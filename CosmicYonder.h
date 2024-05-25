@@ -208,9 +208,9 @@ void perte_vie_ennemi(Ennemi* ennemi, Joueur* joueur);
 //Crée et fait apparaitre un objet dans une salle en fonction des objets spéciaux apparus,des salles restantes et des portes non ouvertes
 Objet apparition_objet(Salle* salle, int* objets_speciaux_apparus, int sallesrest, int portesNonOuvertes);
 //permet de recuperer un objet
-void recup_objet(Joueur* joueur, Salle* salle, Objet* objet, int* nb_obj_inv, int* nb_obj_spe_inv);
+void recup_objet(Joueur* joueur, Salle* salle, Objet objet, int* nb_obj_inv, int* nb_obj_spe_inv);
 //fait disparaitre un objet quand le joueur le ramasse
-void desapparition_objet(Objet* objet, Salle* salle, Joueur* joueur, WINDOW* win);
+void desapparition_objet(Objet* objet, Salle* salle, WINDOW* win);
 
     //HUD
 //Fait apparaitre l'interface graphique pour les informations du joueur et de la partie
