@@ -19,7 +19,9 @@ et vous faire gagner du temps ...
 
 
 Contrôles :
+- Echap : Menu Pause
 - KEY_UP : déplacement du joueur vers le haut
 - KEY_DOWN : déplacement du joueur vers le bas
 - KEY_RIGHT : déplacement du joueur vers la droite
 - KEY_LEFT : déplacement du joueur vers la gauche
+- E : Ramasser un objet
