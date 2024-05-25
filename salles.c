@@ -1,5 +1,3 @@
-
-
 #include "logger.h"
 #include "CosmicYonder.h"
 /*Ce fichier contient les fonctions relatives au fonctionnement des salles*/
@@ -356,7 +354,6 @@ int entree, int posEntree, WINDOW* win, int* sallesrest, int* objets_speciaux_ap
     //ALLOCATION OBJETS
     int objets_existants = 0; //Objets existants dans la salle à sa création soit 0
     for(int i = 0; i<4;i++){ //Il peut y avoir jusqu'à 4 objets par salle
-        
         /* Si le nombre de salles restantes à générer est identique aux nombres d'objets
         à récupérer pour gagner non apparues, on force l'apparition d'un de ces objets dans chacune
         des salles restantes*/
@@ -373,7 +370,6 @@ int entree, int posEntree, WINDOW* win, int* sallesrest, int* objets_speciaux_ap
         }
     } 
     //ALLOCATION ENNEMI
-    //int ennemi_existant = 0; //ennemi existant dans la salle à sa création soit 0
     //Il peut y avoir jusqu'à 1 ennemi par salle
     /* Le pourcentage de chance d'apparition d'ennemi diminue en fonction du nombre
     d'objets dans la salle (60% si 0, 30% si 1, 20% si 2)*/
@@ -382,10 +378,9 @@ int entree, int posEntree, WINDOW* win, int* sallesrest, int* objets_speciaux_ap
     }
     else{
         salle->ennemi = NULL;
+        salle->ennemi_existant=0;
     }
     
-
-
     return salle;
 }
 

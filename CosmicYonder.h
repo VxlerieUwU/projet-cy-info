@@ -83,7 +83,7 @@ typedef struct {
 }Objet;
 
 typedef struct{
-	Objet obTab[INV_TAILLE]; //l'inventaire est un tableau d'objets (a definir)
+	Objet obTab[INV_TAILLE]; //l'inventaire est un tableau d'objets
 }Inventaire;
 
 typedef struct{
@@ -133,6 +133,7 @@ typedef struct {
     int nportes; //Nombres de portes de la salle
     Objet objets[3];
     Ennemi* ennemi;
+    int ennemi_existant;
 }Salle;
 
 
@@ -143,11 +144,17 @@ typedef struct {
     int mvEnnemic;
     int objets_speciaux_apparus;
     int salles_existantes;
+    int nb_obj_inv;
+    int nb_obj_spe_inv;
     Salle ** carte;
 }Partie;
 
 //Fonctions
 
+    //GRAINE
+int creation_graine(EntreeTexte * graineEntree); //Crée la graine de génération du jeu.
+
+    //SALLES
 //Cette fonction permet de creer une salle a partir de dimensions fixees a l'aide de creerSalleProced
 Salle * creerSalle(int taille_horizontale, int taille_verticale, int x, int y, int nportes, 
 int entree, int posEntree, WINDOW* win, int* sallesrest, int* objets_speciaux_apparus,int portesNonOuvertes);
@@ -160,38 +167,55 @@ void dessineSalles(WINDOW * win, Salle ** salle, int salles_existantes);
 void dessineSalle(WINDOW * win, Salle * salle);
 //libere l'emplacement memoire de la salle
 void libereSalle(Salle * salle);
+
+    //PORTES
 //fonction constructeur de la porte
 Porte initPorte(int dir,int v,int h);
 // Ouverture de porte
 void ouvrirPorte(Salle ** carte, int indexSalleAct,int indexNouvSalle, int indexPorte, int dir);
+//Compte les portes non ouvertes
+int compteurPortesNonOuvertes(Salle ** carte, int salles_existantes); 
+
+    //JOUEUR
 //initialise la structure joueur
 void initJoueur(Joueur* joueur);
 //cette fonction gere les interactions du joueur avec le jeu, comme les mouvements ou les combats
-void interactions(int touche, Joueur* joueur, Salle ** carte, int salles_existantes, WINDOW* mainwin); 
+void interactions(int touche, Joueur* joueur, Salle ** carte, int salles_existantes, WINDOW* mainwin, int* nb_obj_inv, int* nb_obj_spe_inv); 
+//Gère mise à jour du niveau du joueur en fonction de son expérience
+void maj_niveau(Joueur* joueur); 
+//Gère la perte de vie du joueur
+void perte_vie_joueur(Joueur* joueur, Ennemi* ennemi); 
+//fait reapparaitre le joueur en cas de mort
+void reapparition_joueur(Joueur* joueur, Salle** carte, int salles_existantes); 
+
+    //ENNEMIS
 //initialise un ennemi à l'aide d'attributs passés en paramètre
 Ennemi initEnnemi(int x, int y, int pv, int att, int def);
 //calcule la position globale de l'ennemi
-void ennemipos(Ennemi* ennemi,Salle* salle);
+void ennemietat(Ennemi* ennemi,Salle* salle,Joueur* joueur, WINDOW* mainwin);
 //gere les mouvements de l'ennemi
 void ennemimv(Ennemi* ennemi,Salle* salle,Joueur* joueur, WINDOW* mainwin);
 //affiche un ennemi
 void afficheEnnemi(Ennemi* ennemi, WINDOW* mainwin);
 //spawn ennemi
 Ennemi* apparition_ennemi(Salle* salle);
-
-int creation_graine(EntreeTexte * graineEntree); //Crée la graine de génération du jeu.
-
-void maj_niveau(Joueur* joueur); //Gère mise à jour du niveau du joueur en fonction de son expérience
-void perte_vie_joueur(Joueur* joueur, Ennemi* ennemi); //Gère la perte de vie du joueur
+//fait despawn l'ennemi quand il meurt
+void desapparition_ennemi(Ennemi* ennemi, Salle* salle,Joueur* joueur, WINDOW* win); 
+//gere la perte de vie de l'ennemi
 void perte_vie_ennemi(Ennemi* ennemi, Joueur* joueur); //gere la perte de vie de l'ennemi
+
+//OBJETS
 //Crée et fait apparaitre un objet dans une salle en fonction des objets spéciaux apparus,des salles restantes et des portes non ouvertes
 Objet apparition_objet(Salle* salle, int* objets_speciaux_apparus, int sallesrest, int portesNonOuvertes);
-int compteurPortesNonOuvertes(Salle ** carte, int salles_existantes); //Compte les portes non ouvertes
+//permet de recuperer un objet
+void recup_objet(Joueur* joueur, Salle* salle, Objet objet, int* nb_obj_inv, int* nb_obj_spe_inv);
+//fait disparaitre un objet quand le joueur le ramasse
+void desapparition_objet(Objet* objet, Salle* salle, WINDOW* win);
 
 //Fait apparaitre l'interface graphique pour les informations du joueur et de la partie
 HUD * hudJeu(int x, int y, int hauteur, int largeur, Joueur * joueur, int minuteur);
 
-// SAUVEGARDE
+    // SAUVEGARDE
 void saveGame(Partie partie);
 Partie * loadGame();
 

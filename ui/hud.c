@@ -103,6 +103,18 @@ HUD * hudJeu(int x, int y, int hauteur, int largeur, Joueur * joueur, int minute
         exit(1);
     }
 
+    minuteurStr = malloc(sizeof(char*));
+    if(minuteurStr == NULL){
+        logMessage(ERROR, "Erreur d'allocation de mémoire pour le minuteur");
+        exit(1);
+
+    }
+    minuteurStr[0] = malloc(sizeof(char) * 10);
+    if(minuteurStr[0] == NULL){
+        logMessage(ERROR, "Erreur d'allocation de mémoire pour le minuteur");
+        exit(1);
+    }
+
     *nivStr = strcpy(*nivStr, "Niveau : ");
     *xpStr = strcpy(*xpStr, "XP : ");
     *pvStr = strcpy(*pvStr, "PV : ");
@@ -173,9 +185,7 @@ HUD * hudJeu(int x, int y, int hauteur, int largeur, Joueur * joueur, int minute
     if(minuteurTexte == NULL){
         logMessage(ERROR, "Erreur d'allocation de mémoire pour le texte du minuteur");
         exit(1);
-        
     }
-    
 
     pv = creerStatusBar(x + 11, y + hauteur/2, 10, 2, joueur->pv/10);
     xp = creerStatusBar(x + 11, y + hauteur/2 + 1, 10, 3, joueur->xp/10);
