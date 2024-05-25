@@ -34,7 +34,7 @@
 #define TAILLE_MAX_H 20
 #define MAX_SALLES 10
 #define IMAGES_PAR_SECONDE 60
-#define MINUTEUR 10
+#define MINUTEUR 300
 
 //Enumération des différents objets
 
@@ -202,9 +202,9 @@ Ennemi* apparition_ennemi(Salle* salle);
 //fait despawn l'ennemi quand il meurt
 void desapparition_ennemi(Ennemi* ennemi, Salle* salle,Joueur* joueur, WINDOW* win); 
 //gere la perte de vie de l'ennemi
-void perte_vie_ennemi(Ennemi* ennemi, Joueur* joueur); //gere la perte de vie de l'ennemi
+void perte_vie_ennemi(Ennemi* ennemi, Joueur* joueur); 
 
-//OBJETS
+    //OBJETS
 //Crée et fait apparaitre un objet dans une salle en fonction des objets spéciaux apparus,des salles restantes et des portes non ouvertes
 Objet apparition_objet(Salle* salle, int* objets_speciaux_apparus, int sallesrest, int portesNonOuvertes);
 //permet de recuperer un objet
@@ -212,11 +212,16 @@ void recup_objet(Joueur* joueur, Salle* salle, Objet objet, int* nb_obj_inv, int
 //fait disparaitre un objet quand le joueur le ramasse
 void desapparition_objet(Objet* objet, Salle* salle, WINDOW* win);
 
+    //HUD
 //Fait apparaitre l'interface graphique pour les informations du joueur et de la partie
-HUD * hudJeu(int x, int y, int hauteur, int largeur, Joueur * joueur, int minuteur);
+HUD * hudJeu(int x, int y, int hauteur, int largeur, Joueur * joueur,int minuteur);
 
     // SAUVEGARDE
 void saveGame(Partie partie);
 Partie * loadGame();
-
+    
+    //JEU
+Partie * creerPartie();
+int condition_victoire(Partie* partie);
+void chronos(int* minuteur,int*decr_minuteur);
 #endif
