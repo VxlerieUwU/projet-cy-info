@@ -179,6 +179,8 @@ void ouvrirPorte(Salle ** carte, int indexSalleAct,int indexNouvSalle, int index
 int compteurPortesNonOuvertes(Salle ** carte, int salles_existantes); 
 //cree les portes d'une salle
 void creationPortes(Salle* salle, int entree, int* sallesrest);
+//verifie qu'une salle puisse se cree derriere une porte
+void verifPorte(Salle* salle,int i, WINDOW* win);
 
     //JOUEUR
 //initialise la structure joueur

@@ -139,49 +139,9 @@ int entree, int posEntree, WINDOW* win, int* sallesrest, int* objets_speciaux_ap
     for(int i=1; i<salle->nportes; i++) {
         salle->disp[salle->portes[i].y][salle->portes[i].x] = PORTE;
 
-        /*on verifie qu'il y ait l'espace disponible pour generer une salle derriere les portes
-        on verifie dans un espace de 3 en longueur x 3 en largeur 
-        s'il n'y a pas la place on remplace la porte par un mur et on met son etat en ouvert*/
-        if(salle->portes[i].x==0){ //porte a gauche
-            for(int j=1; j<4; j++){
-                for(int k=-1; k<=1; k++){
-                    if(mvwinch(win, y+salle->portes[i].y-k, x+salle->portes[i].x-j)!=' '){
-                        salle->disp[salle->portes[i].y][salle->portes[i].x] = MUR_HORIZ;
-                        salle->portes[i].ouvert = 1;
-                    }
-                }
-            }
-        }
-        if(salle->portes[i].x==taille_horizontale-1){ //porte a droite
-            for(int j=1; j<4; j++){
-                for(int k=-1; k<=1; k++){
-                    if(mvwinch(win, y+salle->portes[i].y-k, x+salle->portes[i].x+j)!=' '){
-                        salle->disp[salle->portes[i].y][salle->portes[i].x] = MUR_HORIZ;
-                        salle->portes[i].ouvert = 1;
-                    }                  
-                }
-            }
-        }
-        if(salle->portes[i].y==0){ //porte en haut
-            for(int j=-1; j<=1; j++){
-                for(int k=1; k<4; k++){
-                    if(mvwinch(win, y+salle->portes[i].y-k, x+salle->portes[i].x+j)!=' '){
-                        salle->disp[salle->portes[i].y][salle->portes[i].x] = MUR_VERTI;
-                        salle->portes[i].ouvert = 1;
-                    }                         
-                }
-            }
-        }
-        if(salle->portes[i].y==taille_verticale-1){ //porte en bas
-            for(int j=-1; j<=1; j++){
-                for(int k=1; k<4; k++){
-                    if(mvwinch(win, y+salle->portes[i].y+k, x+salle->portes[i].x+j)!=' '){
-                        salle->disp[salle->portes[i].y][salle->portes[i].x] = MUR_VERTI;
-                        salle->portes[i].ouvert = 1;
-                    }                      
-                }
-            }
-        }  
+        //verifie qu'une salle ait la place de se generer derriere la porte
+        verifPorte(salle,i, win);
+        
         //si la porte n'a pas pu se generer, on reincremente le nombre de salles restantes
         if(salle->disp[salle->portes[i].y][salle->portes[i].x] == MUR_HORIZ || salle->disp[salle->portes[i].y][salle->portes[i].x] == MUR_VERTI){
             (*sallesrest)++;
