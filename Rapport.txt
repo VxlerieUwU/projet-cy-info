@@ -43,6 +43,7 @@ Génération des salles avec monstres et objets fixée : Florian
 Boucle de jeu : Arthur
 Menu inventaire : Valérie 
 Utilisation des objets : Arthur + Florian
+Sauvegarde finie : Valérie
 
 Ce qui marche :
 - Génération procédurale des salles
@@ -54,8 +55,13 @@ Ce qui marche :
 - HUD
 - minuteur
 - sauvegarde
-
+Ce qui ne marche pas :
+- Le menu "charger sauvegarde" n'a pas de bouton retour ->obligation de quitter le jeu
 
 CHOIX IMPORTANT : 
 Utilisation de ncurses
 Se servir d'un json pour les sauvegardes
+
+AIDES :
+- Documentation ncurses
+- Code du json vu sur StackOverflow/ChatGPT/...
