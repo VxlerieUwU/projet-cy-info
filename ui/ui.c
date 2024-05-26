@@ -178,6 +178,41 @@ MiniMenu * creerMessage(int x, int y, int hauteur, int largeur, int couleur, Tex
     return message;
 }
 
+InvMenu * creerInvMenu(int x, int y, int hauteur, int largeur, int couleur, Texte * titre, int nbBoutCol, int nbBoutLig) {
+    /* Fonction permettant de créer les menus d'inventaire*/
+    //Initialisation
+    InvMenu * invMenu = NULL;
+    //Allocation mémoire
+    invMenu = malloc(sizeof(InvMenu));
+    if(invMenu == NULL) {
+        logMessage(CRITICAL, "erreur malloc initInvMenu");
+        exit(1);
+    }
+    //Initialisation des membres
+    invMenu->x = x;
+    invMenu->y = y;
+    invMenu->hauteur = hauteur;
+    invMenu->largeur = largeur;
+    invMenu->couleur = couleur;
+    invMenu->titre = titre;
+    invMenu->nbBoutCol = nbBoutCol;
+    invMenu->nbBoutLig = nbBoutLig;
+    invMenu->boutons = NULL;
+    invMenu->boutons = malloc(nbBoutCol * sizeof(Bouton**));
+    if(invMenu->boutons == NULL) {
+        logMessage(CRITICAL, "erreur malloc boutons initInvMenu");
+        exit(1);
+    }
+    invMenu->reprendre = NULL;
+    invMenu->message = NULL;
+    invMenu->curseurCol = 0;
+    invMenu->curseurLig = 0;
+    invMenu->curseurObj = 0;
+    invMenu->selEtat = 0;
+    invMenu->montrerMsg = 0;
+    return invMenu;
+}
+
 Texte * creerTexte(int x, int y, char ** texte, int nbLignes, int couleur) {
     /* Message servant à créer le texte des boutons*/
     //Initialisation

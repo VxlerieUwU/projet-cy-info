@@ -231,113 +231,48 @@ HUD * hudJeu(int x, int y, int hauteur, int largeur, Joueur * joueur, int minute
 
 void renderInventaire(WINDOW * win, int y, int x, Inventaire inventaire, int nb_obj_inv, int nb_obj_spe_inv) {
     int xTmp; // calcul des coordonnees
-    mvwhline(win, y, x, ACS_HLINE, INV_TAILLE);
-    mvwhline(win, y + 4, x, ACS_HLINE, INV_TAILLE);
-    mvwhline(win, y + 2, x + 1, ACS_HLINE, INV_TAILLE - 1);
-    for(int i = 0; i < INV_TAILLE/2; i++) {
-        mvwvline(win, y, x + 2*i, ACS_VLINE, 4);
+    mvwhline(win, y, x, ACS_HLINE, INV_TAILLE*2);
+    mvwhline(win, y + 2, x + 1, ACS_HLINE, INV_TAILLE*2);
+    for(int i = 0; i < INV_TAILLE + 1; i++) {
+        mvwvline(win, y, x + 2*i, ACS_VLINE, 2);
     }
-    for(int i = 0; i < INV_TAILLE/2; i++) {
-        mvwaddch(win, y + 2, x + 2*i, ACS_PLUS);
-        mvwaddch(win, y + 4, x + 2*i, ACS_BTEE);
+    for(int i = 0; i < INV_TAILLE; i++) {
+        mvwaddch(win, y + 2, x + 2*i, ACS_BTEE);
         mvwaddch(win, y, x + 2*i, ACS_TTEE);
     }
-    mvwvline(win, y, x, ACS_VLINE, 4);
-    mvwvline(win, y, x + INV_TAILLE, ACS_VLINE, 4);
+    mvwaddch(win, y + 2, x + 2*INV_TAILLE, ACS_LRCORNER);
+    mvwaddch(win, y, x + 2*INV_TAILLE, ACS_URCORNER);
+
+    mvwvline(win, y, x, ACS_VLINE, 2);
+    mvwvline(win, y, x + INV_TAILLE, ACS_VLINE, 2);
     mvwaddch(win, y, x, ACS_ULCORNER);
-    mvwaddch(win, y, x + INV_TAILLE, ACS_URCORNER);
-    mvwaddch(win, y + 4, x, ACS_LLCORNER);
-    mvwaddch(win, y + 4, x + INV_TAILLE, ACS_LRCORNER);
-    mvwaddch(win, y + 2, x, ACS_LTEE);
-    mvwaddch(win, y + 2, x + INV_TAILLE, ACS_RTEE);
+    mvwaddch(win, y, x + INV_TAILLE, ACS_TTEE);
+    mvwaddch(win, y + 2, x, ACS_LLCORNER);
 
 
-    for(int i = 0; i < 4; i++) { // OBJETS SPECIAUX
-        if(i % 2 != 0) {
-            xTmp = x + i + 1;
-        } else {
-            xTmp = x + i;
-        }
+
+    for(int i = 0; i < INV_TAILLE; i++) { // OBJETS SPECIAUX
         switch(inventaire.obTab[i].id) {
             case BOUTEILLE_O2:
-                mvwaddstr(win,  y + 1, xTmp, BOUTEILLE_O2_CHR);
+                mvwaddstr(win,  y + 1, x + 2*i + 1, BOUTEILLE_O2_CHR);
                 break;
             case BANDAGE:
-                mvwaddstr(win, y + 1, xTmp, BANDAGE_CHR);
+                mvwaddstr(win, y + 1, x + 2*i + 1, BANDAGE_CHR);
                 break;
             case CLE:
-                mvwaddstr(win, y + 1,xTmp, CLE_CHR);
+                mvwaddstr(win, y + 1,x + 2*i + 1, CLE_CHR);
                 break;
             case GENERATEUR:
-                mvwaddstr(win, y + 1, xTmp, GENERATEUR_CHR);
+                mvwaddstr(win, y + 1, x + 2*i + 1, GENERATEUR_CHR);
                 break;
             case REACTEUR_1:
-                mvwaddstr(win, y + 1,xTmp, REACTEUR_CHR);
+                mvwaddstr(win, y + 1,x + 2*i + 1, REACTEUR_CHR);
                 break;
             case REACTEUR_2:
-                mvwaddstr(win, y + 1, xTmp, REACTEUR_CHR);
+                mvwaddstr(win, y + 1,x + 2*i + 1, REACTEUR_CHR);
                 break;
             case PC:
-                mvwaddstr(win, y + 1, xTmp, PC_CHR);
-                break;
-            default:
-                break;
-        }
-    }
-
-    switch(inventaire.obTab[4].id) {
-        case BOUTEILLE_O2:
-            mvwaddstr(win,  y + 1, x + 9, BOUTEILLE_O2_CHR);
-            break;
-        case BANDAGE:
-            mvwaddstr(win, y + 1, x + 9, BANDAGE_CHR);
-            break;
-        case CLE:
-            mvwaddstr(win, y + 1, x + 9, CLE_CHR);
-            break;
-        case GENERATEUR:
-            mvwaddstr(win, y + 1, x + 9, GENERATEUR_CHR);
-            break;
-        case REACTEUR_1:
-            mvwaddstr(win, y + 1, x + 9, REACTEUR_CHR);
-            break;
-        case REACTEUR_2:
-            mvwaddstr(win, y + 1, x + 9, REACTEUR_CHR);
-            break;
-        case PC:
-            mvwaddstr(win, y + 1, x + 9, PC_CHR);
-            break;
-        default:
-            break;
-    }
-
-    for(int i = 5; i < INV_TAILLE; i++) {
-        if(i % 2 != 0) {
-            xTmp = x + i - INV_TAILLE/2 + 1;
-        } else {
-            xTmp = x + i - INV_TAILLE/2 + 2;
-        }
-        switch(inventaire.obTab[i].id) {
-            case BOUTEILLE_O2:
-                mvwaddstr(win,  y + 3, xTmp,  BOUTEILLE_O2_CHR);
-                break;
-            case BANDAGE:
-                mvwaddstr(win, y + 3, xTmp, BANDAGE_CHR);
-                break;
-            case CLE:
-                mvwaddstr(win, y + 3, xTmp, CLE_CHR);
-                break;
-            case GENERATEUR:
-                mvwaddstr(win, y + 3, xTmp, GENERATEUR_CHR);
-                break;
-            case REACTEUR_1:
-                mvwaddstr(win, y + 3, xTmp, REACTEUR_CHR);
-                break;
-            case REACTEUR_2:
-                mvwaddstr(win, y + 3, xTmp, REACTEUR_CHR);
-                break;
-            case PC:
-                mvwaddstr(win, y + 3, xTmp, PC_CHR);
+                mvwaddstr(win, y + 1, x + 2*i + 1, PC_CHR);
                 break;
             default:
                 break;
@@ -380,5 +315,145 @@ void renduHUD(WINDOW * win, HUD * hud, int minuteur, Joueur * jou, int nb_obj_in
     for(int i = 0; i < hud->nbStatBar; i++) {
         renduStatusBar(win, hud->statBarWidgets[i]);
     }
-    renderInventaire(win,hud->y + hud->hauteur/2 - 5,hud->x + hud->largeur/3 - 10, jou->inventaire, nb_obj_inv, nb_obj_spe_inv);
+    renderInventaire(win,hud->y + hud->hauteur/2 - 3,hud->x + hud->largeur/3 - 11, jou->inventaire, nb_obj_inv, nb_obj_spe_inv);
+}
+
+void renduInvDial(WINDOW * win, InvMenu * invMenu, Inventaire inventaire) {
+    for(int i = 0; i < invMenu->hauteur; i++) {
+        for(int j = 0; j < invMenu->largeur; j++) {
+            mvwaddch(win, invMenu->y + i, invMenu->x + j, ' ');
+        }
+    }
+    /* Dessin des bordures*/
+    wattron(win, COLOR_PAIR(7));
+    mvwhline(win, invMenu->message->y, invMenu->message->x, ACS_HLINE, invMenu->message->largeur);
+    mvwhline(win, invMenu->message->y + invMenu->message->hauteur - 1, invMenu->message->x, ACS_HLINE, invMenu->message->largeur);
+    mvwvline(win, invMenu->message->y, invMenu->message->x, ACS_VLINE, invMenu->message->hauteur);
+    mvwvline(win, invMenu->message->y, invMenu->message->x + invMenu->message->largeur - 1, ACS_VLINE, invMenu->message->hauteur);
+    mvwaddch(win, invMenu->message->y, invMenu->message->x, ACS_ULCORNER);
+    mvwaddch(win, invMenu->message->y, invMenu->message->x + invMenu->message->largeur - 1, ACS_URCORNER);
+    mvwaddch(win, invMenu->message->y + invMenu->message->hauteur - 1, invMenu->message->x, ACS_LLCORNER);
+    mvwaddch(win, invMenu->message->y + invMenu->message->hauteur - 1, invMenu->message->x + invMenu->message->largeur - 1, ACS_LRCORNER);
+    wattroff(win, COLOR_PAIR(7));
+    switch(inventaire.obTab[invMenu->curseurObj].id) {
+        case BOUTEILLE_O2:
+            invMenu->message->titre->texte[0] = "Bouteille O2";
+            break;
+        case BANDAGE:
+            invMenu->message->titre->texte[0] = "Bandage";
+            break;
+        case CLE:
+            invMenu->message->titre->texte[0] = "Clef";
+            break;
+        case GENERATEUR:
+            invMenu->message->titre->texte[0] = "Generateur";
+            break;
+        case REACTEUR_1:
+            invMenu->message->titre->texte[0] = "Reacteur 1";
+            break;
+        case REACTEUR_2:
+            invMenu->message->titre->texte[0] = "Reacteur 2";
+            break;
+        case PC:
+            invMenu->message->titre->texte[0] = "PC";
+            break;
+    }
+
+    renduMessage(win, *invMenu->message);
+}
+
+void renduInvMenu(WINDOW * win, InvMenu * invMenu, Inventaire inventaire) {
+    short k = 0;
+    // efface le texte sous la fenetre
+    for(int i = 0; i < invMenu->hauteur; i++) {
+        for(int j = 0; j < invMenu->largeur; j++) {
+            mvwaddch(win, invMenu->y + i, invMenu->x + j, ' ');
+        }
+    }
+    /* Dessin des bordures*/
+    wattron(win, COLOR_PAIR(7));
+    mvwhline(win, invMenu->y, invMenu->x, ACS_HLINE, invMenu->largeur);
+    mvwhline(win, invMenu->y + invMenu->hauteur - 1, invMenu->x, ACS_HLINE, invMenu->largeur);
+    mvwvline(win, invMenu->y, invMenu->x, ACS_VLINE, invMenu->hauteur);
+    mvwvline(win, invMenu->y, invMenu->x + invMenu->largeur - 1, ACS_VLINE, invMenu->hauteur);
+    mvwaddch(win, invMenu->y, invMenu->x, ACS_ULCORNER);
+    mvwaddch(win, invMenu->y, invMenu->x + invMenu->largeur - 1, ACS_URCORNER);
+    mvwaddch(win, invMenu->y + invMenu->hauteur - 1, invMenu->x, ACS_LLCORNER);
+    mvwaddch(win, invMenu->y + invMenu->hauteur - 1, invMenu->x + invMenu->largeur - 1, ACS_LRCORNER);
+    wattroff(win, COLOR_PAIR(7));
+
+    renduTexte(win, *invMenu->titre);
+    renduBouton(win, *invMenu->reprendre, 0);
+    for(int i = 0; i < invMenu->nbBoutLig; i++) {
+        for(int j = 0; j < invMenu->nbBoutCol; j++) {
+            switch(inventaire.obTab[k].id) {
+                case BOUTEILLE_O2:
+                    invMenu->boutons[j][i]->texte = "Bouteille O2";
+                    break;
+                case BANDAGE:
+                    invMenu->boutons[j][i]->texte = "Bandage";
+                    break;
+                case CLE:
+                    invMenu->boutons[j][i]->texte = "Clef";
+                    break;
+                case GENERATEUR:
+                    invMenu->boutons[j][i]->texte = "Generateur";
+                    break;
+                case REACTEUR_1:
+                    invMenu->boutons[j][i]->texte = "Reacteur 1";
+                    break;
+                case REACTEUR_2:
+                    invMenu->boutons[j][i]->texte = "Reacteur 2";
+                    break;
+                case PC:
+                    invMenu->boutons[j][i]->texte = "PC";
+                    break;
+            }
+            if(invMenu->curseurCol == j && invMenu->curseurLig == i) {
+                invMenu->curseurObj = k;
+                renduBouton(win, *invMenu->boutons[j][i], 1);
+            } else {
+                renduBouton(win, *invMenu->boutons[j][i], 0);
+            }
+            k++;
+        }
+    }
+
+
+}
+
+
+
+void invBoucle(WINDOW *mainwin, int *touche, InvMenu *invMenu, Inventaire inventaire) {
+    /* Fonction qui fait une boucle infini tant qu'on a pas choisi une option
+    pour arrêter le jeu quand on fait pause*/
+    while (!invMenu->selEtat) { //Tant qu'on ne sélectionne rien le jeu est arrêté
+        wrefresh(mainwin);
+        *touche = wgetch(mainwin);
+        entreeInv(invMenu, *touche);
+        while(invMenu->montrerMsg) {
+            wrefresh(mainwin);
+            *touche = wgetch(mainwin);
+            entreeMessage(invMenu->message, *touche);
+            if(invMenu->message->selEtat) {
+                switch(invMenu->message->curseur) {
+                    case 0:
+                        // UTILISER L'OBJET;
+                        invMenu->montrerMsg = 0;
+                        break;
+                    case 1:
+                        // JETER L'OBJET
+                        invMenu->montrerMsg = 0;
+                        break;
+                    case 2:
+                        // QUITTER
+                        invMenu->montrerMsg = 0;
+                        break;
+
+                }
+            }
+            renduInvDial(mainwin, invMenu, inventaire);
+        }
+        renduInvMenu(mainwin, invMenu, inventaire);
+    }
 }

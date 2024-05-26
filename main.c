@@ -6,55 +6,62 @@
 
 int main()
 {
+    int hauteur, longueur;
+
+    char logBuffer[255];
+
+    setlocale(LC_ALL,""); // nécessaire pour UTF-8
+
+    createLog();
+    logMessage(INFO, "init ncurses");
+    initscr(); //initialise l'ecran
+    noecho(); //empeche d'afficher les caracteres saisis dans le terminal
+    cbreak(); //permet de quitter le programme avec Ctrl+c
+    curs_set(0); //rend le curseur invisible
+    initCouleur();
 	int etatJeu = 1; //permet de quitter le jeu si besoin
-	cbreak();
+    getmaxyx(stdscr,hauteur,longueur); //recupere la taille du terminal
+
+    WINDOW* mainwin = newwin(hauteur,longueur,0,0);
+    sprintf(logBuffer, "window longueur = %d, hauteur = %d", longueur, hauteur);
+    logMessage(INFO, logBuffer);
+    clearBuf(logBuffer);
+
+    // creer une fenetre de la taille du terminal ou le coin superieur gauche est a la position (0,0)
+    refresh();
+    wrefresh(mainwin);
+    nodelay(mainwin, true);
+    //refresh et wrefresh permettent de rafraichir l ecran pour y afficher ce qui est contenu dans la memoire
+    keypad(mainwin, true); // active la possibilite de lire certains caracteres commes les fleches du clavier
+    keypad(stdscr, true);
+    // initialisation des interfaces graphiques
+    int touche = -1;
+
 	while(etatJeu){
-		char logBuffer[255];
 
-		setlocale(LC_ALL,""); // nécessaire pour UTF-8
-
-		createLog();
-		logMessage(INFO, "init ncurses");
-		initscr(); //initialise l'ecran
-		noecho(); //empeche d'afficher les caracteres saisis dans le terminal
-		cbreak(); //permet de quitter le programme avec Ctrl+c
-		curs_set(0); //rend le curseur invisible
-		initCouleur();
 		int etatPartie = 1; // permet de quitter la partie si besoin
-		int hauteur, longueur;
 		int nsalles = MAX_SALLES;
 		int minuteur = MINUTEUR; //minuteur en secondes. Si celui-ci atteint 0 le jeu est perdu
 		int decr_minuteur = 0; //Variable servant à convertir les tours de boucles en une seconde pour décrémenter le minuteur
 		Partie * partie = creerPartie();
 
-		getmaxyx(stdscr,hauteur,longueur); //recupere la taille du terminal
 
-		WINDOW* mainwin = newwin(hauteur,longueur,0,0);
-		sprintf(logBuffer, "window longueur = %d, hauteur = %d", longueur, hauteur);
-		logMessage(INFO, logBuffer);
-		clearBuf(logBuffer);
-
-		// creer une fenetre de la taille du terminal ou le coin superieur gauche est a la position (0,0)
-		refresh();
-		wrefresh(mainwin);
-		nodelay(mainwin, true);
-		//refresh et wrefresh permettent de rafraichir l ecran pour y afficher ce qui est contenu dans la memoire
-		keypad(mainwin, true); // active la possibilite de lire certains caracteres commes les fleches du clavier
-		// initialisation des interfaces graphiques
 		Menu * menu = cosmicMenu(hauteur, longueur); //affiche le menu
 		MiniMenu * parametres = options(longueur / 2, hauteur / 2, hauteur / 2, longueur / 2);
 		MiniMenu * pause = pauseMenu(longueur / 2, hauteur / 2, hauteur / 2, longueur / 2);
+        InvMenu * inventMenu = initInvMenu(longueur / 2, hauteur / 2, hauteur / 2, longueur / 2);
 		EntreeTexte * graineEntree = graineMenu(longueur / 2 - longueur/8, hauteur / 2 - hauteur / 8, hauteur / 3, longueur / 3);
 
 		renduFenetreMenu(mainwin, *menu, hauteur, longueur);
-		int touche = -1;
 
-		while(touche != ESC && menu->selEtat == 0) {
-			touche = wgetch(mainwin);
+		while(menu->selEtat == 0) {
+            wrefresh(mainwin);
+
+            touche = wgetch(mainwin);
 			renduBoutons(mainwin, menu->boutons, menu->selecteur, menu->nbBoutons);
-			entreeMenu(menu, touche);
-			wrefresh(mainwin);
-		}
+            entreeMenu(menu, touche);
+
+        }
 
 
 		switch(menu->selecteur) {
@@ -219,6 +226,9 @@ int main()
 			if(touche == ESC) {
 				pauseBoucle(mainwin, &touche, pause, &etatJeu, &etatPartie);
 			}
+            if(touche == 'i') {
+                invBoucle(mainwin, &touche, inventMenu, partie->joueur->inventaire);
+            }
 
 			/*remet le compteur du mouvement des ennemis a 0 s'il depasse 40
 			puis l'incremente*/

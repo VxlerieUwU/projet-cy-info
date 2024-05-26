@@ -203,6 +203,68 @@ MiniMenu *pauseMenu(int x, int y, int hauteur, int largeur) {
     return pause;
 }
 
+InvMenu *initInvMenu(int x, int y, int hauteur, int largeur) {
+    /* Fonction créant le menu de l'inventaire */
+
+    //Initialisation
+    InvMenu * invMenu1;
+
+    Bouton *reprendre;
+    Bouton ** col1;
+    Bouton ** col2;
+    col1 = malloc(sizeof(Bouton*) * 5);
+    col2 = malloc(sizeof(Bouton*) * 5);
+    if(col1 == NULL) {
+        logMessage(CRITICAL, "erreur malloc col1 initInvMenu");
+        exit(1);
+    }
+    if(col2 == NULL) {
+        logMessage(CRITICAL, "erreur malloc col2 initInvMenu");
+        exit(1);
+    }
+
+    for(int i = 0; i < 5; i++) {
+        col1[i] = creerBouton(x - 7, y - 8 + i * 2, 5, 2, "Vide");
+        col2[i] = creerBouton(x + 2, y - 8 + i * 2, 5, 2, "Vide");
+    }
+    col1[0]->couleur = 1;
+    col2[0]->couleur = 1;
+    col1[1]->couleur = 1;
+    col2[1]->couleur = 1;
+
+
+    Texte *titre;
+    char **titreTexte = NULL;
+    //Allocation
+    titreTexte = (char **) malloc(sizeof(char) * 11);
+    titreTexte[0] = "Inventaire";
+
+    Texte *titreMsg;
+    char **titreTexteMsg = NULL;
+    //Allocation
+    titreTexteMsg = (char **) malloc(sizeof(char) * 20);
+    titreTexteMsg[0] = "Nom objet";
+
+    titre = creerTexte(largeur/2 + x/2 - 4, hauteur/2, titreTexte, 1, 6);
+    titreMsg = creerTexte(largeur/2 + x/2 - 3, hauteur/2 + hauteur/4, titreTexteMsg, 1, 6);
+
+
+    //Boutons du menu
+
+
+    invMenu1 = creerInvMenu(largeur / 2, hauteur / 2, hauteur, largeur, 6, titre, 2, 5);
+    //Assignation des boutons au menu
+    invMenu1->boutons[0] = col1;
+    invMenu1->boutons[1] = col2;
+    invMenu1->reprendre = creerBouton(x - 5, y + 6, 5, 2, "Reprendre");
+    invMenu1->message = creerMessage(largeur / 2 + largeur/4, hauteur / 2 + hauteur/4, hauteur/2, largeur/2, 6, titreMsg, 3, NULL);
+    invMenu1->message->boutons[0] = creerBouton(x - 4, y - 1, 5, 2, "Utiliser");
+    invMenu1->message->boutons[1] = creerBouton(x - 4, y + 1, 5, 2, "Jeter");
+    invMenu1->message->boutons[2] = creerBouton(x - 4, y + 3, 5, 2, "Retour");
+    invMenu1->message->selEtat = 0;
+    return invMenu1;
+}
+
 MiniMenu * sauvegardeMenu(int x, int y, int hauteur, int largeur) {
     /* Menu de sauvegarde*/
 
@@ -315,12 +377,16 @@ void entreeMenu(Menu *menu, int touche) {
     /* Sert à gérer le sélecteur du menu en fonction des touches choisies
     (bouton vers le bas pour aller au bouton du bas et idem pour le haut)*/
     switch (touche) {
+        case ERR:
+            break;
         case KEY_UP:
+            logMessage(INFO, "up");
             if (menu->selecteur != 0) {
                 menu->selecteur--;
             }
             break;
         case KEY_DOWN:
+            logMessage(INFO, "down");
             if (menu->selecteur != menu->nbBoutons - 1) {
                 menu->selecteur++;
             }
@@ -392,6 +458,7 @@ void entreeMessage(MiniMenu *message, int touche) {
         case 10:
             //Sinon on ne bouge pas du bouton valide surlequel on est
             message->selEtat = 1;
+            logMessage(INFO, "selEtat");
             break;
     }
 }
@@ -422,3 +489,36 @@ void pauseBoucle(WINDOW *mainwin, int *touche, MiniMenu *pause, int *jeuEtat, in
             break;
     }
 }
+
+void entreeInv(InvMenu *invMenu, int touche) {
+    /* Fonction gérant le sélecteur de l'inventaire en fonction des touches choisies
+    (bouton vers le bas pour aller au bouton du bas et idem pour le haut)*/
+    switch (touche) {
+        case ERR:
+            break;
+        case KEY_UP:
+            if (invMenu->curseurLig != 0) {
+                invMenu->curseurLig--;
+            }
+            break;
+        case KEY_DOWN:
+            if (invMenu->curseurLig != invMenu->nbBoutLig - 1) {
+                invMenu->curseurLig++;
+            }
+            break;
+        case KEY_LEFT:
+            if (invMenu->curseurCol != 0) {
+                invMenu->curseurCol--;
+            }
+            break;
+        case KEY_RIGHT:
+            if (invMenu->curseurCol != invMenu->nbBoutCol - 1) {
+                invMenu->curseurCol++;
+            }
+            break;
+        case 10:
+            invMenu->montrerMsg = 1;
+            break;
+    }
+}
+

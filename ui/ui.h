@@ -53,6 +53,25 @@ typedef struct {
 }MiniMenu;
 
 typedef struct {
+    int x;
+    int y;
+    int hauteur;
+    int largeur;
+    int couleur;
+    Texte * titre;
+    int nbBoutCol;
+    int nbBoutLig;
+    Bouton *** boutons;
+    Bouton * reprendre;
+    int curseurCol;
+    int curseurLig;
+    short curseurObj;
+    int montrerMsg;
+    int selEtat;
+    MiniMenu * message;
+}InvMenu;
+
+typedef struct {
     int hauteur;
     int largeur;
     Texte *titre;
@@ -115,6 +134,8 @@ Texte * creerTexte(int x, int y, char ** texte, int nbLignes, int couleur); // c
 EntreeTexte * creerEntreeTexte(int x, int y, int taille, int couleur, Texte * titre);
 StatusBar * creerStatusBar(int x, int y, int size, int color, int cursor);
 HUD * creerHUD(int x, int y, int hauteur, int largeur, int outlineColor, int nbText, int nbStatBar);
+InvMenu * creerInvMenu(int x, int y, int hauteur, int largeur, int couleur, Texte * titre, int nbBoutCol, int nbBoutLig);
+
 void freeMenu(Menu * menu); //liberation de la memoire allouée pour le menu
 
 void renderRespawn(WINDOW * win, Texte * respawn);
@@ -128,10 +149,12 @@ void renderRespawn(WINDOW * win, Texte * respawn);
 void entreeMenu(Menu *menu, int touche); // gestion des touches du menu
 void entreeMessage(MiniMenu *message, int touche);
 void entreeTexte(EntreeTexte *entree, int touche);
+void entreeInv(InvMenu *invMenu, int touche);
 EntreeTexte * graineMenu(int x, int y, int hauteur, int largeur);
 MiniMenu * options(int x, int y, int hauteur, int largeur); //
 MiniMenu *pauseMenu(int x, int y, int hauteur, int largeur);
 Texte * respawnTexte(int x, int y, int largeur);
+InvMenu *initInvMenu(int x, int y, int hauteur, int largeur);
 void pauseBoucle(WINDOW *mainwin, int *touche, MiniMenu *pause, int *jeuEtat, int *partieEtat);
 // free
 void freeEntreeTexte(EntreeTexte * entree);

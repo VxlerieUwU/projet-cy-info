@@ -221,11 +221,12 @@ void disparition_objet(Objet* objet, Salle* salle, WINDOW* win);
 //Fait apparaitre l'interface graphique pour les informations du joueur et de la partie
 HUD * hudJeu(int x, int y, int hauteur, int largeur, Joueur * joueur,int minuteur);
 void renduHUD(WINDOW * win, HUD * hud, int minuteur, Joueur * jou, int nb_obj_inv, int nb_obj_spe_inv); //affichage de la hud
-
+void renduInvMenu(WINDOW * win, InvMenu * invMenu, Inventaire inventaire);
 void renderInventaire(WINDOW * win, int y, int x, Inventaire inventaire, int nb_obj_inv, int nb_obj_spe_inv);
-
+void invBoucle(WINDOW *mainwin, int *touche, InvMenu *invMenu, Inventaire inventaire);
     // SAUVEGARDE
 void saveGame(Partie * partie);
+
 Partie * loadGame();
     
     //JEU
