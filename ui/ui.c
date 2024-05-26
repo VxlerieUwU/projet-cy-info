@@ -203,7 +203,6 @@ InvMenu * creerInvMenu(int x, int y, int hauteur, int largeur, int couleur, Text
         logMessage(CRITICAL, "erreur malloc boutons initInvMenu");
         exit(1);
     }
-    invMenu->reprendre = NULL;
     invMenu->message = NULL;
     invMenu->curseurCol = 0;
     invMenu->curseurLig = 0;
@@ -271,6 +270,7 @@ EntreeTexte * creerEntreeTexte(int x, int y, int taille, int couleur, Texte * ti
     entree->titre = titre;
     entree->couleur = couleur;
     entree->valide = 0; //Sert à savoir si l'entrée est valide
+    entree->quitter = 0; //Sert à savoir si on doit quitter l'entrée
     return entree;
 }
 
@@ -356,6 +356,19 @@ HUD * creerHUD(int x, int y, int hauteur, int largeur, int outlineColor, int nbT
         exit(1);
     }
     return hud;
+}
+
+void freeHUD(HUD * hud) {
+    /* Fonction permettant de libérer l'espace mémoire pris par la HUD*/
+    for(int i = 0; i < hud->nbText; i++) {
+        free(hud->textWidgets[i]);
+    }
+    free(hud->textWidgets);
+    for(int i = 0; i < hud->nbStatBar; i++) {
+        free(hud->statBarWidgets[i]);
+    }
+    free(hud->statBarWidgets);
+    free(hud);
 }
 
 void freeEntreeTexte(EntreeTexte * entree) {

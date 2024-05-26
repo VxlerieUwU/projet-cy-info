@@ -7,6 +7,19 @@
 int main()
 {
     int hauteur, longueur;
+    int etatPartie = 1; // permet de quitter la partie si besoin
+    int etatSauvegarde = 0; // effectue une sauvegarde si égal à 1
+    Partie * partie = NULL;
+
+    Menu * menu = NULL;
+    MiniMenu * pause = NULL;
+    InvMenu * inventMenu = NULL;
+    EntreeTexte * graineEntree = NULL;
+    EntreeTexte * nomEntree = NULL;
+    EntreeTexte * sauvegardeEntree = NULL;
+    HUD * hud = NULL;
+    Texte * resTxt = NULL;
+
 
     char logBuffer[255];
 
@@ -40,18 +53,18 @@ int main()
 
 	while(etatJeu){
 
-		int etatPartie = 1; // permet de quitter la partie si besoin
-        int etatSauvegarde = 0; // effectue une sauvegarde si égal à 1
-		Partie * partie = creerPartie();
+		etatPartie = 1;
+        etatSauvegarde = 0;
+		partie = creerPartie();
 
 
-		Menu * menu = cosmicMenu(hauteur, longueur); //affiche le menu
-		MiniMenu * parametres = options(longueur / 2, hauteur / 2, hauteur / 2, longueur / 2);
-		MiniMenu * pause = pauseMenu(longueur / 2, hauteur / 2, hauteur / 2, longueur / 2);
-        InvMenu * inventMenu = initInvMenu(longueur / 2, hauteur / 2, hauteur / 2, longueur / 2);
-		EntreeTexte * graineEntree = graineMenu(longueur / 2 - longueur/8, hauteur / 2 - hauteur / 8, hauteur / 3, longueur / 3);
-        EntreeTexte * nomEntree = nomMenu(longueur / 2 - longueur/8, hauteur / 2 - hauteur / 8, hauteur / 3, longueur / 3);
-        EntreeTexte * sauvegardeEntree = sauvegardeMenu(longueur / 2 - longueur/8, hauteur / 2 - hauteur / 8, hauteur / 3, longueur / 3);
+		menu = cosmicMenu(hauteur, longueur); //affiche le menu
+        pause = pauseMenu(longueur / 2, hauteur / 2, hauteur / 2, longueur / 2);
+        inventMenu = initInvMenu(longueur / 2, hauteur / 2, hauteur / 2, longueur / 2);
+		graineEntree = graineMenu(longueur / 2 - longueur/8, hauteur / 2 - hauteur / 8, hauteur / 3, longueur / 3);
+        nomEntree = nomMenu(longueur / 2 - longueur/8, hauteur / 2 - hauteur / 8, hauteur / 3, longueur / 3);
+        sauvegardeEntree = sauvegardeMenu(longueur / 2 - longueur/8, hauteur / 2 - hauteur / 8, hauteur / 3, longueur / 3);
+        resTxt = respawnTexte(longueur/2 - longueur/5, hauteur/2 - hauteur/5, longueur);
 
 		renduFenetreMenu(mainwin, *menu, hauteur, longueur);
 
@@ -107,7 +120,7 @@ int main()
 				wclear(mainwin);
                 do {
                     sauvegardeEntree->valide = 0;
-                    while(sauvegardeEntree->valide == 0) {
+                    while(sauvegardeEntree->valide == 0 && sauvegardeEntree->quitter == 0) {
                         touche = wgetch(mainwin);
                         renduFenetreEntree(mainwin, sauvegardeEntree, longueur / 2 - longueur/8, hauteur / 2 - hauteur / 8, hauteur / 3, longueur / 3);
                         entreeTexte(sauvegardeEntree, touche);
@@ -124,23 +137,14 @@ int main()
                         wattroff(mainwin, COLOR_PAIR(1));
                     }
 
-                } while (!fichier_exists);
-                partie = loadGame(sauvegardeEntree->buffer);
-
+                } while (!fichier_exists && sauvegardeEntree->quitter == 0);
+                if(sauvegardeEntree->quitter == 1) {
+                    endwin();
+                    moveLog();
+                }
+                partie = chargerJeu(sauvegardeEntree->buffer);
                 break;
 			case 2:
-				wclear(mainwin);
-				while(parametres->curseur !=3) {
-					renduFenetreOptions(mainwin, *parametres);
-					touche = wgetch(mainwin);
-					entreeMessage(parametres, touche);
-					wrefresh(mainwin);
-					napms(1000 / IMAGES_PAR_SECONDE);
-
-				}
-				break;
-			case 3:
-				// NOT IMPLEMENTED
 				endwin();//ferme la fenetre
 				moveLog();
 				return 0;
@@ -148,15 +152,11 @@ int main()
 				break;
 		}
 
-		HUD * hud = hudJeu(0, hauteur - hauteur/6, hauteur / 6, longueur, partie->joueur, partie->minuteur);
-		Texte * resTxt = respawnTexte(longueur/2 - longueur/5, hauteur/2 - hauteur/5, longueur);
-
-		
-
 		//positionne le joueur au centre de l ecran
         wattron(mainwin, COLOR_PAIR(3));
         mvwaddch(mainwin,partie->joueur->y,partie->joueur->x, 'o');
         wattroff(mainwin, COLOR_PAIR(3));
+        hud = hudJeu(0, hauteur - hauteur/6, hauteur / 6, longueur, partie->joueur, partie->minuteur);
 
 		touche = wgetch(mainwin);//recupere touche pressee
 
@@ -232,7 +232,7 @@ int main()
 				}
 			}	
 			//efface l'ecran	
-			wclear(mainwin);
+			werase(mainwin);
 			//affiche carte
 			dessineSalles(mainwin, partie->carte, partie->salles_existantes);
 			//affiche ennemis
@@ -280,7 +280,7 @@ int main()
             if(etatSauvegarde) {
                 etatSauvegarde = 0;
                 sauvegardeBoucle(mainwin, sauvegardeEntree, longueur / 2 - longueur/8, hauteur / 2 - hauteur / 8, hauteur, longueur, &touche);
-                saveGame(partie, sauvegardeEntree->buffer);
+                sauveJeu(partie, sauvegardeEntree->buffer);
             }
 		}
 		
@@ -289,6 +289,23 @@ int main()
 		free(partie->carte);
 		freeMenu(menu);
 		werase(mainwin);
+        free(partie);
+        free(pause);
+        free(inventMenu);
+        free(graineEntree);
+        free(nomEntree);
+        free(sauvegardeEntree);
+        freeHUD(hud);
+        free(resTxt);
+        partie = NULL;
+        pause = NULL;
+        inventMenu = NULL;
+        graineEntree = NULL;
+        nomEntree = NULL;
+        sauvegardeEntree = NULL;
+        hud = NULL;
+        resTxt = NULL;
+
 	}
 		endwin();//ferme la fenetre
 		moveLog();

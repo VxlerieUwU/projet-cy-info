@@ -7,10 +7,10 @@
 #define JSON_H
 
 typedef enum {
-    JSON_STRING,
-    JSON_NUMBER,
-    JSON_OBJECT,
-    JSON_ARRAY,
+    JSON_CHAINE,
+    JSON_NOMBRE,
+    JSON_OBJET,
+    JSON_TABLEAU,
     JSON_BOOL,
     JSON_NULL,
 }JSONType;
@@ -22,41 +22,41 @@ typedef struct {
         char *stringValue;
         int numberValue;
         int boolValue;
-        struct JSONObject *objectValue;
+        struct JSONObjet *objectValue;
         struct JSONArray *arrayValue;
     };
-} JSONValue;
+} JSONValeur;
 
 // Structure pour une paire clé-valeur d'un objet JSON
-typedef struct JSONKeyValuePair {
+typedef struct JSONCleValeurCouple {
     char *key;
-    JSONValue value;
-} JSONKeyValuePair;
+    JSONValeur value;
+} JSONCleValeurCouple;
 
 // Structure pour un objet JSON
-typedef struct JSONObject {
-    JSONKeyValuePair *pairs;
+typedef struct JSONObjet {
+    JSONCleValeurCouple *pairs;
     int length;
-} JSONObject;
+} JSONObjet;
 
 // Structure pour un tableau JSON
 typedef struct JSONArray {
-    JSONKeyValuePair *values;
+    JSONCleValeurCouple *values;
     int length;
 } JSONArray;
 
-JSONObject * parseJSONObject(char **str);
-JSONValue parseJSONValue(char **str);
-JSONArray * parseJSONArray(char **str);
-int parseJSONBool(char **str);
-int parseJSONInt(char **str, int sign);
-char * parseJSONString(char **str);
-int chrLookup(char **str, char chr);
-char * skipSpaces(char *str);
-int intLength(int i);
+JSONObjet * parserObjetJSON(char **str);
+JSONValeur parserValeurJSON(char **str);
+JSONArray * parserTabJSON(char **str);
+int parserBooleenJSON(char **str);
+int parserEntierJSON(char **str, int sign);
+char * parserChaineJSON(char **str);
+int chercheChar(char **str, char chr);
+char * sauteEspaces(char *str);
+int longueurInt(int i);
 
-char * serializeJSONObject(JSONObject o);
-char * serializeJSONArray(JSONArray a);
-char * serializeJSONBool(JSONValue b);
-char * serializeJSONInt(JSONValue i);
+char * serializeObjetJSON(JSONObjet o);
+char * serializeTabJSON(JSONArray a);
+char * serializeBooleenJSON(JSONValeur b);
+char * serializeEntierJSON(JSONValeur i);
 #endif // JSON_H

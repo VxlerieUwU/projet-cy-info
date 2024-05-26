@@ -62,7 +62,6 @@ typedef struct {
     int nbBoutCol;
     int nbBoutLig;
     Bouton *** boutons;
-    Bouton * reprendre;
     int curseurCol;
     int curseurLig;
     short curseurObj;
@@ -95,6 +94,7 @@ typedef struct {
     int couleur;
     int curseur;
     Texte * titre;
+    int quitter;
 }EntreeTexte;
 
 typedef struct {
@@ -163,6 +163,6 @@ void pauseBoucle(WINDOW *mainwin, int *touche, MiniMenu *pause, int *jeuEtat, in
 // free
 void freeEntreeTexte(EntreeTexte * entree); //Libère les espaces d'entrée de texte du terminal
 void freeTexte(Texte * texte); //Libère le texte du terminal
-
+void freeHUD(HUD * hud); //Libère la HUD
 
 #endif

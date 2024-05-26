@@ -11,16 +11,21 @@ Partie * creerPartie() {
 		logMessage(CRITICAL, "erreur malloc partie");
 		exit(1);
 	}
+    partie->joueur = NULL;
 	partie->joueur = malloc(sizeof(Joueur));
 	if(partie->joueur == NULL) {
 		logMessage(CRITICAL, "erreur malloc joueur");
 		exit(1);
 	}
-	partie->carte = malloc(MAX_SALLES * sizeof(Salle));
+    partie->carte = NULL;
+	partie->carte = malloc(MAX_SALLES * sizeof(Salle*));
 	if(partie->carte == NULL) {
 		logMessage(CRITICAL, "erreur malloc carte");
 		exit(1);
 	}
+    for(int i = 0; i < MAX_SALLES; i++) {
+        partie->carte[i] = NULL;
+    }
 	partie->salles_existantes = 0; 	//compteur de salles existantes
 	partie->objets_speciaux_apparus = 0;  //Compteur des objets à récupérer pour gagner apparus
 	partie->portesNonOuvertes = 0;//Compte les portes non ouvertes sur la carte

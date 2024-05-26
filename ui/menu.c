@@ -14,7 +14,6 @@ Menu *cosmicMenu(int thauteur, int tlargeur) {
 
     Bouton *commencer;
     Bouton *charger;
-    Bouton *parametres;
     Bouton *quitter;
     char **titreTexte = NULL;
 
@@ -25,7 +24,7 @@ Menu *cosmicMenu(int thauteur, int tlargeur) {
         titreX = tlargeur / 2 - 65;
         titreY = thauteur / 2 - 10;
     } else {
-        titreTexte = (char **) malloc(sizeof(char) * 2 * 24);
+        titreTexte = (char **) malloc(sizeof(char) * 2 * 54);
         titreLignes = 2;
         titreX = tlargeur / 2 - 11;
         titreY = thauteur / 2 - 2;
@@ -48,22 +47,20 @@ Menu *cosmicMenu(int thauteur, int tlargeur) {
         titreTexte[7] = R"(                       \|_________|                                 \|___|/)";
     } else {
         titreTexte[0] = "Cosmic Yonder";
-        titreTexte[1] = "Agrandis ton terminal!";
+        titreTexte[1] = "Active le plein-écran pour ne pas rencontrer de bugs!";
     }
 
     //Création éléments menu
     titre = creerTexte(titreX, titreY, titreTexte, titreLignes, 6);
     commencer = creerBouton(tlargeur / 2 - 2, thauteur / 2 + 2, 5, 2, "Nouvelle partie");
     charger = creerBouton(tlargeur / 2 - 2, thauteur / 2 + 4, 5, 2, "Charger sauvegarde");
-    parametres = creerBouton(tlargeur / 2 - 2, thauteur / 2 + 6, 5, 2, "Options");
-    quitter = creerBouton(tlargeur / 2 - 2, thauteur / 2 + 8, 5, 2, "Quitter");
+    quitter = creerBouton(tlargeur / 2 - 2, thauteur / 2 + 6, 5, 2, "Quitter");
 
     //Création menu et assignation des éléments au menu
-    menu = creerMenu(thauteur, tlargeur, titre, 4, 1, 6);
+    menu = creerMenu(thauteur, tlargeur, titre, 3, 1, 6);
     menu->boutons[0] = commencer;
     menu->boutons[1] = charger;
-    menu->boutons[2] = parametres;
-    menu->boutons[3] = quitter;
+    menu->boutons[2] = quitter;
 
 
     return menu;
@@ -213,7 +210,6 @@ InvMenu *initInvMenu(int x, int y, int hauteur, int largeur) {
     //Initialisation
     InvMenu * invMenu1;
 
-    Bouton *reprendre;
     Bouton ** col1;
     Bouton ** col2;
     col1 = malloc(sizeof(Bouton*) * 5);
@@ -228,8 +224,8 @@ InvMenu *initInvMenu(int x, int y, int hauteur, int largeur) {
     }
 
     for(int i = 0; i < 5; i++) {
-        col1[i] = creerBouton(x - 7, y - 8 + i * 2, 5, 2, "Vide");
-        col2[i] = creerBouton(x + 2, y - 8 + i * 2, 5, 2, "Vide");
+        col1[i] = creerBouton(x - 11, y - 8 + i * 2, 5, 2, "Vide");
+        col2[i] = creerBouton(x + 5, y - 8 + i * 2, 5, 2, "Vide");
     }
     col1[0]->couleur = 1;
     col2[0]->couleur = 1;
@@ -260,7 +256,6 @@ InvMenu *initInvMenu(int x, int y, int hauteur, int largeur) {
     //Assignation des boutons au menu
     invMenu1->boutons[0] = col1;
     invMenu1->boutons[1] = col2;
-    invMenu1->reprendre = creerBouton(x - 5, y + 6, 5, 2, "Reprendre");
     invMenu1->message = creerMessage(largeur / 2 + largeur/4, hauteur / 2 + hauteur/4, hauteur/2, largeur/2, 6, titreMsg, 3, NULL);
     invMenu1->message->boutons[0] = creerBouton(x - 4, y - 1, 5, 2, "Utiliser");
     invMenu1->message->boutons[1] = creerBouton(x - 4, y + 1, 5, 2, "Jeter");
@@ -430,8 +425,10 @@ void entreeTexte(EntreeTexte *entree, int touche) {
                 entree->curseur--;
             }
             break;
-
-        case 10:
+        case 27: // échap
+            entree->quitter = 1;
+            break;
+        case 10: // entrée
             //L'entrée est valide
             entree->valide = 1;
             break;
@@ -565,8 +562,6 @@ void entreeInv(InvMenu *invMenu, int* touche) {
         case KEY_DOWN:
             if (invMenu->curseurLig != invMenu->nbBoutLig - 1) {
                 invMenu->curseurLig++;
-            } else {
-                invMenu->selRetour = 1;
             }
             break;
         case KEY_LEFT:
@@ -581,6 +576,9 @@ void entreeInv(InvMenu *invMenu, int* touche) {
             break;
         case 27:
             invMenu->selEtat = 1;
+            invMenu->montrerMsg = 0;
+            invMenu->curseurLig = 0;
+            invMenu->curseurCol = 0;
             break;
         case 10:
             invMenu->montrerMsg = 1;

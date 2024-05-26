@@ -393,11 +393,6 @@ void renduInvMenu(WINDOW * win, InvMenu * invMenu, Inventaire inventaire) {
     wattroff(win, COLOR_PAIR(7));
 
     renduTexte(win, *invMenu->titre);
-    if(invMenu->selRetour) {
-        renduBouton(win, *invMenu->reprendre, 1);
-    } else {
-        renduBouton(win, *invMenu->reprendre, 0);
-    }
     for(int i = 0; i < invMenu->nbBoutLig; i++) {
         for(int j = 0; j < invMenu->nbBoutCol; j++) {
             switch(inventaire.obTab[k].id) {
@@ -420,7 +415,7 @@ void renduInvMenu(WINDOW * win, InvMenu * invMenu, Inventaire inventaire) {
                     invMenu->boutons[j][i]->texte = "Reacteur 2";
                     break;
                 case PC:
-                    invMenu->boutons[j][i]->texte = "PC";
+                    invMenu->boutons[j][i]->texte = "Un PC portable";
                     break;
                 case VIDE_OBJ:
                     invMenu->boutons[j][i]->texte = "Vide";

@@ -235,8 +235,8 @@ void invBoucle(WINDOW *mainwin, int *touche, InvMenu *invMenu, Inventaire* inven
 
     // SAUVEGARDE
 void sauvegardeBoucle(WINDOW * mainwin, EntreeTexte * sauve, int x, int y, int hauteur, int longueur, int* touche);
-void saveGame(Partie * partie, char * nomFichier);
-Partie * loadGame(char * nomFichier);
+void sauveJeu(Partie * partie, char * nomFichier);
+Partie * chargerJeu(char * nomFichier);
 int verifFichier(char * nomSauvegarde);
     //JEU
 Partie * creerPartie();
