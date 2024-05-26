@@ -218,7 +218,9 @@ void perte_vie_ennemi(Ennemi* ennemi, Joueur* joueur);
 Objet apparition_objet(Salle* salle, int* objets_speciaux_apparus, int sallesrest, int portesNonOuvertes);
 //permet de recuperer un objet
 void recup_objet(Joueur* joueur, Salle* salle, Objet objet, int* nb_obj_inv, int* nb_obj_spe_inv);
+//permet d'utiliser un objet
 void utiliser_objet(Joueur* joueur,Inventaire* inventaire, int indice_obj, int* nb_obj_inv, int* minuteur);
+//permet de jeter un objet
 void jeter_objet(Joueur* joueur, Inventaire* inventaire, int indice_obj, int* nb_obj_inv);
 //fait disparaitre un objet quand le joueur le ramasse
 void disparition_objet(Objet* objet, Salle* salle, WINDOW* win);

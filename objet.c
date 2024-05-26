@@ -93,6 +93,7 @@ void recup_objet(Joueur* joueur, Salle* salle, Objet objet, int* nb_obj_inv, int
 }
 
 void utiliser_objet(Joueur* joueur,Inventaire* inventaire, int indice_obj, int* nb_obj_inv, int* minuteur){
+    /*fait disparaitre l'objet de l'inventaire et augmente les stats du joueur en fonction de l'objet*/
     if(joueur==NULL){
         exit(7);
     }
@@ -113,6 +114,8 @@ void utiliser_objet(Joueur* joueur,Inventaire* inventaire, int indice_obj, int* 
             else{
                 joueur->pv += 20;
             }
+            /*on decale tous les objets de l'indice de l'objet recupere au dernier objet recupere vers la gauche
+            puis on remplace le dernier objet par un objet vide et on reduit le nombre d'objets de l'inventaire de 1*/
             for(int i = indice_obj; i<*nb_obj_inv+3; i++){
                 inventaire->obTab[i].id = inventaire->obTab[i+1].id;
             }
@@ -121,6 +124,8 @@ void utiliser_objet(Joueur* joueur,Inventaire* inventaire, int indice_obj, int* 
             break;
         case BOUTEILLE_O2:
             *minuteur += 2;
+            /*on decale tous les objets de l'indice de l'objet recupere au dernier objet recupere vers la gauche
+            puis on remplace le dernier objet par un objet vide et on reduit le nombre d'objets de l'inventaire de 1*/
             for(int i = indice_obj; i<*nb_obj_inv+3; i++){
                 inventaire->obTab[i].id = inventaire->obTab[i+1].id;
             }
@@ -129,6 +134,8 @@ void utiliser_objet(Joueur* joueur,Inventaire* inventaire, int indice_obj, int* 
             break;
         case XP:
             joueur->xp += 5;
+            /*on decale tous les objets de l'indice de l'objet recupere au dernier objet recupere vers la gauche
+            puis on remplace le dernier objet par un objet vide et on reduit le nombre d'objets de l'inventaire de 1*/
             for(int i = indice_obj; i<*nb_obj_inv+3; i++){
                 inventaire->obTab[i].id = inventaire->obTab[i+1].id;
             }
@@ -142,6 +149,7 @@ void utiliser_objet(Joueur* joueur,Inventaire* inventaire, int indice_obj, int* 
 }
 
 void jeter_objet(Joueur* joueur, Inventaire* inventaire, int indice_obj, int* nb_obj_inv){
+    /*permet de jeter un objet, ce qui le supprime de l'inventaire sans avoir d'effet sur le joueur*/
     if(joueur == NULL){
         exit(10);
     }
@@ -151,7 +159,10 @@ void jeter_objet(Joueur* joueur, Inventaire* inventaire, int indice_obj, int* nb
     if(nb_obj_inv==NULL){
         exit(12);
     }
+    //on verifie que c'est un objet commun
     if(inventaire->obTab[indice_obj].id <11){
+        /*on decale tous les objets de l'indice de l'objet recupere au dernier objet recupere vers la gauche
+        puis on remplace le dernier objet par un objet vide et on reduit le nombre d'objets de l'inventaire de 1*/
         for(int i = indice_obj; i<*nb_obj_inv+3; i++){
             inventaire->obTab[i].id = inventaire->obTab[i+1].id;
         }
