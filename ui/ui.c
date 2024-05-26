@@ -210,6 +210,7 @@ InvMenu * creerInvMenu(int x, int y, int hauteur, int largeur, int couleur, Text
     invMenu->curseurObj = 0;
     invMenu->selEtat = 0;
     invMenu->montrerMsg = 0;
+    invMenu->selRetour = 0;
     return invMenu;
 }
 

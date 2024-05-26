@@ -125,7 +125,9 @@ int main()
 		
 
 		//positionne le joueur au centre de l ecran
-		mvwaddch(mainwin,partie->joueur->y, partie->joueur->x, 'o');
+        wattron(mainwin, COLOR_PAIR(3));
+        mvwaddch(mainwin,partie->joueur->y,partie->joueur->x, 'o');
+        wattroff(mainwin, COLOR_PAIR(3));
 
 		touche = wgetch(mainwin);//recupere touche pressee
 
@@ -211,7 +213,9 @@ int main()
 				}
 			}	
 			//affiche joueur
+            wattron(mainwin, COLOR_PAIR(3));
 			mvwaddch(mainwin,partie->joueur->y,partie->joueur->x, 'o');
+            wattroff(mainwin, COLOR_PAIR(3));
 			//affiche hud
 			
 			maj_niveau(partie->joueur);

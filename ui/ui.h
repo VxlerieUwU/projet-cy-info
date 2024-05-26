@@ -68,6 +68,7 @@ typedef struct {
     short curseurObj;
     int montrerMsg;
     int selEtat;
+    int selRetour;
     MiniMenu * message;
 }InvMenu;
 

@@ -504,6 +504,8 @@ void entreeInv(InvMenu *invMenu, int* touche) {
         case KEY_DOWN:
             if (invMenu->curseurLig != invMenu->nbBoutLig - 1) {
                 invMenu->curseurLig++;
+            } else {
+                invMenu->selRetour = 1;
             }
             break;
         case KEY_LEFT:

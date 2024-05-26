@@ -113,7 +113,7 @@ HUD * hudJeu(int x, int y, int hauteur, int largeur, Joueur * joueur, int minute
         exit(1);
 
     }
-    minuteurStr[0] = malloc(sizeof(char) * 10);
+    minuteurStr[0] = malloc(sizeof(char) * 27);
     if(minuteurStr[0] == NULL){
         logMessage(ERROR, "Erreur d'allocation de mémoire pour le minuteur");
         exit(1);
@@ -139,7 +139,7 @@ HUD * hudJeu(int x, int y, int hauteur, int largeur, Joueur * joueur, int minute
     sprintf(*nameStr, "Nom : %s", joueur->nom);
     sprintf(*atkStr, "Attaque : %d", joueur->att);
     sprintf(*defStr, "Défense : %d", joueur->def);
-    sprintf(*minuteurStr, "Minuteur : %d", minuteur);
+    sprintf(*minuteurStr, "Minuteur : %d (secondes)", minuteur);
 
     //Allocation mémoire des textes et barres de la hud
     pv = malloc(sizeof(StatusBar));
@@ -307,8 +307,11 @@ void renduHUD(WINDOW * win, HUD * hud, int minuteur, Joueur * jou, int nb_obj_in
     mvwaddch(win, hud->y + hud->hauteur - 1, hud->x + hud->largeur - 1, ACS_LRCORNER);
     wattroff(win, COLOR_PAIR(hud->outlineColor));
 
-    sprintf(hud->textWidgets[6]->texte[0], "Minuteur : %d", minuteur);
+    sprintf(hud->textWidgets[6]->texte[0], "Minuteur : %d (secondes)", minuteur);
 
+    if(hud->statBarWidgets[1]->cursor % hud->statBarWidgets[1]->size >= 0) {
+        hud->statBarWidgets[1]->cursor = 0;
+    }
 
     for(int i = 0; i < hud->nbText; i++) {
         renduTexte(win, *hud->textWidgets[i]);
@@ -387,7 +390,11 @@ void renduInvMenu(WINDOW * win, InvMenu * invMenu, Inventaire inventaire) {
     wattroff(win, COLOR_PAIR(7));
 
     renduTexte(win, *invMenu->titre);
-    renduBouton(win, *invMenu->reprendre, 0);
+    if(invMenu->selRetour) {
+        renduBouton(win, *invMenu->reprendre, 1);
+    } else {
+        renduBouton(win, *invMenu->reprendre, 0);
+    }
     for(int i = 0; i < invMenu->nbBoutLig; i++) {
         for(int j = 0; j < invMenu->nbBoutCol; j++) {
             switch(inventaire.obTab[k].id) {
@@ -416,7 +423,7 @@ void renduInvMenu(WINDOW * win, InvMenu * invMenu, Inventaire inventaire) {
                     invMenu->boutons[j][i]->texte = "Vide";
                     break;
             }
-            if(invMenu->curseurCol == j && invMenu->curseurLig == i) {
+            if((invMenu->curseurCol == j && invMenu->curseurLig == i) && !invMenu->selRetour) {
                 invMenu->curseurObj = k;
                 renduBouton(win, *invMenu->boutons[j][i], 1);
             } else {
@@ -425,8 +432,6 @@ void renduInvMenu(WINDOW * win, InvMenu * invMenu, Inventaire inventaire) {
             k++;
         }
     }
-
-
 }
 
 
@@ -461,6 +466,7 @@ void invBoucle(WINDOW *mainwin, int *touche, InvMenu *invMenu, Inventaire invent
                         break;
                     case 2:
                         // QUITTER
+                        invMenu->message->selEtat = 0;
                         invMenu->montrerMsg = 0;
                         invMenu->message->selEtat = 0;
 
@@ -473,7 +479,9 @@ void invBoucle(WINDOW *mainwin, int *touche, InvMenu *invMenu, Inventaire invent
             renduInvDial(mainwin, invMenu, inventaire);
         }
         renduInvMenu(mainwin, invMenu, inventaire);
-        
+        if(invMenu->selRetour && invMenu->curseurLig == invMenu->nbBoutLig) {
+            invMenu->selEtat = 1;
+        }
     }
     invMenu -> montrerMsg = 0; 
     invMenu-> selEtat = 0;
