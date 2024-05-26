@@ -48,7 +48,6 @@ int condition_victoire(Partie* partie){
         else{
             return 1;
         }
-        
 }
 
 void chronos(int* minuteur,int*decr_minuteur){

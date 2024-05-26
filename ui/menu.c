@@ -69,6 +69,8 @@ Menu *cosmicMenu(int thauteur, int tlargeur) {
     return menu;
 }
 
+
+
 Texte * respawnTexte(int x, int y, int largeur) {
     /* Fonction servant à créer le texte de réapparition quand le joueur meurt*/
     Texte * respawnTxt = NULL;
@@ -286,7 +288,7 @@ void renduFenetreOptions(WINDOW *win, MiniMenu options) {
 }
 
 void renduFenetreEntree(WINDOW *win, EntreeTexte * entree, int x, int y, int hauteur, int largeur) {
-    /* Sert au rendu de la fenetre d'entrée pour la graine*/
+    /* Sert au rendu de la fenetre d'entrée texte (comme pour créer la graine)*/
     for(int i = y; i < y + largeur; i++) {
         for(int j = x; j < x + hauteur - 1; j++) {
             mvwaddch(win, i, j, ' ');
@@ -394,7 +396,7 @@ void entreeMessage(MiniMenu *message, int touche) {
     }
 }
 
-void pauseBoucle(WINDOW *mainwin, int *touche, MiniMenu *pause, int *jeuEtat) {
+void pauseBoucle(WINDOW *mainwin, int *touche, MiniMenu *pause, int *jeuEtat, int*partieEtat) {
     /* Fonction qui fait une boucle infini tant qu'on a pas choisi une option
     pour arrêter le jeu quand on fait pause*/
     while (!pause->selEtat) { //Tant qu'on ne sélectionne rien le jeu est arrêté
@@ -411,10 +413,12 @@ void pauseBoucle(WINDOW *mainwin, int *touche, MiniMenu *pause, int *jeuEtat) {
         case 1: // BROKEN
             pause->selEtat = 0;
             pause->curseur = 0;
+            *partieEtat = 0;
 
             break;
         case 2: //quitter
             *jeuEtat = 0;
+            *partieEtat = 0;
             break;
     }
 }

@@ -117,6 +117,8 @@ StatusBar * creerStatusBar(int x, int y, int size, int color, int cursor);
 HUD * creerHUD(int x, int y, int hauteur, int largeur, int outlineColor, int nbText, int nbStatBar);
 void freeMenu(Menu * menu); //liberation de la memoire allouée pour le menu
 
+void renderRespawn(WINDOW * win, Texte * respawn);
+
 // PARTIE IMPLEMENTATION
 Menu * cosmicMenu(int thauteur, int tlargeur); //ajout des attributs du menu
 void renduFenetreMenu(WINDOW * win, Menu menu, int thauteur, int tlargeur); // rendu menu avec bordures
@@ -130,7 +132,7 @@ EntreeTexte * graineMenu(int x, int y, int hauteur, int largeur);
 MiniMenu * options(int x, int y, int hauteur, int largeur); //
 MiniMenu *pauseMenu(int x, int y, int hauteur, int largeur);
 Texte * respawnTexte(int x, int y, int largeur);
-void pauseBoucle(WINDOW *mainwin, int *touche, MiniMenu *pause, int *jeuEtat);
+void pauseBoucle(WINDOW *mainwin, int *touche, MiniMenu *pause, int *jeuEtat, int *partieEtat);
 // free
 void freeEntreeTexte(EntreeTexte * entree);
 void freeTexte(Texte * texte);
