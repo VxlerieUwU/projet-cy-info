@@ -127,7 +127,7 @@ void utiliser_objet(Joueur* joueur,Inventaire* inventaire, int indice_obj, int* 
             inventaire->obTab[*nb_obj_inv+3].id = VIDE_OBJ;
             (*nb_obj_inv)--;
             break;
-        case CLE:
+        case XP:
             joueur->xp += 5;
             for(int i = indice_obj; i<*nb_obj_inv+3; i++){
                 inventaire->obTab[i].id = inventaire->obTab[i+1].id;

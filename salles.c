@@ -314,8 +314,8 @@ void dessineSalle(WINDOW * win, Salle * salle) {
                 case BANDAGE:
                     mvwaddstr(win, salle->y+i, salle->x+j, BANDAGE_CHR);
                     break;
-                case CLE:
-                    mvwaddstr(win, salle->y+i, salle->x+j, CLE_CHR);
+                case XP:
+                    mvwaddstr(win, salle->y+i, salle->x+j, XP_CHR);
                     break;
                 case GENERATEUR:
                     mvwaddstr(win, salle->y+i, salle->x+j, GENERATEUR_CHR);

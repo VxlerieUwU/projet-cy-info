@@ -16,7 +16,7 @@
 #define JOUEUR_H_
 #define BOUTEILLE_O2_CHR "O"
 #define BANDAGE_CHR "B"
-#define CLE_CHR "C"
+#define XP_CHR "E"
 #define GENERATEUR_CHR "G"
 #define REACTEUR_CHR "R"
 #define PC_CHR "P"
@@ -44,7 +44,7 @@ problèmes lors de l'affichage de la salle*/
 typedef enum{
     BOUTEILLE_O2 = 8, //Objet commun
     BANDAGE = 9, //Objet commun
-    CLE = 10, //Objet commun
+    XP = 10, //Objet commun
     GENERATEUR = 11, //Objet à récupérer pour gagner
     REACTEUR_1 = 12, // Objet à récupérer pour gagner
     REACTEUR_2 = 13, // Objet à récupérer pour gagner

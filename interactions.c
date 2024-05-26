@@ -34,7 +34,7 @@ void interactions(int touche, Joueur* joueur, Salle ** carte, int salles_existan
 		case KEY_UP:
 			mouv = mvwinch(mainwin, joueur->y-1, joueur->x); //Le mouvement est vers le haut
 			//Si la case est un objet ou une porte ou est vide le carte se déplace relativement au joueur selon le sens opposé de mouv
-			if(mouv==' '||mouv==*BOUTEILLE_O2_CHR || mouv==*BANDAGE_CHR ||mouv==*CLE_CHR
+			if(mouv==' '||mouv==*BOUTEILLE_O2_CHR || mouv==*BANDAGE_CHR ||mouv==*XP_CHR
 			||mouv==*GENERATEUR_CHR || mouv==*REACTEUR_CHR ||mouv==*PC_CHR){ 
 				for(int i = 0; i < salles_existantes; i++) {
 					carte[i]->y++;
@@ -58,7 +58,7 @@ void interactions(int touche, Joueur* joueur, Salle ** carte, int salles_existan
 		case KEY_DOWN:
 			mouv = mvwinch(mainwin, joueur->y+1, joueur->x); //Le mouvement est vers le bas
 			//Si la case est un objet ou une porte ou est vide le carte se déplace relativement au joueur selon le sens opposé de mouv
-			if(mouv==' '||mouv==*BOUTEILLE_O2_CHR || mouv==*BANDAGE_CHR ||mouv==*CLE_CHR
+			if(mouv==' '||mouv==*BOUTEILLE_O2_CHR || mouv==*BANDAGE_CHR ||mouv==*XP_CHR
 			||mouv==*GENERATEUR_CHR || mouv==*REACTEUR_CHR ||mouv==*PC_CHR){
 				for(int i = 0; i < salles_existantes; i++) {
 					carte[i]->y--;
@@ -82,7 +82,7 @@ void interactions(int touche, Joueur* joueur, Salle ** carte, int salles_existan
 		case KEY_LEFT:
 			mouv = mvwinch(mainwin, joueur->y, joueur->x-1); //Le mouvement est à gauche
 			//Si la case est un objet ou une porte ou est vide le carte se déplace relativement au joueur selon le sens opposé de mouv
-			if(mouv==' '||mouv==*BOUTEILLE_O2_CHR || mouv==*BANDAGE_CHR ||mouv==*CLE_CHR
+			if(mouv==' '||mouv==*BOUTEILLE_O2_CHR || mouv==*BANDAGE_CHR ||mouv==*XP_CHR
 			||mouv==*GENERATEUR_CHR || mouv==*REACTEUR_CHR ||mouv==*PC_CHR){
 				for(int i = 0; i < salles_existantes; i++) {
 					carte[i]->x++;
@@ -106,7 +106,7 @@ void interactions(int touche, Joueur* joueur, Salle ** carte, int salles_existan
 		case KEY_RIGHT:
 			mouv = mvwinch(mainwin, joueur->y, joueur->x+1); //Le mouvement est à droite
 			//Si la case est un objet ou une porte ou est vide le carte se déplace relativement au joueur selon le sens opposé de mouv
-			if(mouv==' '||mouv==*BOUTEILLE_O2_CHR || mouv==*BANDAGE_CHR ||mouv==*CLE_CHR
+			if(mouv==' '||mouv==*BOUTEILLE_O2_CHR || mouv==*BANDAGE_CHR ||mouv==*XP_CHR
 			||mouv==*GENERATEUR_CHR || mouv==*REACTEUR_CHR ||mouv==*PC_CHR){
 				for(int i = 0; i < salles_existantes; i++) {
 					carte[i]->x--;				

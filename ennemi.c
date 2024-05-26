@@ -60,7 +60,7 @@ void ennemimv(Ennemi* ennemi,Salle* salle, Joueur* joueur, WINDOW* mainwin){
     if(ennemi->xGlobal>joueur->x){ //ennemi en bas du joueur
         mouv = mvwinch(mainwin, ennemi->yGlobal, ennemi->xGlobal-1); //mouvement vers le haut
         //L'ennemi se déplace si la case d'arrivée du mouv est un objet ou du vide
-        if(mouv==' '||mouv==*BOUTEILLE_O2_CHR || mouv==*BANDAGE_CHR ||mouv==*CLE_CHR
+        if(mouv==' '||mouv==*BOUTEILLE_O2_CHR || mouv==*BANDAGE_CHR ||mouv==*XP_CHR
 			||mouv==*GENERATEUR_CHR || mouv==*REACTEUR_CHR ||mouv==*PC_CHR){
             ennemi->xRelatif--;  
         } 
@@ -72,7 +72,7 @@ void ennemimv(Ennemi* ennemi,Salle* salle, Joueur* joueur, WINDOW* mainwin){
     else if(ennemi->xGlobal<joueur->x){ //ennemi en haut du joueur
         mouv = mvwinch(mainwin, ennemi->yGlobal, ennemi->xGlobal+1); //mouv vers le bas
         //L'ennemi se déplace si la case d'arrivée du mouv est un objet ou du vide
-        if(mouv==' '||mouv==*BOUTEILLE_O2_CHR || mouv==*BANDAGE_CHR ||mouv==*CLE_CHR
+        if(mouv==' '||mouv==*BOUTEILLE_O2_CHR || mouv==*BANDAGE_CHR ||mouv==*XP_CHR
 			||mouv==*GENERATEUR_CHR || mouv==*REACTEUR_CHR ||mouv==*PC_CHR){
             ennemi->xRelatif++;
         }   
@@ -84,7 +84,7 @@ void ennemimv(Ennemi* ennemi,Salle* salle, Joueur* joueur, WINDOW* mainwin){
     else if(ennemi->yGlobal>joueur->y){ //ennemi à droite du joueur
         mouv = mvwinch(mainwin, ennemi->yGlobal-1, ennemi->xGlobal); //mouv vers la gauche
         //L'ennemi se déplace si la case d'arrivée du mouv est un objet ou du vide
-        if(mouv==' '||mouv==*BOUTEILLE_O2_CHR || mouv==*BANDAGE_CHR ||mouv==*CLE_CHR
+        if(mouv==' '||mouv==*BOUTEILLE_O2_CHR || mouv==*BANDAGE_CHR ||mouv==*XP_CHR
 			||mouv==*GENERATEUR_CHR || mouv==*REACTEUR_CHR ||mouv==*PC_CHR){
             ennemi->yRelatif--;
         } else if(ennemi->xGlobal == joueur->x && ennemi->yGlobal-1 == joueur->y){ 
@@ -95,7 +95,7 @@ void ennemimv(Ennemi* ennemi,Salle* salle, Joueur* joueur, WINDOW* mainwin){
     else if(ennemi->yGlobal<joueur->y){ //ennemi à gauche du joueur
         mouv = mvwinch(mainwin, ennemi->yGlobal+1, ennemi->xGlobal); //mouv vers la droite
         //L'ennemi se déplace si la case d'arrivée du mouv est un objet ou du vide
-        if(mouv==' '||mouv==*BOUTEILLE_O2_CHR || mouv==*BANDAGE_CHR ||mouv==*CLE_CHR
+        if(mouv==' '||mouv==*BOUTEILLE_O2_CHR || mouv==*BANDAGE_CHR ||mouv==*XP_CHR
 			||mouv==*GENERATEUR_CHR || mouv==*REACTEUR_CHR ||mouv==*PC_CHR){
             ennemi->yRelatif++;
         } else if(ennemi->xGlobal == joueur->x && ennemi->yGlobal+1 == joueur->y){ 

@@ -260,8 +260,8 @@ void renderInventaire(WINDOW * win, int y, int x, Inventaire inventaire, int nb_
             case BANDAGE:
                 mvwaddstr(win, y + 1, x + 2*i + 1, BANDAGE_CHR);
                 break;
-            case CLE:
-                mvwaddstr(win, y + 1,x + 2*i + 1, CLE_CHR);
+            case XP:
+                mvwaddstr(win, y + 1,x + 2*i + 1, XP_CHR);
                 break;
             case GENERATEUR:
                 mvwaddstr(win, y + 1, x + 2*i + 1, GENERATEUR_CHR);
@@ -348,8 +348,8 @@ void renduInvDial(WINDOW * win, InvMenu * invMenu, Inventaire inventaire) {
         case BANDAGE:
             invMenu->message->titre->texte[0] = "Bandage";
             break;
-        case CLE:
-            invMenu->message->titre->texte[0] = "Clef";
+        case XP:
+            invMenu->message->titre->texte[0] = "XP";
             break;
         case GENERATEUR:
             invMenu->message->titre->texte[0] = "Generateur";
@@ -407,8 +407,8 @@ void renduInvMenu(WINDOW * win, InvMenu * invMenu, Inventaire inventaire) {
                 case BANDAGE:
                     invMenu->boutons[j][i]->texte = "Bandage";
                     break;
-                case CLE:
-                    invMenu->boutons[j][i]->texte = "Clef";
+                case XP:
+                    invMenu->boutons[j][i]->texte = "XPf";
                     break;
                 case GENERATEUR:
                     invMenu->boutons[j][i]->texte = "Generateur";
@@ -441,7 +441,7 @@ void renduInvMenu(WINDOW * win, InvMenu * invMenu, Inventaire inventaire) {
 
 void invBoucle(WINDOW *mainwin, int *touche, InvMenu *invMenu, Inventaire* inventaire, int* minuteur, Joueur* joueur, int* nb_obj_inv) 
  {
-    /* Fonction qui fait une boucle infini tant qu'on a pas choisi une option
+    /* Fonction qui fait une bouXP infini tant qu'on a pas choisi une option
     pour arrêter le jeu quand on fait pause*/
     while (!invMenu->selEtat) { //Tant qu'on ne sélectionne rien le jeu est arrêté
         wrefresh(mainwin);
