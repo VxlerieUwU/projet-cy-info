@@ -1,11 +1,11 @@
 CC=gcc
-CFLAGS=-W -Wall -ggdb -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -std=gnu11
+CFLAGS=-W -Wall -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -std=gnu11
 LDFLAGS=-lncursesw
 EXEC=jeu
 
 all: jeu
 
-jeu: logger.o graphics.o objet.o salles.o joueur.o main.o interactions.o graine.o ennemi.o porte.o partie.o ui/menu.o ui/ui.o ui/hud.o json/json.o sauvegarde.o
+jeu: logger.o objet.o salles.o joueur.o main.o interactions.o graine.o ennemi.o porte.o partie.o ui/menu.o ui/ui.o ui/hud.o json/json.o sauvegarde.o
 	$(CC) -o $@ $^ $(LDFLAGS)
 
 sauvegarde.o: sauvegarde.c
@@ -24,9 +24,6 @@ ui/hud.o: ui/hud.c
 	$(CC) -o $@ -c $< $(CFLAGS)
 
 logger.o: logger.c
-	$(CC) -o $@ -c $< $(CFLAGS)
-
-graphics.o: graphics.c
 	$(CC) -o $@ -c $< $(CFLAGS)
 
 graine.o: graine.c
@@ -53,7 +50,7 @@ porte.o: porte.c
 partie.o: partie.c
 	$(CC) -o $@ -c $< $(CFLAGS)
 
-main.o: main.c logger.c graphics.c objet.c salles.c joueur.c  interactions.c ennemi.c graine.c porte.c ui/menu.c ui/ui.c ui/hud.c json/json.c sauvegarde.c
+main.o: main.c logger.c objet.c salles.c joueur.c  interactions.c ennemi.c graine.c porte.c ui/menu.c ui/ui.c ui/hud.c json/json.c sauvegarde.c
 	$(CC) -o $@ -c $< $(CFLAGS)
 
 clean:
