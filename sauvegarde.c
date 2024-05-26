@@ -561,10 +561,17 @@ void freeJSONObject(JSONObject * obj) { // fonction récursive pour se débarass
     free(obj);
 }
 
-void saveGame(Partie * partie) {
+void saveGame(Partie * partie, char * nomFichier) {
+    char * chemin = malloc(sizeof(char) * strlen(nomFichier) + 6); // 5 pour le .json et le \0
+    if(chemin == NULL) {
+        logMessage(ERROR, "erreur malloc path saveGame");
+        exit(1);
+    }
+    chemin = strcpy(chemin, nomFichier);
+    chemin = strcat(chemin, ".json");
     JSONObject * partieJSON = partieToJSONObj(partie);
     char * serialized = serializeJSONObject(*partieJSON);
-    FILE * save = fopen("save.json", "w");
+    FILE * save = fopen(chemin, "w");
     if(save == NULL) {
         logMessage(ERROR, "erreur ouverture fichier save.json");
         exit(1);
@@ -575,8 +582,15 @@ void saveGame(Partie * partie) {
     freeJSONObject(partieJSON);
 }
 
-Partie * loadGame() {
-    FILE * save = fopen("save.json", "r");
+Partie * loadGame(char * nomFichier) {
+    char * chemin = malloc(sizeof(char) * strlen(nomFichier) + 6); // 5 pour le .json et le \0
+    if(chemin == NULL) {
+        logMessage(ERROR, "erreur malloc path loadGame");
+        exit(1);
+    }
+    chemin = strcpy(chemin, nomFichier);
+    chemin = strcat(chemin, ".json");
+    FILE * save = fopen(chemin, "r");
     if(save == NULL) {
         logMessage(ERROR, "erreur ouverture fichier save.json");
         exit(1);
@@ -613,3 +627,42 @@ Partie * loadGame() {
     return partie;
 }
 
+int verifFichier(char * nomSauvegarde) {
+    // vérification si le fichier existe
+    char * chemin = malloc(sizeof(char) * strlen(nomSauvegarde) + 6); // 6 pour le .json et le \0
+    if(chemin == NULL) {
+        logMessage(ERROR, "erreur malloc path loadGame");
+        exit(1);
+    }
+    chemin = strcpy(chemin, nomSauvegarde);
+    chemin = strcat(chemin, ".json"); // ajout extension
+    if(access(chemin, F_OK) == 0) { // vérification de l'existence du fichier
+        free(chemin);
+        return 1;
+    } else {
+        free(chemin);
+        return 0;
+    }
+}
+
+void sauvegardeBoucle(WINDOW * mainwin, EntreeTexte * sauve, int x, int y, int hauteur, int longueur, int* touche) {
+    int fichier_exists = 1;
+    do {
+        while (!sauve->valide) { //Tant qu'on ne sélectionne rien le jeu est arrêté
+            wrefresh(mainwin);
+            *touche = wgetch(mainwin);
+            renduFenetreEntree(mainwin, sauve, x, y, hauteur, longueur);
+            entreeTexte(sauve, *touche);
+        }
+        fichier_exists = verifFichier(sauve->buffer);
+        if(!fichier_exists) { // affiche erreur
+            for(int i = 0; i < longueur/2-1; i++) {
+                mvwaddch(mainwin, hauteur / 2, longueur / 2 - 8 + i, ' ');
+            }
+            wattron(mainwin, COLOR_PAIR(1));
+            mvwprintw(mainwin, hauteur / 2, longueur / 2 - 8, "%s.json inexistant", sauve->buffer);
+            wattroff(mainwin, COLOR_PAIR(1));
+        }
+
+    } while (fichier_exists);
+}

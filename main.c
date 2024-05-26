@@ -36,6 +36,7 @@ int main()
     keypad(stdscr, true);
     // initialisation des interfaces graphiques
     int touche = -1;
+    int fichier_exists = 0;
 
 	while(etatJeu){
 
@@ -43,6 +44,7 @@ int main()
 		int nsalles = MAX_SALLES;
 		int minuteur = MINUTEUR; //minuteur en secondes. Si celui-ci atteint 0 le jeu est perdu
 		int decr_minuteur = 0; //Variable servant à convertir les tours de boucles en une seconde pour décrémenter le minuteur
+        int etatSauvegarde = 0; // effectue une sauvegarde si égal à 1
 		Partie * partie = creerPartie();
 
 
@@ -51,6 +53,8 @@ int main()
 		MiniMenu * pause = pauseMenu(longueur / 2, hauteur / 2, hauteur / 2, longueur / 2);
         InvMenu * inventMenu = initInvMenu(longueur / 2, hauteur / 2, hauteur / 2, longueur / 2);
 		EntreeTexte * graineEntree = graineMenu(longueur / 2 - longueur/8, hauteur / 2 - hauteur / 8, hauteur / 3, longueur / 3);
+        EntreeTexte * nomEntree = nomMenu(longueur / 2 - longueur/8, hauteur / 2 - hauteur / 8, hauteur / 3, longueur / 3);
+        EntreeTexte * sauvegardeEntree = sauvegardeMenu(longueur / 2 - longueur/8, hauteur / 2 - hauteur / 8, hauteur / 3, longueur / 3);
 
 		renduFenetreMenu(mainwin, *menu, hauteur, longueur);
 
@@ -72,7 +76,7 @@ int main()
 				while(graineEntree->valide == 0) {
 					touche = wgetch(mainwin);
 					renduFenetreEntree(mainwin, graineEntree, longueur / 2 - longueur/8, hauteur / 2 - hauteur / 8, hauteur / 3, longueur / 3);
-					entreeTexte(graineEntree, touche);
+                    entreeNum(graineEntree, touche);
 					wrefresh(mainwin);
 					napms(1000 / IMAGES_PAR_SECONDE);
 				}
@@ -90,15 +94,43 @@ int main()
 				initJoueur(partie->joueur);
 				partie->joueur->x = partie->carte[0]->x + partie->carte[0]->longueur/2;
 				partie->joueur->y = partie->carte[0]->y + partie->carte[0]->hauteur/2;
-				partie->joueur->nom = "Test";
-				break;
+                while(nomEntree->valide == 0) {
+                    touche = wgetch(mainwin);
+                    renduFenetreEntree(mainwin, nomEntree, longueur / 2 - longueur/8, hauteur / 2 - hauteur / 8, hauteur / 3, longueur / 3);
+                    entreeTexte(nomEntree, touche);
+                    wrefresh(mainwin);
+                    napms(1000 / IMAGES_PAR_SECONDE);
+                }
+                partie->joueur->nom = malloc(strlen(nomEntree->buffer) + 1);
+                strcpy(partie->joueur->nom, nomEntree->buffer);
+
+                break;
 			case 1:
 				//CHARGER PARTIE
-				partie = loadGame();
 				wclear(mainwin);
+                do {
+                    sauvegardeEntree->valide = 0;
+                    while(sauvegardeEntree->valide == 0) {
+                        touche = wgetch(mainwin);
+                        renduFenetreEntree(mainwin, sauvegardeEntree, longueur / 2 - longueur/8, hauteur / 2 - hauteur / 8, hauteur / 3, longueur / 3);
+                        entreeTexte(sauvegardeEntree, touche);
+                        wrefresh(mainwin);
+                        napms(1000 / IMAGES_PAR_SECONDE);
+                    }
+                    fichier_exists = verifFichier(sauvegardeEntree->buffer);
+                    if(!fichier_exists) { // affiche erreur
+                        for(int i = 0; i < longueur/2-1; i++) {
+                            mvwaddch(mainwin, hauteur / 2, longueur / 2 - 8 + i, ' ');
+                        }
+                        wattron(mainwin, COLOR_PAIR(1));
+                        mvwprintw(mainwin, hauteur / 2, longueur / 2 - 8, "%s.json inexistant", sauvegardeEntree->buffer);
+                        wattroff(mainwin, COLOR_PAIR(1));
+                    }
 
+                } while (!fichier_exists);
+                partie = loadGame(sauvegardeEntree->buffer);
 
-				break;
+                break;
 			case 2:
 				wclear(mainwin);
 				while(parametres->curseur !=3) {
@@ -230,7 +262,7 @@ int main()
 			si le joueur appuie sur echap, le jeu est mis en pause*/
 			touche = wgetch(mainwin);
 			if(touche == ESC) {
-				pauseBoucle(mainwin, &touche, pause, &etatJeu, &etatPartie);
+				pauseBoucle(mainwin, &touche, pause, &etatJeu, &etatPartie, &etatSauvegarde);
 			}
             if(touche == 'i') {
             	invBoucle(mainwin, &touche, inventMenu, partie->joueur->inventaire,&minuteur,partie->joueur);
@@ -248,14 +280,14 @@ int main()
 			if(minuteur <= 0){
 				etatPartie = 0;
 			}
-			
+            if(etatSauvegarde) {
+                //sauvegardeB
+                etatSauvegarde = 0;
+            }
 		}
 		
 
-		/*
-		saveGame(partie);
 		logMessage(INFO, "fin du programme");
-		*/
 		free(partie->carte);
 		freeMenu(menu);
 		werase(mainwin);

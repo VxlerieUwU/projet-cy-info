@@ -228,10 +228,9 @@ void renderInventaire(WINDOW * win, int y, int x, Inventaire inventaire, int nb_
 void invBoucle(WINDOW *mainwin, int *touche, InvMenu *invMenu, Inventaire inventaire, int* minuteur, Joueur* joueur); 
 
     // SAUVEGARDE
-void saveGame(Partie * partie);
-
-Partie * loadGame();
-    
+void saveGame(Partie * partie, char * nomFichier);
+Partie * loadGame(char * nomFichier);
+int verifFichier(char * nomSauvegarde);
     //JEU
 Partie * creerPartie();
 int condition_victoire(Partie* partie);

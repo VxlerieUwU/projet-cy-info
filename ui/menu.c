@@ -181,6 +181,7 @@ MiniMenu *pauseMenu(int x, int y, int hauteur, int largeur) {
     Bouton *retour;
     Bouton *quitter;
     Bouton *reprendre;
+    Bouton *sauvegarder;
 
     Texte *titre;
     char **titreTexte = NULL;
@@ -190,15 +191,18 @@ MiniMenu *pauseMenu(int x, int y, int hauteur, int largeur) {
 
     titre = creerTexte(largeur/2 + x/2 - 4, hauteur/2, titreTexte, 1, 6);
     //Boutons du menu
-    reprendre = creerBouton(x - 5, y + 2, 5, 2, "Reprendre");
-    retour = creerBouton(x - 3, y + 4, 5, 2, "Retour au menu");
-    quitter = creerBouton(x - 3, y + 6, 5, 2, "Quitter");
+    reprendre = creerBouton(x - 5, y, 5, 2, "Reprendre");
+    sauvegarder = creerBouton(x - 5, y + 2, 5, 2, "Sauvegarder");
+    retour = creerBouton(x - 5, y + 4, 5, 2, "Retour au menu");
+    quitter = creerBouton(x - 5, y + 6, 5, 2, "Quitter");
 
-    pause = creerMessage(largeur / 2, hauteur / 2, hauteur, largeur, 6, titre, 3, NULL);
+
+    pause = creerMessage(largeur / 2, hauteur / 2, hauteur, largeur, 6, titre, 4, NULL);
     //Assignation des boutons au menu
     pause->boutons[0] = reprendre;
-    pause->boutons[1] = retour;
-    pause->boutons[2] = quitter;
+    pause->boutons[1] = sauvegarder;
+    pause->boutons[2] = retour;
+    pause->boutons[3] = quitter;
 
     return pause;
 }
@@ -265,8 +269,20 @@ InvMenu *initInvMenu(int x, int y, int hauteur, int largeur) {
     return invMenu1;
 }
 
-MiniMenu * sauvegardeMenu(int x, int y, int hauteur, int largeur) {
+EntreeTexte * sauvegardeMenu(int x, int y, int hauteur, int largeur) {
     /* Menu de sauvegarde*/
+    //Initialisation
+    Texte * titre;
+    EntreeTexte *sauv;
+    char **titreTexte = NULL;
+    //Allocation mémoire texte + contenu des textes
+    titreTexte = (char **) malloc(sizeof(char) * 31);
+    titreTexte[0] = "Entrez le nom de la sauvegarde";
+
+    titre = creerTexte(largeur/2 + x - 20, y + hauteur/2 - 4, titreTexte, 1, 6);
+    //Création de l'interface texte pour entrer la graine
+    sauv = creerEntreeTexte(x - 10 + largeur/2, y + hauteur/2 + 2, 18, 4, titre);
+    return sauv;
 
 }
 
@@ -287,20 +303,25 @@ EntreeTexte * graineMenu(int x, int y, int hauteur, int largeur) {
     return graine;
 }
 
-EntreeTexte * sauvegardeEntree(int x, int y, int hauteur, int largeur) {
-    /* Sert à créer une sauvegarde*/
+EntreeTexte * nomMenu(int x, int y, int hauteur, int largeur) {
+    /* Fonction servant à créer l'entrée du nom en fonction des dimensions du terminal*/
+    //Initialisation
     Texte * titre;
-    EntreeTexte *sauvegarde;
+    EntreeTexte *nom;
     char **titreTexte = NULL;
-    titreTexte = (char **) malloc(sizeof(char) * (43 + 34));
-    titreTexte[0] = "Nom de la sauvegarde";
-    titreTexte[1] = "";
+    //Allocation mémoire texte + contenu des textes
+    titreTexte = (char **) malloc(sizeof(char) * 34);
+    titreTexte[0] = "Spationaute #213";
+    titreTexte[1] = "Entrez votre nom";
 
     titre = creerTexte(largeur/2 + x - 20, y + hauteur/2 - 4, titreTexte, 2, 6);
-
-    sauvegarde = creerEntreeTexte(x - 10 + largeur/2, y + hauteur/2 + 2, 18, 4, titre);
-    return sauvegarde;
+    //Création de l'interface texte pour entrer la graine
+    nom = creerEntreeTexte(x - 10 + largeur/2, y + hauteur/2 + 2, 18, 4, titre);
+    return nom;
 }
+
+
+
 
 
 
@@ -414,6 +435,38 @@ void entreeTexte(EntreeTexte *entree, int touche) {
             //L'entrée est valide
             entree->valide = 1;
             break;
+
+        default:
+            if((touche >= 'a' && touche <= 'z') || (touche >= 'A' && touche <= 'Z')) {
+                if (entree->taille > entree->curseur+1) {
+                    entree->buffer[entree->curseur] = (char) touche;
+                    entree->affichage[entree->curseur] = (char) touche;
+                    entree->buffer[entree->curseur+1] = '\0';
+                    entree->curseur++;
+                }
+            }
+            //Sinon il ne se passe rien
+            break;
+    }
+}
+
+void entreeNum(EntreeTexte *entree, int touche) {
+    /* Fonction servant à savoir si une entrée est valide quand on l'execute*/
+    switch (touche) {
+        case ERR:
+            break;
+        case KEY_BACKSPACE:
+            if(strlen(entree->buffer) > 0) {
+                entree->buffer[entree->curseur - 1] = '\0';
+                entree->affichage[entree->curseur - 1] = '_';
+                entree->curseur--;
+            }
+            break;
+
+        case 10:
+            //L'entrée est valide
+            entree->valide = 1;
+            break;
         case '-':
         case '0':
         case '1':
@@ -463,7 +516,7 @@ void entreeMessage(MiniMenu *message, int touche) {
     }
 }
 
-void pauseBoucle(WINDOW *mainwin, int *touche, MiniMenu *pause, int *jeuEtat, int*partieEtat) {
+void pauseBoucle(WINDOW *mainwin, int *touche, MiniMenu *pause, int *jeuEtat, int*partieEtat, int *sauveEtat) {
     /* Fonction qui fait une boucle infini tant qu'on a pas choisi une option
     pour arrêter le jeu quand on fait pause*/
     while (!pause->selEtat) { //Tant qu'on ne sélectionne rien le jeu est arrêté
@@ -477,18 +530,26 @@ void pauseBoucle(WINDOW *mainwin, int *touche, MiniMenu *pause, int *jeuEtat, in
             pause->selEtat = 0;
             pause->curseur = 0;
             break;
-        case 1: // retour au menu
+        case 1: // sauvegarde
+            *sauveEtat = 1;
+            pause->selEtat = 0;
+            pause->curseur = 0;
+            break;
+
+        case 2: // retour au menu
             pause->selEtat = 0;
             pause->curseur = 0;
             *partieEtat = 0;
 
             break;
-        case 2: //quitter
+        case 3: //quitter
             *jeuEtat = 0;
             *partieEtat = 0;
             break;
     }
 }
+
+
 
 void entreeInv(InvMenu *invMenu, int* touche) {
     /* Fonction gérant le sélecteur de l'inventaire en fonction des touches choisies

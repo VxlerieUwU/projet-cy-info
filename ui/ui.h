@@ -150,13 +150,16 @@ void renderRespawn(WINDOW * win, Texte * respawn);
 void entreeMenu(Menu *menu, int touche); // gestion des touches du menu
 void entreeMessage(MiniMenu *message, int touche);
 void entreeTexte(EntreeTexte *entree, int touche);
+void entreeNum(EntreeTexte *entree, int touche);
 void entreeInv(InvMenu *invMenu, int* touche);
 EntreeTexte * graineMenu(int x, int y, int hauteur, int largeur);
+EntreeTexte * nomMenu(int x, int y, int hauteur, int largeur);
+EntreeTexte * sauvegardeMenu(int x, int y, int hauteur, int largeur);
 MiniMenu * options(int x, int y, int hauteur, int largeur); //
 MiniMenu *pauseMenu(int x, int y, int hauteur, int largeur);
 Texte * respawnTexte(int x, int y, int largeur);
 InvMenu *initInvMenu(int x, int y, int hauteur, int largeur);
-void pauseBoucle(WINDOW *mainwin, int *touche, MiniMenu *pause, int *jeuEtat, int *partieEtat);
+void pauseBoucle(WINDOW *mainwin, int *touche, MiniMenu *pause, int *jeuEtat, int *partieEtat, int *sauveEtat);
 // free
 void freeEntreeTexte(EntreeTexte * entree);
 void freeTexte(Texte * texte);
