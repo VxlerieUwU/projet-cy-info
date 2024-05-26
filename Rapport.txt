@@ -53,9 +53,7 @@ Ce qui marche :
 - Utilisation des objets
 - HUD
 - minuteur
-Ce qui ne marche pas :
-- Fuite mémoire dans les sauvegardes
-- Affichage du curseur dans l'inventaire
+- sauvegarde
 
 
 CHOIX IMPORTANT : 
