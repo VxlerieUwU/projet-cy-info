@@ -403,7 +403,7 @@ void renduInvMenu(WINDOW * win, InvMenu * invMenu, Inventaire inventaire) {
                     invMenu->boutons[j][i]->texte = "Bandage";
                     break;
                 case XP:
-                    invMenu->boutons[j][i]->texte = "XPf";
+                    invMenu->boutons[j][i]->texte = "XP";
                     break;
                 case GENERATEUR:
                     invMenu->boutons[j][i]->texte = "Generateur";
