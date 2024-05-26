@@ -1,5 +1,5 @@
 **COSMICYONDER**
-
+//NECESSITE NCURSES
 Vous êtes un spacionaute à la recherche d'une nouvelle planète habitable pour l'humanité
 quand soudain, votre vaisseau se fait attaquer par une mystérieuse menace extra-terrestre.
 Ces monstres (M) ont éparpillé les pièces nécessaires pour faire redémarrer votre vaisseau
