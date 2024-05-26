@@ -56,7 +56,8 @@ Ce qui marche :
 - minuteur
 - sauvegarde
 Ce qui ne marche pas :
-- Le menu "charger sauvegarde" n'a pas de bouton retour ->obligation de quitter le jeu
+- Le menu "charger sauvegarde" n'a pas de bouton retour ->obligation de quitter le jeu CTRL+C
+- Affichage de la barre xp
 
 CHOIX IMPORTANT : 
 Utilisation de ncurses
