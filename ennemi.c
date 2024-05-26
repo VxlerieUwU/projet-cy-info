@@ -64,7 +64,7 @@ void ennemimv(Ennemi* ennemi,Salle* salle, Joueur* joueur, WINDOW* mainwin){
 			||mouv==*GENERATEUR_CHR || mouv==*REACTEUR_CHR ||mouv==*PC_CHR){
             ennemi->xRelatif--;  
         } 
-        else if(mouv=='o'){ 
+        else if(ennemi->xGlobal-1 == joueur->x && ennemi->yGlobal == joueur->y){ 
             //Sinon si la case d'arrivée est le joueur, le joueur perd des pvs et le monstre reste à sa place.
             perte_vie_joueur(joueur, ennemi);
         }
@@ -76,7 +76,7 @@ void ennemimv(Ennemi* ennemi,Salle* salle, Joueur* joueur, WINDOW* mainwin){
 			||mouv==*GENERATEUR_CHR || mouv==*REACTEUR_CHR ||mouv==*PC_CHR){
             ennemi->xRelatif++;
         }   
-        else if(mouv=='o'){
+        else if(ennemi->xGlobal+1 == joueur->x && ennemi->yGlobal == joueur->y){
             //Sinon si la case d'arrivée est le joueur, le joueur perd des pvs et le monstre reste à sa place.
             perte_vie_joueur(joueur, ennemi);
         }
@@ -87,7 +87,7 @@ void ennemimv(Ennemi* ennemi,Salle* salle, Joueur* joueur, WINDOW* mainwin){
         if(mouv==' '||mouv==*BOUTEILLE_O2_CHR || mouv==*BANDAGE_CHR ||mouv==*CLE_CHR
 			||mouv==*GENERATEUR_CHR || mouv==*REACTEUR_CHR ||mouv==*PC_CHR){
             ennemi->yRelatif--;
-        } else if(mouv=='o'){ 
+        } else if(ennemi->xGlobal == joueur->x && ennemi->yGlobal-1 == joueur->y){ 
             //Sinon si la case d'arrivée est le joueur, le joueur perd des pvs et le monstre reste à sa place.
             perte_vie_joueur(joueur, ennemi);
         }  
@@ -98,7 +98,7 @@ void ennemimv(Ennemi* ennemi,Salle* salle, Joueur* joueur, WINDOW* mainwin){
         if(mouv==' '||mouv==*BOUTEILLE_O2_CHR || mouv==*BANDAGE_CHR ||mouv==*CLE_CHR
 			||mouv==*GENERATEUR_CHR || mouv==*REACTEUR_CHR ||mouv==*PC_CHR){
             ennemi->yRelatif++;
-        } else if(mouv=='o'){ 
+        } else if(ennemi->xGlobal == joueur->x && ennemi->yGlobal+1 == joueur->y){ 
             //Sinon si la case d'arrivée est le joueur, le joueur perd des pvs et le monstre reste à sa place.
             perte_vie_joueur(joueur, ennemi);
         }
