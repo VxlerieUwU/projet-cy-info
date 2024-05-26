@@ -69,13 +69,13 @@ char * parserChaineJSON(char **str) {
     }
     (*str)++;
     char *start = *str;
-    while (**str != '\0' && **str != '"') {
+    while (**str != '\0' && **str != '"') { // parcoure toute la chaine
         (*str)++;
     }
     if (**str != '"') {
         return NULL;
     }
-    int length = *str - start;
+    int length = *str - start; // longueur de la chaine
 
     char * result = NULL;
     result = malloc(length + 1);
@@ -98,7 +98,7 @@ int parserEntierJSON(char **str, int sign) {
     if(verif != 1) {
         logMessage(CRITICAL, "erreur sscanf parserEntierJSON");
     }
-    while(isdigit(**str)) { // déplace le curseur
+    while(isdigit(**str)) { // parcoure tout le nombre
         (*str)++;
     }
     if (!sign) { // passage au négatif si présence d'un - avant le nombre
@@ -138,6 +138,10 @@ JSONArray * parserTabJSON(char **str) {
         JSONCleValeurCouple pair; //creation du couple clé-valeur
         pair.value = parserValeurJSON(str);
         array->values = realloc(array->values, sizeof(JSONCleValeurCouple) * (array->length + 1)); // agrandit l'allocation mémoire des valeurs
+        if(array->values == NULL) {
+            logMessage(CRITICAL, "erreur realloc array parserTabJSON");
+            exit(1);
+        }
         array->values[array->length++] = pair;
         chercheChar(str, ','); // avance à la virgule suivante
     }
@@ -146,7 +150,7 @@ JSONArray * parserTabJSON(char **str) {
 
 }
 
-JSONValeur parserValeurJSON(char **str) {
+JSONValeur parserValeurJSON(char **str) { // parse une valeur JSON
     *str = sauteEspaces(*str);
     JSONValeur v;
     if (**str == '"') {
@@ -178,11 +182,11 @@ JSONValeur parserValeurJSON(char **str) {
 
 
 JSONObjet * parserObjetJSON(char ** str) {
-    if (!chercheChar(str, '{')) {
+    if (!chercheChar(str, '{')) { // vérifie la présence de l'accolade
         logMessage(CRITICAL, "erreur parserObjetJSON, { manquant");
         exit(1); // Erreur
     }
-    JSONObjet * object = NULL;
+    JSONObjet * object = NULL; // creation de l'objet
     object = malloc(sizeof(JSONObjet));
     if(object == NULL) {
         logMessage(CRITICAL, "erreur malloc object parserObjetJSON");
@@ -201,6 +205,10 @@ JSONObjet * parserObjetJSON(char ** str) {
         }
         pair.value = parserValeurJSON(str);
         object->pairs = realloc(object->pairs, sizeof(JSONCleValeurCouple) * (object->length + 1)); // agrandit l'allocation mémoire  des couples clé-valeur
+        if(object->pairs == NULL) {
+            logMessage(CRITICAL, "erreur realloc object parserObjetJSON");
+            exit(1);
+        }
         object->pairs[object->length++] = pair;
         chercheChar(str, ','); // avance à la virgule suivante
     }
@@ -208,8 +216,8 @@ JSONObjet * parserObjetJSON(char ** str) {
 }
 
 char * serializeChaineJSON(JSONValeur str) {
-    char * result = NULL;
-    result = malloc(strlen(str.stringValue) + 3);
+    char * result = NULL; // chaine de caractères finale
+    result = malloc(strlen(str.stringValue) + 3); // + guillemets et \0
     if (result == NULL) {
         logMessage(CRITICAL, "erreur malloc result serializeChaineJSON");
         exit(1);
@@ -219,7 +227,7 @@ char * serializeChaineJSON(JSONValeur str) {
 }
 
 char * serializeEntierJSON(JSONValeur i) {
-    char * result = NULL;
+    char * result = NULL; // chaine de caractères finale
     result = malloc(sizeof(char) * longueurInt(i.numberValue) + 1);
     if (result == NULL) {
         logMessage(CRITICAL, "erreur malloc result serializeEntierJSON");
@@ -230,8 +238,8 @@ char * serializeEntierJSON(JSONValeur i) {
 }
 
 char * serializeBooleenJSON(JSONValeur b) {
-    char * result = NULL;
-    result = malloc(sizeof(char) * 6);
+    char * result = NULL; // chaine de caractères finale
+    result = malloc(sizeof(char) * 6); // true ou false
     if (result == NULL) {
         logMessage(CRITICAL, "erreur malloc result serializeBooleenJSON");
         exit(1);
@@ -245,9 +253,9 @@ char * serializeBooleenJSON(JSONValeur b) {
 }
 
 char * serializeTabJSON(JSONArray a) {
-    char * result = NULL;
-    char * finalString = NULL;
-    char * value = NULL;
+    char * result = NULL; // chaine de caractères finale
+    char * finalString = NULL; // chaine de caractères finale avec les crochets
+    char * value = NULL; // chaine de caractères temporaire
 
     result = malloc(sizeof(char));
     if (result == NULL) {
@@ -256,7 +264,7 @@ char * serializeTabJSON(JSONArray a) {
     }
     result[0] = '\0';
     for (int i = 0; i < a.length; i++) {
-        switch (a.values[i].value.type) {
+        switch (a.values[i].value.type) { // assigne la valeur en fonction du type
             case JSON_CHAINE:
                 value = serializeChaineJSON(a.values[i].value);
                 break;
@@ -277,19 +285,27 @@ char * serializeTabJSON(JSONArray a) {
                 exit(1);
         }
         result = realloc(result, strlen(result) + strlen(value) + 2);
+        if(result == NULL) {
+            logMessage(CRITICAL, "erreur realloc result serializeTabJSON");
+            exit(1);
+        }
         strcat(result, value);
         if (i < a.length - 1) {
             result = realloc(result, strlen(result) + 2); // agrandit l'allocation suivant les données restantes
+            if(result == NULL) {
+                logMessage(CRITICAL, "erreur realloc result serializeTabJSON");
+                exit(1);
+            }
             strcat(result, ",");
         }
         free(value);
     }
-    finalString = malloc(strlen(result) + 3);
+    finalString = malloc(strlen(result) + 3); // + crochets et \0
     if (finalString == NULL) {
         logMessage(CRITICAL, "erreur malloc finalResult serializeTabJSON");
         exit(1);
     }
-    sprintf(finalString, "[%s]", result);
+    sprintf(finalString, "[%s]", result); // ajoute les crochets
     free(result);
     return finalString;
 }
@@ -306,7 +322,7 @@ char * serializeObjetJSON(JSONObjet o) {
     }
     result[0] = '\0';
     for (int i = 0; i < o.length; i++) {
-        switch (o.pairs[i].value.type) {
+        switch (o.pairs[i].value.type) { // assigne la valeur en fonction du type
             case JSON_CHAINE:
                 value = serializeChaineJSON(o.pairs[i].value);
                 break;
@@ -322,17 +338,26 @@ char * serializeObjetJSON(JSONObjet o) {
             case JSON_TABLEAU:
                 value = serializeTabJSON(*o.pairs[i].value.arrayValue);
                 break;
-            default:
+            default: // type non reconnu
                 logMessage(CRITICAL, "erreur serializeObjetJSON");
                 exit(1);
         }
         result = realloc(result, strlen(result) + strlen(o.pairs[i].key) + strlen(value) + 5);
+        if(result == NULL) {
+            logMessage(CRITICAL, "erreur realloc result serializeObjetJSON");
+            exit(1);
+        }
+        // ajout de la clé / formattage
         strcat(result, "\"");
         strcat(result, o.pairs[i].key);
         strcat(result, "\":");
-        strcat(result, value);
+        strcat(result, value); // ajout de la valeur
         if (i < o.length - 1) {
             result = realloc(result, strlen(result) + 2);
+            if(result == NULL) {
+                logMessage(CRITICAL, "erreur realloc result serializeObjetJSON");
+                exit(1);
+            }
             strcat(result, ",");
         }
         free(value);

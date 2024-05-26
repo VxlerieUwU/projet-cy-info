@@ -61,7 +61,7 @@ Joueur * joueurVersJSON(JSONObjet joueurJSON) {
         exit(1);
     }
     joueur->nom = NULL;
-    joueur->nom = malloc(sizeof(char) * strlen(joueurJSON.pairs[0].value.stringValue) + 1);
+    joueur->nom = malloc(sizeof(char) * strlen(joueurJSON.pairs[0].value.stringValue) + 1); // +1 pour le \0
     joueur->nom = strcpy(joueur->nom, joueurJSON.pairs[0].value.stringValue);
     joueur->x = joueurJSON.pairs[1].value.numberValue;
     joueur->y = joueurJSON.pairs[2].value.numberValue;
@@ -165,10 +165,10 @@ Salle * salleDepuisJSON(JSONObjet salleJSON) {
         logMessage(ERROR, "erreur malloc salleDepuisJSON salle.portes");
         exit(1);
     }
-    for(int i = 0; i < salle->nportes; i++) {
+    for(int i = 0; i < salle->nportes; i++) { // portes
         salle->portes[i] = porteDepuisJSON(*salleJSON.pairs[4].value.arrayValue->values[i].value.objectValue);
     }
-    for(int i = 0; i < 3; i++) {
+    for(int i = 0; i < 3; i++) { // objets (3 par salle)
         salle->objets[i] = objetDepuisJSON(*salleJSON.pairs[5].value.arrayValue->values[i].value.objectValue);
     }
     salle->disp = malloc(sizeof(int *) * salle->hauteur);
@@ -186,7 +186,7 @@ Salle * salleDepuisJSON(JSONObjet salleJSON) {
             salle->disp[i][j] = salleJSON.pairs[6].value.arrayValue->values[i].value.arrayValue->values[j].value.numberValue;
         }
     }
-    if(salleJSON.pairs[9].value.objectValue->length == 0) {
+    if(salleJSON.pairs[9].value.objectValue->length == 0) { // ennemi
         salle->ennemi = NULL;
     } else {
         salle->ennemi = ennemiDepuisJSON(*salleJSON.pairs[9].value.objectValue);
