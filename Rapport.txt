@@ -58,6 +58,7 @@ Ce qui marche :
 Ce qui ne marche pas :
 - Le menu "charger sauvegarde" n'a pas de bouton retour ->obligation de quitter le jeu CTRL+C
 - Affichage de la barre xp
+- Sauvegarde des ennemis déjà apparus
 
 CHOIX IMPORTANT : 
 Utilisation de ncurses
