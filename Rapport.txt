@@ -1,0 +1,56 @@
+Semaine du 15 avril
+- Création de la structure des murs de la salle et
+de la fonction pour créer les murs de la salle: Arthur
+
+6 mai 
+Création des structures de base pour le projet : Florian
+Création du Makefile : Valérie
+
+7 mai 
+Création du logger : Valérie
+
+8 mai 
+Création de CosmicYonder.h, fichier regroupant
+toutes les fonctions, structures, énumération et constantes 
+pour le programme du jeu : Arthur
+
+10-13 mai 
+Génération des salles + collision(incomplet) : Florian
+
+15 mai
+Affichage relatif au joueur : Florian + Valérie
+Monstres : Florian
+Création graine : Arthur
+
+19 mai 
+Objets dans les salles : Arthur
+Début sauvegarde et menu principal: Valérie
+
+21 mai 
+Génération des objets dans les salles fixée : Arthur
+
+22 mai
+HUD : Valérie
+
+24 mai 
+Système de combat et ramassage objet dans l'inventaire : Florian
+
+25 mai 
+Conditions victoire et défaite : Arthur
+Génération des salles avec monstres et objets fixée : Florian
+
+26 mai
+Boucle de jeu + Utilisation des objets: Arthur
+Menu inventaire : Arthur + Valérie
+
+Ce qui marche :
+- Génération procédurale des salles
+- Affichage relatif
+- Combat et mouvements des monstres
+- Mouvements du joueur
+- Apparition et rammassage des objets dans les salles
+- HUD
+- minuteur
+Ce qui ne marche pas :
+- Objets ne disparaissent pas de l'inventaire
+- Fuite mémoire dans les sauvegardes
