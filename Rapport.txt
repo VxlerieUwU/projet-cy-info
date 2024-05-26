@@ -57,7 +57,7 @@ Ce qui marche :
 - sauvegarde
 Ce qui ne marche pas :
 - Le menu "charger sauvegarde" n'a pas de bouton retour ->obligation de quitter le jeu CTRL+C
-- Affichage de la barre xp
+- Affichage de la barre xp, de la défense et de l'attaque
 - Sauvegarde des ennemis déjà apparus
 
 CHOIX IMPORTANT : 
