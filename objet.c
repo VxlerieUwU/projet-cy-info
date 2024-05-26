@@ -95,8 +95,8 @@ void recup_objet(Joueur* joueur, Salle* salle, Objet objet, int* nb_obj_inv, int
 void utiliser_objet(Joueur* joueur, Objet objet, int* minuteur){
     switch(objet.id){
         case BANDAGE:
-            if(joueur->pv <= (100+joueur->niv*20)-20){
-                joueur->pv = 100+joueur->niv*20;
+            if(joueur->pv >= 80){
+                joueur->pv = 100;
             }
             else{
                 joueur->pv += 20;

@@ -213,7 +213,10 @@ int main()
 			//affiche joueur
 			mvwaddch(mainwin,partie->joueur->y,partie->joueur->x, 'o');
 			//affiche hud
+			
 			maj_niveau(partie->joueur);
+				
+			
 			renduHUD(mainwin, hud, minuteur, partie->joueur, partie->nb_obj_inv, partie->nb_obj_spe_inv);
 			//rafraichit l'ecran
 			wrefresh(mainwin);

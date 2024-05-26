@@ -18,7 +18,6 @@ void maj_niveau(Joueur* joueur){
         exit(2);
     }
     joueur->niv = 1 + joueur->xp/100;
-    joueur->pv = 100 + joueur->niv*20;
     joueur->att = 10 + joueur->niv*1;
     joueur->def = 5 + joueur->niv*1;
 }
