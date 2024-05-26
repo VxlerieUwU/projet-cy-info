@@ -13,15 +13,17 @@ redémarrage de votre vaisseau :
 - Le PC de commande (P)
 
 Mais faites attention : vos réserves d'oxygènes sont limités à cause de la soudaine 
-coupure de courant. Cependant, certains bandages (B) ou bouteilles d'oxygène (O)
+coupure de courant. Cependant, des bandages (B) ou bouteilles d'oxygène (O)
 pourraient être encore dans votre vaisseau pour affronter ces monstres
 et vous faire gagner du temps ...
 
 
 Contrôles :
-- Echap : Menu Pause
+- Echap : Menu Pause / Fermer l'inventaire
 - KEY_UP : déplacement du joueur vers le haut
 - KEY_DOWN : déplacement du joueur vers le bas
 - KEY_RIGHT : déplacement du joueur vers la droite
 - KEY_LEFT : déplacement du joueur vers la gauche
 - E : Ramasser un objet
+- I : Ouvrir l'inventaire
+- Entrée : Confirmer le choix du curseur
