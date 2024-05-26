@@ -439,7 +439,7 @@ void renduInvMenu(WINDOW * win, InvMenu * invMenu, Inventaire inventaire) {
 
 
 
-void invBoucle(WINDOW *mainwin, int *touche, InvMenu *invMenu, Inventaire inventaire, int* minuteur, Joueur* joueur) 
+void invBoucle(WINDOW *mainwin, int *touche, InvMenu *invMenu, Inventaire* inventaire, int* minuteur, Joueur* joueur) 
  {
     /* Fonction qui fait une boucle infini tant qu'on a pas choisi une option
     pour arrêter le jeu quand on fait pause*/
@@ -456,13 +456,13 @@ void invBoucle(WINDOW *mainwin, int *touche, InvMenu *invMenu, Inventaire invent
                 switch(invMenu->message->curseur) {
                     case 0:
                         // UTILISER L'OBJET;
-                        utiliser_objet(joueur,inventaire.obTab[invMenu->curseurObj],minuteur);
+                        utiliser_objet(joueur,&(inventaire->obTab[invMenu->curseurObj]),minuteur);
                         invMenu->montrerMsg = 0;
                         invMenu->message->selEtat = 0;
                         break;
                     case 1:
                         // JETER L'OBJET
-                        inventaire.obTab[invMenu->curseurObj].id = VIDE_OBJ; //L'objet est censé disparaitre
+                        inventaire->obTab[invMenu->curseurObj].id = VIDE_OBJ; //L'objet est censé disparaitre
                         invMenu->montrerMsg = 0;
                         invMenu->message->selEtat = 0;
                         
@@ -479,9 +479,9 @@ void invBoucle(WINDOW *mainwin, int *touche, InvMenu *invMenu, Inventaire invent
             
             
             }
-            renduInvDial(mainwin, invMenu, inventaire);
+            renduInvDial(mainwin, invMenu, *inventaire);
         }
-        renduInvMenu(mainwin, invMenu, inventaire);
+        renduInvMenu(mainwin, invMenu, *inventaire);
         if(invMenu->selRetour && invMenu->curseurLig == invMenu->nbBoutLig) {
             invMenu->selEtat = 1;
         }

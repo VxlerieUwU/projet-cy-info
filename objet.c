@@ -92,8 +92,8 @@ void recup_objet(Joueur* joueur, Salle* salle, Objet objet, int* nb_obj_inv, int
     }
 }
 
-void utiliser_objet(Joueur* joueur, Objet objet, int* minuteur){
-    switch(objet.id){
+void utiliser_objet(Joueur* joueur, Objet* objet, int* minuteur){
+    switch(objet->id){
         case BANDAGE:
             if(joueur->pv >= 80){
                 joueur->pv = 100;
@@ -101,15 +101,15 @@ void utiliser_objet(Joueur* joueur, Objet objet, int* minuteur){
             else{
                 joueur->pv += 20;
             }
-            objet.id = VIDE_OBJ;
+            objet->id = VIDE_OBJ;
             break;
         case BOUTEILLE_O2:
             *minuteur += 2;
-            objet.id = VIDE_OBJ;
+            objet->id = VIDE_OBJ;
             break;
         case CLE:
             joueur->xp += 5;
-            objet.id = VIDE_OBJ;
+            objet->id = VIDE_OBJ;
             break;
         default:
             break;
