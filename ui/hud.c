@@ -462,10 +462,11 @@ void invBoucle(WINDOW *mainwin, int *touche, InvMenu *invMenu, Inventaire* inven
                         break;
                     case 1:
                         // JETER L'OBJET
-                        inventaire->obTab[invMenu->curseurObj].id = VIDE_OBJ; //L'objet est censé disparaitre
+                        if(inventaire->obTab[invMenu->curseurObj].id <11){
+                            inventaire->obTab[invMenu->curseurObj].id = VIDE_OBJ; //L'objet est censé disparaitre
+                        } 
                         invMenu->montrerMsg = 0;
                         invMenu->message->selEtat = 0;
-                        
                         break;
                     case 2:
                         // QUITTER
