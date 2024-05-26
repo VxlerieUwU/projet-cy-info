@@ -64,7 +64,7 @@ int main()
 		graineEntree = graineMenu(longueur / 2 - longueur/8, hauteur / 2 - hauteur / 8, hauteur / 3, longueur / 3);
         nomEntree = nomMenu(longueur / 2 - longueur/8, hauteur / 2 - hauteur / 8, hauteur / 3, longueur / 3);
         sauvegardeEntree = sauvegardeMenu(longueur / 2 - longueur/8, hauteur / 2 - hauteur / 8, hauteur / 3, longueur / 3);
-        resTxt = respawnTexte(longueur/2 - longueur/5, hauteur/2 - hauteur/5, longueur);
+        resTxt = respawnTexte(longueur/2 - longueur/6, hauteur/2 - hauteur/8 , longueur);
 
 		renduFenetreMenu(mainwin, *menu, hauteur, longueur);
 
@@ -219,6 +219,15 @@ int main()
 			partie->portesNonOuvertes = compteurPortesNonOuvertes(partie->carte, partie->salles_existantes);
 
 			//interactions du joueur avec le jeu
+            //si les pv du joueur sont inferieurs ou egaux a 0, le joueur reapparait
+            if(partie->joueur->pv<=0){
+                renderRespawn(mainwin, resTxt);
+                wrefresh(mainwin);
+                touche = wgetch(mainwin);
+                napms(3000); // trois secondes avant de réapparaitre
+                reapparition_joueur(partie->joueur, partie->carte,partie->salles_existantes);
+            }
+
 			interactions(touche, partie->joueur,partie->carte, partie->salles_existantes, mainwin,&(partie->nb_obj_inv), &(partie->nb_obj_spe_inv));
 
 			//boucle qui parcourt toutes les salles existantes

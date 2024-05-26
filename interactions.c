@@ -20,11 +20,6 @@ void interactions(int touche, Joueur* joueur, Salle ** carte, int salles_existan
 		exit(5);
 	}
 
-	//si les pv du joueur sont inferieurs ou egaux a 0, le joueur reapparait
-	if(joueur->pv<=0){
-		reapparition_joueur(joueur, carte,salles_existantes);
-	}
-
 	int mouv; //Stocke le mouvement voulu par le joueur
 
 	switch(touche){
