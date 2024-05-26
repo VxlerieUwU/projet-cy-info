@@ -227,7 +227,7 @@ int main()
 				pauseBoucle(mainwin, &touche, pause, &etatJeu, &etatPartie);
 			}
             if(touche == 'i') {
-                invBoucle(mainwin, &touche, inventMenu, partie->joueur->inventaire);
+            	invBoucle(mainwin, &touche, inventMenu, partie->joueur->inventaire,&minuteur,partie->joueur);
             }
 
 			/*remet le compteur du mouvement des ennemis a 0 s'il depasse 40

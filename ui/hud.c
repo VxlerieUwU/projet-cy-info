@@ -431,7 +431,8 @@ void renduInvMenu(WINDOW * win, InvMenu * invMenu, Inventaire inventaire) {
 
 
 
-void invBoucle(WINDOW *mainwin, int *touche, InvMenu *invMenu, Inventaire inventaire) {
+void invBoucle(WINDOW *mainwin, int *touche, InvMenu *invMenu, Inventaire inventaire, int* minuteur, Joueur* joueur) 
+ {
     /* Fonction qui fait une boucle infini tant qu'on a pas choisi une option
     pour arrêter le jeu quand on fait pause*/
     while (!invMenu->selEtat) { //Tant qu'on ne sélectionne rien le jeu est arrêté

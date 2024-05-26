@@ -92,16 +92,26 @@ void recup_objet(Joueur* joueur, Salle* salle, Objet objet, int* nb_obj_inv, int
     }
 }
 
-void jeter_objet(Joueur* joueur, Objet objet, int* nb_obj_inv, int* nb_obj_spe_inv){
-    if(joueur == NULL|| nb_obj_inv == NULL || nb_obj_spe_inv == NULL){
-        exit(3);
-    }
-    for(int i = 0;i<*nb_obj_inv+(*nb_obj_spe_inv);i++){
-        if(joueur->inventaire.obTab[i].id==VIDE_OBJ);
+void utiliser_objet(Joueur* joueur, Objet objet, int* minuteur){
+    switch(objet.id){
+        case BANDAGE:
+            if(joueur->pv <= (100+joueur->niv*20)-20){
+                joueur->pv = 100+joueur->niv*20;
+            }
+            else{
+                joueur->pv += 20;
+            }
+            break;
+        case BOUTEILLE_O2:
+            *minuteur += 2;
+            break;
+        case CLE:
+            joueur->xp += 5;
+            break;
+        default:
+            break;
     }
 }
-
-void utiliser_objet();
 
 void disparition_objet(Objet* objet, Salle* salle, WINDOW* win){
     /*libere le pointeur sur l'ennemi et assigne l'attribut ennemi_existant a 0*/
