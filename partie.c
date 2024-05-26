@@ -18,13 +18,25 @@ Partie * creerPartie() {
 		exit(1);
 	}
     partie->carte = NULL;
-	partie->carte = malloc(MAX_SALLES * sizeof(Salle*));
+    if(MAX_SALLES>=5){
+    	partie->carte = malloc(MAX_SALLES * sizeof(Salle*));
+    }
+    else{
+    	partie->carte = malloc(5 * sizeof(Salle*));
+    }
 	if(partie->carte == NULL) {
 		logMessage(CRITICAL, "erreur malloc carte");
 		exit(1);
 	}
-    for(int i = 0; i < MAX_SALLES; i++) {
-        partie->carte[i] = NULL;
+	if(MAX_SALLES>=5){
+		for(int i = 0; i < MAX_SALLES; i++) {
+        	partie->carte[i] = NULL;
+    	}
+	}
+    else{
+    	for(int i = 0; i < 5; i++) {
+        	partie->carte[i] = NULL;
+    	}
     }
 	partie->salles_existantes = 0; 	//compteur de salles existantes
 	partie->objets_speciaux_apparus = 0;  //Compteur des objets à récupérer pour gagner apparus
@@ -32,7 +44,13 @@ Partie * creerPartie() {
 	partie->nb_obj_inv = 0;
 	partie->nb_obj_spe_inv = 0;
 	partie->mvEnnemic = 0;
-    partie->nsalles = MAX_SALLES;
+	if(MAX_SALLES>=5){
+		partie->nsalles = MAX_SALLES;
+	}
+    else{
+    	partie->nsalles = 5;
+    }
+    
     partie->minuteur = MINUTEUR;//minuteur en secondes. Si celui-ci atteint 0 le jeu est perdu
     partie->decr_minuteur = 0; //Variable servant à convertir les tours de boucles en une seconde pour décrémenter le minuteur
 	return partie;
