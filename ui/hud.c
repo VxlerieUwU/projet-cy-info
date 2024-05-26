@@ -448,6 +448,7 @@ void invBoucle(WINDOW *mainwin, int *touche, InvMenu *invMenu, Inventaire invent
                 switch(invMenu->message->curseur) {
                     case 0:
                         // UTILISER L'OBJET;
+                        utiliser_objet(joueur,inventaire.obTab[invMenu->curseurObj],minuteur);
                         invMenu->montrerMsg = 0;
                         invMenu->message->selEtat = 0;
                         break;

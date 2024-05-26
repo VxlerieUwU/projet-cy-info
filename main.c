@@ -21,7 +21,7 @@ int main()
     initCouleur();
 	int etatJeu = 1; //permet de quitter le jeu si besoin
     getmaxyx(stdscr,hauteur,longueur); //recupere la taille du terminal
-
+	
     WINDOW* mainwin = newwin(hauteur,longueur,0,0);
     sprintf(logBuffer, "window longueur = %d, hauteur = %d", longueur, hauteur);
     logMessage(INFO, logBuffer);
@@ -122,8 +122,7 @@ int main()
 		HUD * hud = hudJeu(0, hauteur - hauteur/6, hauteur / 6, longueur, partie->joueur, minuteur);
 		Texte * resTxt = respawnTexte(longueur/2 - longueur/5, hauteur/2 - hauteur/5, longueur);
 
-		//init ennemi
-		Ennemi ennemi = initEnnemi(5,5,10,10,10);
+		
 
 		//positionne le joueur au centre de l ecran
 		mvwaddch(mainwin,partie->joueur->y, partie->joueur->x, 'o');

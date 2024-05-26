@@ -101,12 +101,15 @@ void utiliser_objet(Joueur* joueur, Objet objet, int* minuteur){
             else{
                 joueur->pv += 20;
             }
+            objet.id = VIDE_OBJ;
             break;
         case BOUTEILLE_O2:
             *minuteur += 2;
+            objet.id = VIDE_OBJ;
             break;
         case CLE:
             joueur->xp += 5;
+            objet.id = VIDE_OBJ;
             break;
         default:
             break;

@@ -139,7 +139,7 @@ Ennemi* apparition_ennemi(Salle* salle){
     x = 1 + rand()%((salle->longueur)-2); //Abscisse ennemi relative à la salle
     y = 1 + rand()%((salle->hauteur)-2); //Ordonnée ennemi relative à la salle
     
-    *ennemi = initEnnemi(x, y, 20, 10, 10); //Type et création de l'ennemi
+    *ennemi = initEnnemi(x, y, 20, 15, 5); //Type et création de l'ennemi
     salle->ennemi_existant = 1;
     return ennemi;
 }
@@ -152,7 +152,7 @@ void perte_vie_ennemi(Ennemi* ennemi, Joueur* joueur){
     if(ennemi==NULL){
        exit(12); 
     }
-    ennemi->pv -= joueur->att;
+    ennemi->pv -= joueur->att -ennemi->def;
 }
 
 void disparition_ennemi(Ennemi* ennemi, Salle* salle, Joueur* joueur, WINDOW* win){

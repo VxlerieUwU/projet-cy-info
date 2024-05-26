@@ -32,7 +32,7 @@ void perte_vie_joueur(Joueur* joueur, Ennemi* ennemi){
     if(ennemi==NULL){
        exit(4); 
     }
-    joueur-> pv -= ennemi->att;
+    joueur-> pv -= ennemi->att -joueur->def;
 }
 
 void reapparition_joueur(Joueur* joueur, Salle** carte, int salles_existantes){
