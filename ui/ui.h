@@ -149,7 +149,7 @@ void renderRespawn(WINDOW * win, Texte * respawn);
 void entreeMenu(Menu *menu, int touche); // gestion des touches du menu
 void entreeMessage(MiniMenu *message, int touche);
 void entreeTexte(EntreeTexte *entree, int touche);
-void entreeInv(InvMenu *invMenu, int touche);
+void entreeInv(InvMenu *invMenu, int* touche);
 EntreeTexte * graineMenu(int x, int y, int hauteur, int largeur);
 MiniMenu * options(int x, int y, int hauteur, int largeur); //
 MiniMenu *pauseMenu(int x, int y, int hauteur, int largeur);

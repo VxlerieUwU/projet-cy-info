@@ -49,6 +49,7 @@ typedef enum{
     REACTEUR_1 = 12, // Objet à récupérer pour gagner
     REACTEUR_2 = 13, // Objet à récupérer pour gagner
     PC = 14, // Objet à récupérer pour gagner
+    VIDE_OBJ = 100,
 }Id;
 
 //Enumération des élements possibles de la salle

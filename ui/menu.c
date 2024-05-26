@@ -477,7 +477,7 @@ void pauseBoucle(WINDOW *mainwin, int *touche, MiniMenu *pause, int *jeuEtat, in
             pause->selEtat = 0;
             pause->curseur = 0;
             break;
-        case 1: // BROKEN
+        case 1: // retour au menu
             pause->selEtat = 0;
             pause->curseur = 0;
             *partieEtat = 0;
@@ -490,10 +490,10 @@ void pauseBoucle(WINDOW *mainwin, int *touche, MiniMenu *pause, int *jeuEtat, in
     }
 }
 
-void entreeInv(InvMenu *invMenu, int touche) {
+void entreeInv(InvMenu *invMenu, int* touche) {
     /* Fonction gérant le sélecteur de l'inventaire en fonction des touches choisies
     (bouton vers le bas pour aller au bouton du bas et idem pour le haut)*/
-    switch (touche) {
+    switch (*touche) {
         case ERR:
             break;
         case KEY_UP:
@@ -516,9 +516,14 @@ void entreeInv(InvMenu *invMenu, int touche) {
                 invMenu->curseurCol++;
             }
             break;
+        case 27:
+            invMenu->selEtat = 1;
+            break;
         case 10:
             invMenu->montrerMsg = 1;
+            invMenu->selEtat = 1;
             break;
+        
     }
 }
 

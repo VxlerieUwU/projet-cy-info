@@ -274,7 +274,8 @@ void renderInventaire(WINDOW * win, int y, int x, Inventaire inventaire, int nb_
             case PC:
                 mvwaddstr(win, y + 1, x + 2*i + 1, PC_CHR);
                 break;
-            default:
+            case VIDE_OBJ:
+                mvwaddstr(win, y + 1, x + 2*i + 1, " ");
                 break;
         }
     }
@@ -357,6 +358,9 @@ void renduInvDial(WINDOW * win, InvMenu * invMenu, Inventaire inventaire) {
         case PC:
             invMenu->message->titre->texte[0] = "PC";
             break;
+        case VIDE_OBJ:
+            invMenu->message->titre->texte[0] = "Vide";
+            break;
     }
 
     renduMessage(win, *invMenu->message);
@@ -408,6 +412,9 @@ void renduInvMenu(WINDOW * win, InvMenu * invMenu, Inventaire inventaire) {
                 case PC:
                     invMenu->boutons[j][i]->texte = "PC";
                     break;
+                case VIDE_OBJ:
+                    invMenu->boutons[j][i]->texte = "Vide";
+                    break;
             }
             if(invMenu->curseurCol == j && invMenu->curseurLig == i) {
                 invMenu->curseurObj = k;
@@ -430,7 +437,8 @@ void invBoucle(WINDOW *mainwin, int *touche, InvMenu *invMenu, Inventaire invent
     while (!invMenu->selEtat) { //Tant qu'on ne sélectionne rien le jeu est arrêté
         wrefresh(mainwin);
         *touche = wgetch(mainwin);
-        entreeInv(invMenu, *touche);
+        entreeInv(invMenu, touche);
+
         while(invMenu->montrerMsg) {
             wrefresh(mainwin);
             *touche = wgetch(mainwin);
@@ -440,20 +448,31 @@ void invBoucle(WINDOW *mainwin, int *touche, InvMenu *invMenu, Inventaire invent
                     case 0:
                         // UTILISER L'OBJET;
                         invMenu->montrerMsg = 0;
+                        invMenu->message->selEtat = 0;
                         break;
                     case 1:
                         // JETER L'OBJET
+                        inventaire.obTab[invMenu->curseurObj].id = VIDE_OBJ;
                         invMenu->montrerMsg = 0;
+                        invMenu->message->selEtat = 0;
+                        
                         break;
                     case 2:
                         // QUITTER
                         invMenu->montrerMsg = 0;
+                        invMenu->message->selEtat = 0;
+
                         break;
 
                 }
+            
+            
             }
             renduInvDial(mainwin, invMenu, inventaire);
         }
         renduInvMenu(mainwin, invMenu, inventaire);
+        
     }
+    invMenu -> montrerMsg = 0; 
+    invMenu-> selEtat = 0;
 }

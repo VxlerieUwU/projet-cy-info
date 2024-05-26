@@ -252,6 +252,7 @@ int main()
 		*/
 		free(partie->carte);
 		freeMenu(menu);
+		werase(mainwin);
 	}
 		endwin();//ferme la fenetre
 		moveLog();

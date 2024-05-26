@@ -92,6 +92,17 @@ void recup_objet(Joueur* joueur, Salle* salle, Objet objet, int* nb_obj_inv, int
     }
 }
 
+void jeter_objet(Joueur* joueur, Objet objet, int* nb_obj_inv, int* nb_obj_spe_inv){
+    if(joueur == NULL|| nb_obj_inv == NULL || nb_obj_spe_inv == NULL){
+        exit(3);
+    }
+    for(int i = 0;i<*nb_obj_inv+(*nb_obj_spe_inv);i++){
+        if(joueur->inventaire.obTab[i].id==VIDE_OBJ);
+    }
+}
+
+void utiliser_objet();
+
 void disparition_objet(Objet* objet, Salle* salle, WINDOW* win){
     /*libere le pointeur sur l'ennemi et assigne l'attribut ennemi_existant a 0*/
     if(objet==NULL){
@@ -111,5 +122,5 @@ void disparition_objet(Objet* objet, Salle* salle, WINDOW* win){
     //met ses coordonnees a -1 et son id a 0
     objet->x=-1;
     objet->y=-1;
-    objet->id=0;
+    objet->id=VIDE_OBJ;
 }
