@@ -40,17 +40,24 @@ Conditions victoire et défaite : Arthur
 Génération des salles avec monstres et objets fixée : Florian
 
 26 mai
-Boucle de jeu + Utilisation des objets: Arthur
-Menu inventaire : Arthur + Valérie
+Boucle de jeu : Arthur
+Menu inventaire : Valérie 
+Utilisation des objets : Arthur + Florian
 
 Ce qui marche :
 - Génération procédurale des salles
-- Affichage relatif
+- Affichage relatif 
 - Combat et mouvements des monstres
 - Mouvements du joueur
 - Apparition et rammassage des objets dans les salles
+- Utilisation des objets
 - HUD
 - minuteur
 Ce qui ne marche pas :
-- Objets ne disparaissent pas de l'inventaire
 - Fuite mémoire dans les sauvegardes
+- Affichage du curseur dans l'inventaire
+
+
+CHOIX IMPORTANT : 
+Utilisation de ncurses
+Se servir d'un json pour les sauvegardes
