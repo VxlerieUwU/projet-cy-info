@@ -50,5 +50,6 @@ void reapparition_joueur(Joueur* joueur, Salle** carte, int salles_existantes){
         carte[i]->y -= disty;
     }
     joueur->xp /= 2;
+    joueur->pv = 100;
     maj_niveau(joueur);
 }
