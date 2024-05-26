@@ -32,7 +32,7 @@
 #define UNICODE_STRING_LONG 10
 #define TAILLE_MAX_V 10
 #define TAILLE_MAX_H 20
-#define MAX_SALLES 10
+#define MAX_SALLES 30
 #define IMAGES_PAR_SECONDE 60
 #define MINUTEUR 300
 
