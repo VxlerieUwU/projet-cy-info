@@ -132,10 +132,10 @@ Menu * creerMenu(int hauteur, int largeur, Texte * titre, int nbBoutons, int esp
 Bouton * creerBouton(int x, int y, int couleur, int couleurSel, char * texte); // constructeur struct bouton
 MiniMenu * creerMessage(int x, int y, int hauteur, int largeur, int couleur, Texte * titre, int nbBoutons, Texte * texte); // constructeur struct message
 Texte * creerTexte(int x, int y, char ** texte, int nbLignes, int couleur); // constructeur struct texte
-EntreeTexte * creerEntreeTexte(int x, int y, int taille, int couleur, Texte * titre);
-StatusBar * creerStatusBar(int x, int y, int size, int color, int cursor);
-HUD * creerHUD(int x, int y, int hauteur, int largeur, int outlineColor, int nbText, int nbStatBar);
-InvMenu * creerInvMenu(int x, int y, int hauteur, int largeur, int couleur, Texte * titre, int nbBoutCol, int nbBoutLig);
+EntreeTexte * creerEntreeTexte(int x, int y, int taille, int couleur, Texte * titre); //Crée les entrées textes dans le menu (lorsqu'on a besoin de choisir une graine par exemple)
+StatusBar * creerStatusBar(int x, int y, int size, int color, int cursor); //Crée les barres (de vie, d'xp) de la hud
+HUD * creerHUD(int x, int y, int hauteur, int largeur, int outlineColor, int nbText, int nbStatBar); //crée la HUD
+InvMenu * creerInvMenu(int x, int y, int hauteur, int largeur, int couleur, Texte * titre, int nbBoutCol, int nbBoutLig); //Crée le menu de l'inventaire
 
 void freeMenu(Menu * menu); //liberation de la memoire allouée pour le menu
 
@@ -149,20 +149,20 @@ void renduFenetreOptions(WINDOW *win, MiniMenu options); // rendu message avec b
 void renderRespawn(WINDOW * win, Texte * respawn);
 void entreeMenu(Menu *menu, int touche); // gestion des touches du menu
 void entreeMessage(MiniMenu *message, int touche);
-void entreeTexte(EntreeTexte *entree, int touche);
-void entreeNum(EntreeTexte *entree, int touche);
-void entreeInv(InvMenu *invMenu, int* touche);
-EntreeTexte * graineMenu(int x, int y, int hauteur, int largeur);
-EntreeTexte * nomMenu(int x, int y, int hauteur, int largeur);
-EntreeTexte * sauvegardeMenu(int x, int y, int hauteur, int largeur);
-MiniMenu * options(int x, int y, int hauteur, int largeur); //
-MiniMenu *pauseMenu(int x, int y, int hauteur, int largeur);
-Texte * respawnTexte(int x, int y, int largeur);
-InvMenu *initInvMenu(int x, int y, int hauteur, int largeur);
-void pauseBoucle(WINDOW *mainwin, int *touche, MiniMenu *pause, int *jeuEtat, int *partieEtat, int *sauveEtat);
+void entreeTexte(EntreeTexte *entree, int touche); 
+void entreeNum(EntreeTexte *entree, int touche); 
+void entreeInv(InvMenu *invMenu, int* touche);  //Fonction servant à naviguer dans l'inventaire
+EntreeTexte * graineMenu(int x, int y, int hauteur, int largeur); //Menu d'entrée de la graine
+EntreeTexte * nomMenu(int x, int y, int hauteur, int largeur); //Menu pour tapper le nom du joueur
+EntreeTexte * sauvegardeMenu(int x, int y, int hauteur, int largeur); //Menu des sauvegarde
+MiniMenu * options(int x, int y, int hauteur, int largeur); //Sous-menu des options
+MiniMenu *pauseMenu(int x, int y, int hauteur, int largeur); //Menu de pause
+Texte * respawnTexte(int x, int y, int largeur); //Texte lors de la réapparition
+InvMenu *initInvMenu(int x, int y, int hauteur, int largeur); //Initialisation du menu de l'inventaire
+void pauseBoucle(WINDOW *mainwin, int *touche, MiniMenu *pause, int *jeuEtat, int *partieEtat, int *sauveEtat); //Boucle d'arrêt du jeu pendant le menu pause
 // free
-void freeEntreeTexte(EntreeTexte * entree);
-void freeTexte(Texte * texte);
+void freeEntreeTexte(EntreeTexte * entree); //Libère les espaces d'entrée de texte du terminal
+void freeTexte(Texte * texte); //Libère le texte du terminal
 
 
 #endif

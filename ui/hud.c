@@ -230,6 +230,7 @@ HUD * hudJeu(int x, int y, int hauteur, int largeur, Joueur * joueur, int minute
 }
 
 void renderInventaire(WINDOW * win, int y, int x, Inventaire inventaire, int nb_obj_inv, int nb_obj_spe_inv) {
+    /* Rendu de l'inventaire dans la HUD*/
     int xTmp; // calcul des coordonnees
     mvwhline(win, y, x, ACS_HLINE, INV_TAILLE*2);
     mvwhline(win, y + 2, x + 1, ACS_HLINE, INV_TAILLE*2);
@@ -323,6 +324,7 @@ void renduHUD(WINDOW * win, HUD * hud, int minuteur, Joueur * jou, int nb_obj_in
 }
 
 void renduInvDial(WINDOW * win, InvMenu * invMenu, Inventaire inventaire) {
+    /* Rendu de la fenêtre de sélection des objets dans l'inventaire*/
     for(int i = 0; i < invMenu->hauteur; i++) {
         for(int j = 0; j < invMenu->largeur; j++) {
             mvwaddch(win, invMenu->y + i, invMenu->x + j, ' ');
@@ -370,6 +372,7 @@ void renduInvDial(WINDOW * win, InvMenu * invMenu, Inventaire inventaire) {
 }
 
 void renduInvMenu(WINDOW * win, InvMenu * invMenu, Inventaire inventaire) {
+    /* rendu de la fenêtre du menu de l'inventaire*/
     short k = 0;
     // efface le texte sous la fenetre
     for(int i = 0; i < invMenu->hauteur; i++) {
@@ -459,7 +462,7 @@ void invBoucle(WINDOW *mainwin, int *touche, InvMenu *invMenu, Inventaire invent
                         break;
                     case 1:
                         // JETER L'OBJET
-                        inventaire.obTab[invMenu->curseurObj].id = VIDE_OBJ;
+                        inventaire.obTab[invMenu->curseurObj].id = VIDE_OBJ; //L'objet est censé disparaitre
                         invMenu->montrerMsg = 0;
                         invMenu->message->selEtat = 0;
                         
