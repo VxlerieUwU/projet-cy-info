@@ -19,8 +19,8 @@ void maj_niveau(Joueur* joueur){
     }
     joueur->niv = 1 + joueur->xp/100;
     joueur->pv = 100 + joueur->niv*20;
-    joueur->att = 10 + joueur->niv*5;
-    joueur->def = 5 + joueur->niv;
+    joueur->att = 10 + joueur->niv*1;
+    joueur->def = 5 + joueur->niv*1;
 }
 
 void perte_vie_joueur(Joueur* joueur, Ennemi* ennemi){

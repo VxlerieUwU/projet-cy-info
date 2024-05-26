@@ -4,9 +4,10 @@
 #include "ui.h"
 #include "../logger.h"
 
-// TODO: libérer la mémoire mdrrrr
+
 
 void initCouleur() {
+    /* Initialisation des couleurs pour les textes et menus*/
     if(!has_colors()) {
         logMessage(WARNING, "erreur initialisation couleur");
         return;
@@ -25,6 +26,7 @@ void initCouleur() {
 }
 
 void renduTexte(WINDOW * win, Texte texte) {
+    /* Sert à donner de la couleur aux textes*/
     int i;
     wattron(win, COLOR_PAIR(texte.couleur));
     for(i = 0; i < texte.nbLignes; i++) {
@@ -34,6 +36,7 @@ void renduTexte(WINDOW * win, Texte texte) {
 }
 
 void renduBouton(WINDOW * win, Bouton bouton, int sel) {
+    /* Sert à donner de la couleur aux boutons du menu*/
     if(!sel) {
         wattron(win, COLOR_PAIR(bouton.couleur));
     }
@@ -47,6 +50,9 @@ void renduBouton(WINDOW * win, Bouton bouton, int sel) {
 }
 
 void renduBoutons(WINDOW * win, Bouton ** boutons, int sel, int nbBoutons) {
+    /* Affiche les boutons avec cette couleur selon le nombre de bouton.
+    Uniformise la couleur des boutons d'un même menu et change la couleur de celui-ci si
+    il est sélectionné par le curseur*/
     for(int i = 0; i < nbBoutons; i++) {
         if(i == sel) {
             renduBouton(win, *boutons[i], 1);
@@ -58,6 +64,9 @@ void renduBoutons(WINDOW * win, Bouton ** boutons, int sel, int nbBoutons) {
 
 
 void renduMessage(WINDOW * win, MiniMenu message) {
+    /* Affiche les messages des boutons avec cette couleur selon la couleur des boutons.
+    Uniformise la couleur des textes des boutons d'un même menu et change 
+    la couleur du texte de celui-ci s'il est sélectionné par le curseur*/
     int i;
     wattron(win, COLOR_PAIR(message.couleur));
     renduTexte(win, *message.titre);
@@ -75,6 +84,7 @@ void renduMessage(WINDOW * win, MiniMenu message) {
 }
 
 void renduMenu(WINDOW * win, Menu menu) {
+    /* Sert à faire le rendu du menu à partir de la fonction précédente renduBouton*/
     int i;
     
     renduTexte(win, *menu.titre);
@@ -90,12 +100,16 @@ void renduMenu(WINDOW * win, Menu menu) {
 
 
 Menu * creerMenu(int hauteur, int largeur, Texte * titre, int nbBoutons, int espace, int couleurFond) {
+    /* Fonction servant à créer un menu*/
+    //Initialisation
     Menu * menu = NULL;
+    //Allocation mémoire
     menu = malloc(sizeof(Menu));
     if(menu == NULL) {
         logMessage(CRITICAL, "erreur malloc menu");
         exit(1);
     }
+    //Initialisation des membres
     menu->hauteur = hauteur;
     menu->largeur = largeur;
     menu->titre = titre;
@@ -106,6 +120,7 @@ Menu * creerMenu(int hauteur, int largeur, Texte * titre, int nbBoutons, int esp
     menu->selEtat = 0;
     menu->focus = 1;
     menu->boutons = NULL;
+    //Allocation des pointeurs boutons
     menu->boutons = malloc(nbBoutons * sizeof(Bouton*));
     if(menu->boutons == NULL) {
         logMessage(CRITICAL, "erreur malloc boutons menu");
@@ -115,12 +130,16 @@ Menu * creerMenu(int hauteur, int largeur, Texte * titre, int nbBoutons, int esp
 }
 
 Bouton * creerBouton(int x, int y, int couleur, int couleurSel, char * texte) {
+    /* Fonction permettant de créer les pointeurs de bouton du menu*/
+    //Initialisation
     Bouton * bouton = NULL;
+    //Allocation mémoire
     bouton = malloc(sizeof(Bouton));
     if(bouton == NULL) {
         logMessage(CRITICAL, "erreur malloc bouton");
         exit(1);
     }
+    //Initialisation des membres
     bouton->x = x;
     bouton->y = y;
     bouton->couleur = couleur;
@@ -130,12 +149,16 @@ Bouton * creerBouton(int x, int y, int couleur, int couleurSel, char * texte) {
 }
 
 MiniMenu * creerMessage(int x, int y, int hauteur, int largeur, int couleur, Texte * titre, int nbBoutons, Texte * texte) {
+    /* Fonction permettant de créer les sous-menus*/
+    //Initialisation
     MiniMenu * message = NULL;
+    //Allocation mémoire
     message = malloc(sizeof(MiniMenu));
     if(message == NULL) {
         logMessage(CRITICAL, "erreur malloc message");
         exit(1);
     }
+    //Initialisation des membres
     message->x = x;
     message->y = y;
     message->hauteur = hauteur;
@@ -156,12 +179,16 @@ MiniMenu * creerMessage(int x, int y, int hauteur, int largeur, int couleur, Tex
 }
 
 Texte * creerTexte(int x, int y, char ** texte, int nbLignes, int couleur) {
+    /* Message servant à créer le texte des boutons*/
+    //Initialisation
     Texte * t = NULL;
+    //Allocation mémoire
     t = malloc(sizeof(Texte));
     if(t == NULL) {
         logMessage(CRITICAL, "erreur malloc texte");
         exit(1);
     }
+    //Initialisation des membres
     t->x = x;
     t->y = y;
     t->texte = texte;
@@ -171,17 +198,22 @@ Texte * creerTexte(int x, int y, char ** texte, int nbLignes, int couleur) {
 }
 
 EntreeTexte * creerEntreeTexte(int x, int y, int taille, int couleur, Texte * titre) {
+    /* Fonction permettant de créer une entrée de texte (comme pour la création de la graine par exemple)*/
+    //Initialisation
     EntreeTexte * entree = NULL;
+    //Allocation mémoire
     entree = malloc(sizeof(EntreeTexte));
     if(entree == NULL) {
         logMessage(CRITICAL, "erreur malloc entree texte");
         exit(1);
     }
+    //Initialisation des membres
     entree->x = x;
     entree->y = y;
     entree->curseur = 0;
     entree->taille = taille;
-    entree->buffer = NULL;
+    entree->buffer = NULL; //buffer
+    //Allocation buffer
     entree->buffer = malloc(sizeof(char) * (taille + 1));
     if(entree->buffer == NULL) {
         logMessage(CRITICAL, "erreur malloc buffer entree texte");
@@ -202,11 +234,12 @@ EntreeTexte * creerEntreeTexte(int x, int y, int taille, int couleur, Texte * ti
     entree->buffer[0] = '\0'; // initialisation du buffer
     entree->titre = titre;
     entree->couleur = couleur;
-    entree->valide = 0;
+    entree->valide = 0; //Sert à savoir si l'entrée est valide
     return entree;
 }
 
 void renduEntreeTexte(WINDOW * win, EntreeTexte * entree) {
+    /* Sert à afficher l'entrée texte sur le terminal en fonction des paramètres de celui-ci*/
     renduTexte(win, *entree->titre);
     for(int i = 0; i < entree->taille; i++) {
         mvwprintw(win, entree->y, entree->x + i," ");
@@ -219,6 +252,7 @@ void renduEntreeTexte(WINDOW * win, EntreeTexte * entree) {
 }
 
 void freeMenu(Menu * menu) {
+    /* Fonction servant à ce qu'une fois que le menu n'est plus utilisé on libère l'espace*/
     free(menu->titre);
     for(int i = 0; i < menu->nbBoutons; i++) {
         free(menu->boutons[i]);
@@ -228,6 +262,7 @@ void freeMenu(Menu * menu) {
 }
 
 StatusBar * creerStatusBar(int x, int y, int size, int color, int cursor) {
+    /* Fonction permettant de créer les barres de status*/
     StatusBar * sb = NULL;
     sb = malloc(sizeof(StatusBar));
     if(sb == NULL) {
@@ -243,6 +278,7 @@ StatusBar * creerStatusBar(int x, int y, int size, int color, int cursor) {
 }
 
 void renduStatusBar(WINDOW * win, StatusBar * sb) {
+    /* Fonction permettant le rendu sur le terminal de ces barres de statut*/
     wattron(win, COLOR_PAIR(sb->color));
     for(int i = 0; i < sb->cursor; i++) {
         mvwprintw(win, sb->y, sb->x + i, "█");
@@ -254,12 +290,16 @@ void renduStatusBar(WINDOW * win, StatusBar * sb) {
 }
 
 HUD * creerHUD(int x, int y, int hauteur, int largeur, int outlineColor, int nbText, int nbStatBar) {
+    //Fonction permettant d'initialiser la HUD
+    //Initialisation
     HUD * hud = NULL;
+    //Allocation mémoire
     hud = malloc(sizeof(HUD));
     if(hud == NULL) {
         logMessage(CRITICAL, "erreur malloc hud");
         exit(1);
     }
+    //Initialisation des membres de la HUD
     hud->x = x;
     hud->y = y;
     hud->hauteur = hauteur;
@@ -283,12 +323,16 @@ HUD * creerHUD(int x, int y, int hauteur, int largeur, int outlineColor, int nbT
 }
 
 void freeEntreeTexte(EntreeTexte * entree) {
+    /* Fonction permettant de libérer l'espace mémoire pris par l'affichage de l'entrée texte
+    quand le menu se ferme*/
     free(entree->buffer);
     free(entree->affichage);
     free(entree);
 }
 
 void freeTexte(Texte * texte) {
+    /* Fonction permettant de libérer l'espace mémoire pris par l'affichage du texte du menu
+    quand le menu se ferme*/
     for(int i = 0; i < texte->nbLignes; i++) {
         free(texte->texte[i]);
     }

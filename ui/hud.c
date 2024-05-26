@@ -12,6 +12,10 @@
 
 
 HUD * hudJeu(int x, int y, int hauteur, int largeur, Joueur * joueur, int minuteur) {
+    /* Fonction gérant la création des informations comme les barres de vie et 
+    les valeurs tels que le minuteur ou les stats du joueur de la hud en jeu*/
+
+    //Initialisation des variables nécessaires à la création de la hud
     HUD * hud = NULL;
 
     StatusBar * pv = NULL;
@@ -35,7 +39,7 @@ HUD * hudJeu(int x, int y, int hauteur, int largeur, Joueur * joueur, int minute
 
     char ** nameStr = NULL;
 
-
+    //Allocation de des variables de texte et des infos de la partie dynamiquement
     atkStr = malloc(sizeof(char*));
     if(atkStr == NULL){
         logMessage(ERROR, "Erreur d'allocation de mémoire pour l'attaque du joueur");
@@ -130,11 +134,14 @@ HUD * hudJeu(int x, int y, int hauteur, int largeur, Joueur * joueur, int minute
         exit(1);
     }
 
+    /*Création des chaines de caractères pour le nom, l'attaque, la défense et le minuteur
+    Celles-ci s'afficheront dans la hud*/
     sprintf(*nameStr, "Nom : %s", joueur->nom);
     sprintf(*atkStr, "Attaque : %d", joueur->att);
     sprintf(*defStr, "Défense : %d", joueur->def);
     sprintf(*minuteurStr, "Minuteur : %d", minuteur);
 
+    //Allocation mémoire des textes et barres de la hud
     pv = malloc(sizeof(StatusBar));
     if(pv == NULL){
         logMessage(ERROR, "Erreur d'allocation de mémoire pour la barre de vie");
@@ -187,6 +194,7 @@ HUD * hudJeu(int x, int y, int hauteur, int largeur, Joueur * joueur, int minute
         exit(1);
     }
 
+    //Création des barres et des textes de la hud  selon une abscisse et une ordonnée
     pv = creerStatusBar(x + 11, y + hauteur/2, 10, 2, joueur->pv/10);
     xp = creerStatusBar(x + 11, y + hauteur/2 + 1, 10, 3, joueur->xp/10);
     niv = creerStatusBar(x + 11, y + hauteur/2 + 2, 10, 4, joueur->niv);
@@ -199,8 +207,9 @@ HUD * hudJeu(int x, int y, int hauteur, int largeur, Joueur * joueur, int minute
     defText = creerTexte(x + largeur/3 - 10, y + hauteur/2 + 1, defStr, 1, 7);
     minuteurTexte = creerTexte(x + largeur/3 - 10,y+hauteur/2 + 2,minuteurStr,1,7);
 
+    //Création de la hud
     hud = creerHUD(x, y, hauteur, largeur, 1, 7, 3);
-
+    //Placement des barres et des textes dans la hud
     hud->textWidgets[0] = pvText;
     hud->textWidgets[1] = xpText;
     hud->textWidgets[2] = nivText;

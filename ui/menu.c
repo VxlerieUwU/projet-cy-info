@@ -6,6 +6,8 @@
 #include "../logger.h"
 
 Menu *cosmicMenu(int thauteur, int tlargeur) {
+    /* Fonction servant à afficher le menu de cosmic yonder selon la largeur et hauteur
+    du terminal.*/
     int titreLignes, titreX, titreY; // nombre de lignes et padding vertical du titre
     Menu *menu;
     Texte *titre;
@@ -15,6 +17,7 @@ Menu *cosmicMenu(int thauteur, int tlargeur) {
     Bouton *parametres;
     Bouton *quitter;
     char **titreTexte = NULL;
+
 
     if (tlargeur >= ASCII_TAILLEMIN) {
         titreTexte = (char **) malloc(sizeof(char) * 8 * 131);
@@ -32,6 +35,7 @@ Menu *cosmicMenu(int thauteur, int tlargeur) {
         exit(1);
     }
 
+    //Si la largeur du terminal n'est pas assez grande : le texte COSMIC YONDER ne s'affiche pas en ASCII
     if (tlargeur >= ASCII_TAILLEMIN) {
         // Nécessite l'extension GNU du standard C (gnu11 ou gnu99)
         titreTexte[0] = "________  ________  ________  _____ ______   ___  ________           ___    ___ ________  ________   ________  _______   ________";
@@ -47,14 +51,14 @@ Menu *cosmicMenu(int thauteur, int tlargeur) {
         titreTexte[1] = "Agrandis ton terminal!";
     }
 
-
+    //Création éléments menu
     titre = creerTexte(titreX, titreY, titreTexte, titreLignes, 6);
     commencer = creerBouton(tlargeur / 2 - 2, thauteur / 2 + 2, 5, 2, "Nouvelle partie");
     charger = creerBouton(tlargeur / 2 - 2, thauteur / 2 + 4, 5, 2, "Charger sauvegarde");
     parametres = creerBouton(tlargeur / 2 - 2, thauteur / 2 + 6, 5, 2, "Options");
     quitter = creerBouton(tlargeur / 2 - 2, thauteur / 2 + 8, 5, 2, "Quitter");
 
-
+    //Création menu et assignation des éléments au menu
     menu = creerMenu(thauteur, tlargeur, titre, 4, 1, 6);
     menu->boutons[0] = commencer;
     menu->boutons[1] = charger;
@@ -66,6 +70,7 @@ Menu *cosmicMenu(int thauteur, int tlargeur) {
 }
 
 Texte * respawnTexte(int x, int y, int largeur) {
+    /* Fonction servant à créer le texte de réapparition quand le joueur meurt*/
     Texte * respawnTxt = NULL;
     respawnTxt = malloc(sizeof(Texte));
     if(respawnTxt == NULL) {
@@ -115,6 +120,7 @@ Texte * respawnTexte(int x, int y, int largeur) {
 }
 
 void renderRespawn(WINDOW * win, Texte * respawn) {
+    /* Rendu du texte de réapparition sur le terminal quand le joueur meurt*/
     wattron(win, COLOR_PAIR(5));
 
     mvwhline(win, respawn->y - 1, respawn->x - 1, ACS_HLINE, 82);
@@ -136,6 +142,8 @@ void renderRespawn(WINDOW * win, Texte * respawn) {
 
 
 MiniMenu *options(int x, int y, int hauteur, int largeur) {
+    /* Fonction gérant le sous-menu des options dans le menu de début de partie*/
+    //Initialisation
     MiniMenu *parametres;
 
     Bouton *quitter;
@@ -143,16 +151,18 @@ MiniMenu *options(int x, int y, int hauteur, int largeur) {
 
     Texte *titre;
     char **titreTexte = NULL;
+    //Allocation mémoire
     titreTexte = (char **) malloc(sizeof(char) * 8);
     titreTexte[0] = "Options";
 
     titre = creerTexte(largeur/2 + x/2 - 4, hauteur/2, titreTexte, 1, 6);
 
+    //Bouton du menu
     sauvegarder = creerBouton(x - 5, y + 2, 5, 2, "Sauvegarder");
     quitter = creerBouton(x - 3, y + 4, 5, 2, "Retour");
 
     parametres = creerMessage(largeur / 2, hauteur / 2, hauteur, largeur, 6, titre, 2, NULL);
-
+    //Assignation des boutons au menu
     parametres->boutons[0] = sauvegarder;
     parametres->boutons[1] = quitter;
 
@@ -161,6 +171,9 @@ MiniMenu *options(int x, int y, int hauteur, int largeur) {
 
 
 MiniMenu *pauseMenu(int x, int y, int hauteur, int largeur) {
+    /* Fonction créant le menu de pause */
+
+    //Initialisation
     MiniMenu *pause;
 
     Bouton *retour;
@@ -169,17 +182,18 @@ MiniMenu *pauseMenu(int x, int y, int hauteur, int largeur) {
 
     Texte *titre;
     char **titreTexte = NULL;
+    //Allocation
     titreTexte = (char **) malloc(sizeof(char) * 8);
     titreTexte[0] = "Pause";
 
     titre = creerTexte(largeur/2 + x/2 - 4, hauteur/2, titreTexte, 1, 6);
-
+    //Boutons du menu
     reprendre = creerBouton(x - 5, y + 2, 5, 2, "Reprendre");
     retour = creerBouton(x - 3, y + 4, 5, 2, "Retour au menu");
     quitter = creerBouton(x - 3, y + 6, 5, 2, "Quitter");
 
     pause = creerMessage(largeur / 2, hauteur / 2, hauteur, largeur, 6, titre, 3, NULL);
-
+    //Assignation des boutons au menu
     pause->boutons[0] = reprendre;
     pause->boutons[1] = retour;
     pause->boutons[2] = quitter;
@@ -188,24 +202,29 @@ MiniMenu *pauseMenu(int x, int y, int hauteur, int largeur) {
 }
 
 MiniMenu * sauvegardeMenu(int x, int y, int hauteur, int largeur) {
+    /* Menu de sauvegarde*/
 
 }
 
 EntreeTexte * graineMenu(int x, int y, int hauteur, int largeur) {
+    /* Fonction servant à créer le menu de la graine en fonction des dimensions du terminal*/
+    //Initialisation
     Texte * titre;
     EntreeTexte *graine;
     char **titreTexte = NULL;
+    //Allocation mémoire texte + contenu des textes
     titreTexte = (char **) malloc(sizeof(char) * (43 + 34));
     titreTexte[0] = "Entrez une graine (nombre entier)";
     titreTexte[1] = "Laisser vide pour la générer aléatoirement";
 
     titre = creerTexte(largeur/2 + x - 20, y + hauteur/2 - 4, titreTexte, 2, 6);
-
+    //Création de l'interface texte pour entrer la graine
     graine = creerEntreeTexte(x - 10 + largeur/2, y + hauteur/2 + 2, 18, 4, titre);
     return graine;
 }
 
 EntreeTexte * sauvegardeEntree(int x, int y, int hauteur, int largeur) {
+    /* Sert à créer une sauvegarde*/
     Texte * titre;
     EntreeTexte *sauvegarde;
     char **titreTexte = NULL;
@@ -222,6 +241,7 @@ EntreeTexte * sauvegardeEntree(int x, int y, int hauteur, int largeur) {
 
 
 void renduFenetreMenu(WINDOW *win, Menu menu, int thauteur, int tlargeur) {
+    /* Rendu de la fenetre du menu en fonction de la taille du terminal*/
     wattron(win, COLOR_PAIR(5));
 
     mvwhline(win, 0, 0, ACS_HLINE, tlargeur);
@@ -239,6 +259,8 @@ void renduFenetreMenu(WINDOW *win, Menu menu, int thauteur, int tlargeur) {
 }
 
 void renduFenetreOptions(WINDOW *win, MiniMenu options) {
+    /* Fonction gérant le rendu et l'affichage de la fenetre d'option en fonction de la taille du menu option*/
+    //Création de la zone de menu
     for(int i = options.y; i < options.y + options.hauteur - 1; i++) {
         for(int j = options.x; j < options.x + options.largeur - 1; j++) {
             mvwaddch(win, i, j, ' ');
@@ -246,7 +268,7 @@ void renduFenetreOptions(WINDOW *win, MiniMenu options) {
     }
 
     wattron(win, COLOR_PAIR(7));
-
+    //Remplissage de la zone du menu avec les textes et les boutons
     mvwhline(win, options.y, options.x, ACS_HLINE, options.largeur);
     mvwhline(win, options.y + options.hauteur - 1, options.x, ACS_HLINE, options.largeur);
     mvwvline(win, options.y, options.x, ACS_VLINE, options.hauteur);
@@ -264,6 +286,7 @@ void renduFenetreOptions(WINDOW *win, MiniMenu options) {
 }
 
 void renduFenetreEntree(WINDOW *win, EntreeTexte * entree, int x, int y, int hauteur, int largeur) {
+    /* Sert au rendu de la fenetre d'entrée pour la graine*/
     for(int i = y; i < y + largeur; i++) {
         for(int j = x; j < x + hauteur - 1; j++) {
             mvwaddch(win, i, j, ' ');
@@ -287,6 +310,8 @@ void renduFenetreEntree(WINDOW *win, EntreeTexte * entree, int x, int y, int hau
 }
 
 void entreeMenu(Menu *menu, int touche) {
+    /* Sert à gérer le sélecteur du menu en fonction des touches choisies
+    (bouton vers le bas pour aller au bouton du bas et idem pour le haut)*/
     switch (touche) {
         case KEY_UP:
             if (menu->selecteur != 0) {
@@ -305,6 +330,7 @@ void entreeMenu(Menu *menu, int touche) {
 }
 
 void entreeTexte(EntreeTexte *entree, int touche) {
+    /* Fonction servant à savoir si une entrée est valide quand on l'execute*/
     switch (touche) {
         case ERR:
             break;
@@ -317,6 +343,7 @@ void entreeTexte(EntreeTexte *entree, int touche) {
             break;
 
         case 10:
+            //L'entrée est valide
             entree->valide = 1;
             break;
         case '-':
@@ -330,6 +357,7 @@ void entreeTexte(EntreeTexte *entree, int touche) {
         case '7':
         case '8':
         case '9':
+            //Sinon il ne se passe rien
             if (entree->taille > entree->curseur+1) {
                 entree->buffer[entree->curseur] = (char) touche;
                 entree->affichage[entree->curseur] = (char) touche;
@@ -343,27 +371,33 @@ void entreeTexte(EntreeTexte *entree, int touche) {
 }
 
 void entreeMessage(MiniMenu *message, int touche) {
+    /* Gère le sélecteur dans les mini-menus en fonction des touches et des boutons du menu*/
     switch (touche) {
         case ERR:
             break;
         case KEY_UP:
-            if (message->curseur != 0) {
+            //Si le menu a un bouton en haut par rapport au curseur on monte
+            if (message->curseur != 0) { 
                 message->curseur--;
             }
             break;
         case KEY_DOWN:
+            //Si le menu a un bouton en bas par rapport au curseur on descend
             if (message->curseur != message->nbBoutons - 1) {
                 message->curseur++;
             }
             break;
         case 10:
+            //Sinon on ne bouge pas du bouton valide surlequel on est
             message->selEtat = 1;
             break;
     }
 }
 
 void pauseBoucle(WINDOW *mainwin, int *touche, MiniMenu *pause, int *jeuEtat) {
-    while (!pause->selEtat) {
+    /* Fonction qui fait une boucle infini tant qu'on a pas choisi une option
+    pour arrêter le jeu quand on fait pause*/
+    while (!pause->selEtat) { //Tant qu'on ne sélectionne rien le jeu est arrêté
         wrefresh(mainwin);
         *touche = wgetch(mainwin);
         renduFenetreOptions(mainwin, *pause);

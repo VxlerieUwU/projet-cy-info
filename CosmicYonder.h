@@ -12,7 +12,7 @@
 #ifndef COSMICYONDER_H_
 #define COSMICYONDER_H_
 #define ESC 27
-#define INV_TAILLE 10 
+#define INV_TAILLE 10
 #define JOUEUR_H_
 #define BOUTEILLE_O2_CHR "O"
 #define BANDAGE_CHR "B"
@@ -32,7 +32,7 @@
 #define UNICODE_STRING_LONG 10
 #define TAILLE_MAX_V 10
 #define TAILLE_MAX_H 20
-#define MAX_SALLES 80
+#define MAX_SALLES 10
 #define IMAGES_PAR_SECONDE 60
 #define MINUTEUR 300
 

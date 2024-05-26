@@ -228,6 +228,7 @@ int main()
 		if(minuteur <= 0){
 			etatJeu = 0;
 		}
+		maj_niveau(partie->joueur);
     }
 
 	saveGame(partie);
