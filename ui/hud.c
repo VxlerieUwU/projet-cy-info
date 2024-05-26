@@ -229,9 +229,8 @@ HUD * hudJeu(int x, int y, int hauteur, int largeur, Joueur * joueur, int minute
     return hud;
 }
 
-void renderInventaire(WINDOW * win, int y, int x, Inventaire inventaire, int nb_obj_inv, int nb_obj_spe_inv) {
+void renderInventaire(WINDOW * win, int y, int x, Inventaire inventaire) {
     /* Rendu de l'inventaire dans la HUD*/
-    int xTmp; // calcul des coordonnees
     mvwhline(win, y, x, ACS_HLINE, INV_TAILLE*2);
     mvwhline(win, y + 2, x + 1, ACS_HLINE, INV_TAILLE*2);
     for(int i = 0; i < INV_TAILLE + 1; i++) {
@@ -282,7 +281,7 @@ void renderInventaire(WINDOW * win, int y, int x, Inventaire inventaire, int nb_
     }
 }
 
-void renduHUD(WINDOW * win, HUD * hud, int minuteur, Joueur * jou, int nb_obj_inv, int nb_obj_spe_inv) {
+void renduHUD(WINDOW * win, HUD * hud, int minuteur, Joueur * jou) {
     // mise à jour des donnees de la hud
     hud->statBarWidgets[0]->cursor = jou->pv/10;
     hud->statBarWidgets[1]->cursor = jou->xp/10;
@@ -320,7 +319,7 @@ void renduHUD(WINDOW * win, HUD * hud, int minuteur, Joueur * jou, int nb_obj_in
     for(int i = 0; i < hud->nbStatBar; i++) {
         renduStatusBar(win, hud->statBarWidgets[i]);
     }
-    renderInventaire(win,hud->y + hud->hauteur/2 - 3,hud->x + hud->largeur/3 - 11, jou->inventaire, nb_obj_inv, nb_obj_spe_inv);
+    renderInventaire(win,hud->y + hud->hauteur/2 - 3,hud->x + hud->largeur/3 - 11, jou->inventaire);
 }
 
 void renduInvDial(WINDOW * win, InvMenu * invMenu, Inventaire inventaire) {

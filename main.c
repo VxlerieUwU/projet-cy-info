@@ -250,7 +250,7 @@ int main()
 			maj_niveau(partie->joueur);
 				
 			
-			renduHUD(mainwin, hud, partie->minuteur, partie->joueur, partie->nb_obj_inv, partie->nb_obj_spe_inv);
+			renduHUD(mainwin, hud, partie->minuteur, partie->joueur);
 			//rafraichit l'ecran
 			wrefresh(mainwin);
 			etatPartie = condition_victoire(partie);
