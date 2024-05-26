@@ -92,8 +92,20 @@ void recup_objet(Joueur* joueur, Salle* salle, Objet objet, int* nb_obj_inv, int
     }
 }
 
-void utiliser_objet(Joueur* joueur, Objet* objet, int* minuteur){
-    switch(objet->id){
+void utiliser_objet(Joueur* joueur,Inventaire* inventaire, int indice_obj, int* nb_obj_inv, int* minuteur){
+    if(joueur==NULL){
+        exit(7);
+    }
+    if(inventaire==NULL){
+        exit(8);
+    }
+    if(minuteur==NULL){
+        exit(9);
+    }
+    if(nb_obj_inv==NULL){
+        exit(10);
+    }
+    switch(inventaire->obTab[indice_obj].id){
         case BANDAGE:
             if(joueur->pv >= 80){
                 joueur->pv = 100;
@@ -101,19 +113,51 @@ void utiliser_objet(Joueur* joueur, Objet* objet, int* minuteur){
             else{
                 joueur->pv += 20;
             }
-            objet->id = VIDE_OBJ;
+            for(int i = indice_obj; i<*nb_obj_inv+3; i++){
+                inventaire->obTab[i].id = inventaire->obTab[i+1].id;
+            }
+            inventaire->obTab[*nb_obj_inv+3].id = VIDE_OBJ;
+            (*nb_obj_inv)--;
             break;
         case BOUTEILLE_O2:
             *minuteur += 2;
-            objet->id = VIDE_OBJ;
+            for(int i = indice_obj; i<*nb_obj_inv+3; i++){
+                inventaire->obTab[i].id = inventaire->obTab[i+1].id;
+            }
+            inventaire->obTab[*nb_obj_inv+3].id = VIDE_OBJ;
+            (*nb_obj_inv)--;
             break;
         case CLE:
             joueur->xp += 5;
-            objet->id = VIDE_OBJ;
+            for(int i = indice_obj; i<*nb_obj_inv+3; i++){
+                inventaire->obTab[i].id = inventaire->obTab[i+1].id;
+            }
+            inventaire->obTab[*nb_obj_inv+3].id = VIDE_OBJ;
+            (*nb_obj_inv)--;
             break;
         default:
             break;
     }
+    
+}
+
+void jeter_objet(Joueur* joueur, Inventaire* inventaire, int indice_obj, int* nb_obj_inv){
+    if(joueur == NULL){
+        exit(10);
+    }
+    if(inventaire == NULL){
+        exit(11);
+    }
+    if(nb_obj_inv==NULL){
+        exit(12);
+    }
+    if(inventaire->obTab[indice_obj].id <11){
+        for(int i = indice_obj; i<*nb_obj_inv+3; i++){
+            inventaire->obTab[i].id = inventaire->obTab[i+1].id;
+        }
+        inventaire->obTab[*nb_obj_inv+3].id = VIDE_OBJ;
+        (*nb_obj_inv)--;
+    } 
 }
 
 void disparition_objet(Objet* objet, Salle* salle, WINDOW* win){

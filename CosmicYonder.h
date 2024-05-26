@@ -218,8 +218,9 @@ void perte_vie_ennemi(Ennemi* ennemi, Joueur* joueur);
 Objet apparition_objet(Salle* salle, int* objets_speciaux_apparus, int sallesrest, int portesNonOuvertes);
 //permet de recuperer un objet
 void recup_objet(Joueur* joueur, Salle* salle, Objet objet, int* nb_obj_inv, int* nb_obj_spe_inv);
+void utiliser_objet(Joueur* joueur,Inventaire* inventaire, int indice_obj, int* nb_obj_inv, int* minuteur);
+void jeter_objet(Joueur* joueur, Inventaire* inventaire, int indice_obj, int* nb_obj_inv);
 //fait disparaitre un objet quand le joueur le ramasse
-void utiliser_objet(Joueur* joueur, Objet* objet, int* minuteur);
 void disparition_objet(Objet* objet, Salle* salle, WINDOW* win);
 
     //HUD
@@ -228,7 +229,7 @@ HUD * hudJeu(int x, int y, int hauteur, int largeur, Joueur * joueur,int minuteu
 void renduHUD(WINDOW * win, HUD * hud, int minuteur, Joueur * jou, int nb_obj_inv, int nb_obj_spe_inv); //affichage de la hud
 void renduInvMenu(WINDOW * win, InvMenu * invMenu, Inventaire inventaire);
 void renderInventaire(WINDOW * win, int y, int x, Inventaire inventaire, int nb_obj_inv, int nb_obj_spe_inv);
-void invBoucle(WINDOW *mainwin, int *touche, InvMenu *invMenu, Inventaire* inventaire, int* minuteur, Joueur* joueur); 
+void invBoucle(WINDOW *mainwin, int *touche, InvMenu *invMenu, Inventaire* inventaire, int* minuteur, Joueur* joueur,int* nb_obj_inv); 
 
     // SAUVEGARDE
 void sauvegardeBoucle(WINDOW * mainwin, EntreeTexte * sauve, int x, int y, int hauteur, int longueur, int* touche);
