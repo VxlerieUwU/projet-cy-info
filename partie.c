@@ -27,6 +27,9 @@ Partie * creerPartie() {
 	partie->nb_obj_inv = 0;
 	partie->nb_obj_spe_inv = 0;
 	partie->mvEnnemic = 0;
+    partie->nsalles = MAX_SALLES;
+    partie->minuteur = MINUTEUR;//minuteur en secondes. Si celui-ci atteint 0 le jeu est perdu
+    partie->decr_minuteur = 0; //Variable servant à convertir les tours de boucles en une seconde pour décrémenter le minuteur
 	return partie;
 }
 

@@ -145,6 +145,9 @@ typedef struct {
     int nb_obj_inv;
     int nb_obj_spe_inv;
     Salle ** carte;
+    int nsalles;
+    int minuteur;
+    int decr_minuteur;
 }Partie;
 
 //Fonctions
@@ -228,6 +231,7 @@ void renderInventaire(WINDOW * win, int y, int x, Inventaire inventaire, int nb_
 void invBoucle(WINDOW *mainwin, int *touche, InvMenu *invMenu, Inventaire* inventaire, int* minuteur, Joueur* joueur); 
 
     // SAUVEGARDE
+void sauvegardeBoucle(WINDOW * mainwin, EntreeTexte * sauve, int x, int y, int hauteur, int longueur, int* touche);
 void saveGame(Partie * partie, char * nomFichier);
 Partie * loadGame(char * nomFichier);
 int verifFichier(char * nomSauvegarde);

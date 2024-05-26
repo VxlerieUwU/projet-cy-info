@@ -41,9 +41,6 @@ int main()
 	while(etatJeu){
 
 		int etatPartie = 1; // permet de quitter la partie si besoin
-		int nsalles = MAX_SALLES;
-		int minuteur = MINUTEUR; //minuteur en secondes. Si celui-ci atteint 0 le jeu est perdu
-		int decr_minuteur = 0; //Variable servant à convertir les tours de boucles en une seconde pour décrémenter le minuteur
         int etatSauvegarde = 0; // effectue une sauvegarde si égal à 1
 		Partie * partie = creerPartie();
 
@@ -87,7 +84,7 @@ int main()
 				//init partie->carte
 
 				//creation de la premiere salle
-				partie->carte[0] = creerSalleProced(longueur/2, hauteur/2, 4, -1,mainwin, &nsalles,&partie->objets_speciaux_apparus,partie->portesNonOuvertes);
+				partie->carte[0] = creerSalleProced(longueur/2, hauteur/2, 4, -1,mainwin, &partie->nsalles,&partie->objets_speciaux_apparus,partie->portesNonOuvertes);
 				partie->salles_existantes++;
 
 				//init joueur
@@ -151,7 +148,7 @@ int main()
 				break;
 		}
 
-		HUD * hud = hudJeu(0, hauteur - hauteur/6, hauteur / 6, longueur, partie->joueur, minuteur);
+		HUD * hud = hudJeu(0, hauteur - hauteur/6, hauteur / 6, longueur, partie->joueur, partie->minuteur);
 		Texte * resTxt = respawnTexte(longueur/2 - longueur/5, hauteur/2 - hauteur/5, longueur);
 
 		
@@ -178,7 +175,7 @@ int main()
 							if(partie->carte[partie->salles_existantes] != NULL) {
 								libereSalle(partie->carte[partie->salles_existantes]);
 							}
-							partie->carte[partie->salles_existantes] = creerSalleProced(partie->joueur->x, partie->joueur->y,4,BAS,mainwin, &nsalles, &partie->objets_speciaux_apparus, partie->portesNonOuvertes);
+							partie->carte[partie->salles_existantes] = creerSalleProced(partie->joueur->x, partie->joueur->y,4,BAS,mainwin, &(partie->nsalles), &partie->objets_speciaux_apparus, partie->portesNonOuvertes);
 							ouvrirPorte(partie->carte,j,partie->salles_existantes, k, BAS);
 							dessineSalle(mainwin, partie->carte[partie->salles_existantes]);
 							partie->salles_existantes++;
@@ -189,7 +186,7 @@ int main()
 							if(partie->carte[partie->salles_existantes] != NULL) {
 								libereSalle(partie->carte[partie->salles_existantes]);
 							}
-							partie->carte[partie->salles_existantes] = creerSalleProced(partie->joueur->x, partie->joueur->y,4,HAUT,mainwin,&nsalles,&partie->objets_speciaux_apparus, partie->portesNonOuvertes);
+							partie->carte[partie->salles_existantes] = creerSalleProced(partie->joueur->x, partie->joueur->y,4,HAUT,mainwin,&partie->nsalles ,&partie->objets_speciaux_apparus, partie->portesNonOuvertes);
 							ouvrirPorte(partie->carte,j,partie->salles_existantes, k, HAUT);
 							dessineSalle(mainwin, partie->carte[partie->salles_existantes]);
 							partie->salles_existantes++;
@@ -200,7 +197,7 @@ int main()
 							if(partie->carte[partie->salles_existantes] != NULL) {
 								libereSalle(partie->carte[partie->salles_existantes]);
 							}
-							partie->carte[partie->salles_existantes] = creerSalleProced(partie->joueur->x, partie->joueur->y,4,DROITE,mainwin,&nsalles,&partie->objets_speciaux_apparus, partie->portesNonOuvertes);
+							partie->carte[partie->salles_existantes] = creerSalleProced(partie->joueur->x, partie->joueur->y,4,DROITE,mainwin,&partie->nsalles,&partie->objets_speciaux_apparus, partie->portesNonOuvertes);
 							ouvrirPorte(partie->carte,j,partie->salles_existantes, k, DROITE);
 							dessineSalle(mainwin, partie->carte[partie->salles_existantes]);
 							partie->salles_existantes++;
@@ -211,7 +208,7 @@ int main()
 							if(partie->carte[partie->salles_existantes] != NULL) {
 								libereSalle(partie->carte[partie->salles_existantes]);
 							}
-							partie->carte[partie->salles_existantes] = creerSalleProced(partie->joueur->x, partie->joueur->y,4,GAUCHE,mainwin,&nsalles,&partie->objets_speciaux_apparus, partie->portesNonOuvertes);
+							partie->carte[partie->salles_existantes] = creerSalleProced(partie->joueur->x, partie->joueur->y,4,GAUCHE,mainwin,&partie->nsalles,&partie->objets_speciaux_apparus, partie->portesNonOuvertes);
 							ouvrirPorte(partie->carte,j,partie->salles_existantes, k, GAUCHE);
 							dessineSalle(mainwin, partie->carte[partie->salles_existantes]);
 							partie->salles_existantes++;
@@ -235,7 +232,7 @@ int main()
 				}
 			}	
 			//efface l'ecran	
-			werase(mainwin);
+			wclear(mainwin);
 			//affiche carte
 			dessineSalles(mainwin, partie->carte, partie->salles_existantes);
 			//affiche ennemis
@@ -253,7 +250,7 @@ int main()
 			maj_niveau(partie->joueur);
 				
 			
-			renduHUD(mainwin, hud, minuteur, partie->joueur, partie->nb_obj_inv, partie->nb_obj_spe_inv);
+			renduHUD(mainwin, hud, partie->minuteur, partie->joueur, partie->nb_obj_inv, partie->nb_obj_spe_inv);
 			//rafraichit l'ecran
 			wrefresh(mainwin);
 			etatPartie = condition_victoire(partie);
@@ -265,7 +262,7 @@ int main()
 				pauseBoucle(mainwin, &touche, pause, &etatJeu, &etatPartie, &etatSauvegarde);
 			}
             if(touche == 'i') {
-            	invBoucle(mainwin, &touche, inventMenu, &(partie->joueur->inventaire),&minuteur,partie->joueur);
+            	invBoucle(mainwin, &touche, inventMenu, &(partie->joueur->inventaire),&(partie->minuteur),partie->joueur);
             }
 
 			/*remet le compteur du mouvement des ennemis a 0 s'il depasse 40
@@ -276,13 +273,14 @@ int main()
 			partie->mvEnnemic++;
 			
 			napms(1000 / IMAGES_PAR_SECONDE);
-			chronos(&minuteur,&decr_minuteur);
-			if(minuteur <= 0){
+			chronos(&(partie->minuteur),&(partie->decr_minuteur));
+			if(partie->minuteur <= 0){
 				etatPartie = 0;
 			}
             if(etatSauvegarde) {
-                //sauvegardeB
                 etatSauvegarde = 0;
+                sauvegardeBoucle(mainwin, sauvegardeEntree, longueur / 2 - longueur/8, hauteur / 2 - hauteur / 8, hauteur, longueur, &touche);
+                saveGame(partie, sauvegardeEntree->buffer);
             }
 		}
 		

@@ -229,6 +229,12 @@ Partie * partieFromJSONObj(JSONObject partieJSON) {
     partie->objets_speciaux_apparus = partieJSON.pairs[4].value.numberValue;
     partie->salles_existantes = partieJSON.pairs[5].value.numberValue;
     partie->mvEnnemic = partieJSON.pairs[6].value.numberValue;
+    partie->nb_obj_inv = partieJSON.pairs[7].value.numberValue;
+    partie->nb_obj_spe_inv = partieJSON.pairs[8].value.numberValue;
+    partie->nsalles = partieJSON.pairs[9].value.numberValue;
+    partie->minuteur = partieJSON.pairs[10].value.numberValue;
+    partie->decr_minuteur = partieJSON.pairs[11].value.numberValue;
+
     return partie;
 }
 
@@ -495,7 +501,7 @@ JSONObject * partieToJSONObj(Partie * partie) {
         logMessage(ERROR, "erreur malloc partieToJSONObj partieJSON");
         exit(1);
     }
-    partieJSON->length = 9;
+    partieJSON->length = 12;
     partieJSON->pairs = malloc(sizeof(JSONKeyValuePair) * partieJSON->length);
     if(partieJSON->pairs == NULL){
         logMessage(ERROR, "erreur malloc partieToJSONObj partieJSON->pairs");
@@ -537,7 +543,17 @@ JSONObject * partieToJSONObj(Partie * partie) {
     partieJSON->pairs[8].value.type = JSON_NUMBER;
     partieJSON->pairs[8].value.numberValue = partie->nb_obj_spe_inv;
 
+    partieJSON->pairs[9].key = "nsalles";
+    partieJSON->pairs[9].value.type = JSON_NUMBER;
+    partieJSON->pairs[9].value.numberValue = partie->nsalles;
 
+    partieJSON->pairs[10].key = "minuteur";
+    partieJSON->pairs[10].value.type = JSON_NUMBER;
+    partieJSON->pairs[10].value.numberValue = partie->minuteur;
+
+    partieJSON->pairs[11].key = "decr_minuteur";
+    partieJSON->pairs[11].value.type = JSON_NUMBER;
+    partieJSON->pairs[11].value.numberValue = partie->decr_minuteur;
 
     return partieJSON;
 }
@@ -647,21 +663,26 @@ int verifFichier(char * nomSauvegarde) {
 
 void sauvegardeBoucle(WINDOW * mainwin, EntreeTexte * sauve, int x, int y, int hauteur, int longueur, int* touche) {
     int fichier_exists = 1;
+    sauve->valide = 0;
+
     do {
         while (!sauve->valide) { //Tant qu'on ne sélectionne rien le jeu est arrêté
             wrefresh(mainwin);
             *touche = wgetch(mainwin);
-            renduFenetreEntree(mainwin, sauve, x, y, hauteur, longueur);
+            werase(mainwin);
+            renduFenetreEntree(mainwin, sauve, x, y, hauteur/3, longueur/3);
             entreeTexte(sauve, *touche);
+            napms(1000 / IMAGES_PAR_SECONDE);
         }
         fichier_exists = verifFichier(sauve->buffer);
-        if(!fichier_exists) { // affiche erreur
+        if(fichier_exists) { // affiche erreur
             for(int i = 0; i < longueur/2-1; i++) {
                 mvwaddch(mainwin, hauteur / 2, longueur / 2 - 8 + i, ' ');
             }
             wattron(mainwin, COLOR_PAIR(1));
             mvwprintw(mainwin, hauteur / 2, longueur / 2 - 8, "%s.json inexistant", sauve->buffer);
             wattroff(mainwin, COLOR_PAIR(1));
+            sauve->valide = 0;
         }
 
     } while (fichier_exists);
